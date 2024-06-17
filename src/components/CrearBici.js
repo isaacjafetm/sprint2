@@ -15,7 +15,7 @@ function CrearBicis() {
     const cambiadorBici = document.getElementById('cambiadorBici').value;
     const manetadeCambioBici = document.getElementById('manetadeCambioBici').value;
     const bottomBracketBici = document.getElementById('bottomBracketBici').value;
-    const cassetteBici = document.getElementById('cassetteBici').value;
+    const casetteBici = document.getElementById('cassetteBici').value;
     const cadenaBici = document.getElementById('cadenaBici').value;
     const cranckBici = document.getElementById('cranckBici').value;
     const frenosBici = document.getElementById('frenosBici').value;
