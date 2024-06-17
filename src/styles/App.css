@@ -1,0 +1,238 @@
+.App {
+  text-align: center;
+  background-color: white;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.App-header {
+  background-color: black;
+  color: white;
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.company-name-link {
+  text-decoration: none;
+}
+
+.company-name {
+  margin: 0;
+  font-size: 24px;
+  color: #F2F2F2;
+}
+
+.login-image {
+  width: 30px;
+  height: auto;
+}
+
+.login-page {
+  text-align: center;
+  padding: 20px;
+}
+
+.login-page input {
+  display: block;
+  margin: 10px auto;
+  padding: 10px;
+  width: 80%;
+  max-width: 300px;
+}
+
+.login-page button {
+  margin-top: 10px;
+  padding: 20px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.login-page p {
+  margin-top: 10px;
+}
+
+.login-page a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.login-page a:hover {
+  text-decoration: underline;
+}
+
+.menu-icon {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 24px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.menu-icon-line {
+  width: 100%;
+  height: 2px;
+  background-color: white;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.nav-links a:hover {
+  text-decoration: underline;
+}
+
+.App-header-right {
+  display: flex;
+  gap: px;
+}
+
+.App-header-right a {
+  color: white;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.App-header-right a:hover {
+  text-decoration: underline;
+}
+
+.App-content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+  color: black;
+  width: 100%;
+}
+
+/* Estilos para el cuadro con el slider */
+.slider-container {
+  margin: 60px auto;
+  max-width: 88%; /* Ajusta según sea necesario */
+}
+
+.slider-item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 500px; /* Altura del contenedor del slider */
+}
+
+.slider-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.separator {
+  border: none;
+  border-top: 20px solid #000000;
+  width: 88.5%;
+  margin: 50px auto 20px auto;
+}
+
+.best-products {
+  text-align: center;
+  margin-bottom: 60px; /* Añadir margen inferior para separación del footer */
+}
+
+.product-grid {
+  display: flex;
+  justify-content: center; /* Centrar horizontalmente los elementos */
+  gap: 7%; /* Espacio entre las cajas de productos */
+  flex-wrap: wrap; /* Permitir que las cajas se envuelvan en múltiples filas si es necesario */
+}
+
+.product-link {
+  text-decoration: none;
+  flex: 1 1 30%; /* Permitir que las cajas se ajusten responsivamente con un ancho mínimo del 30% */
+  max-width: 25%; /* Asegurar que las cajas no se hagan más grandes del 30% */
+}
+
+.product-box {
+  border: 6px solid  #FC4442;
+  aspect-ratio: 1; /* Mantener una proporción de 1:1 para la caja del producto */
+  display: flex;
+  justify-content: center; /* Centrar contenido horizontalmente */
+  align-items: center; /* Centrar contenido verticalmente */
+  overflow: hidden; /* Asegurarse de que las imágenes no se salgan del contenedor */
+}
+
+.product-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ajustar las imágenes al tamaño del contenedor */
+}
+
+.home {
+  padding-bottom: 0.1%; /* Añadir relleno en la parte inferior para el espacio */
+}
+
+.footer {
+  background-color: black;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: white;
+  border-bottom: 2px solid black;
+}
+
+.footer-content {
+  text-align: center;
+  margin-top: 12px; /* Asegurar que el contenido del footer no esté pegado al borde */
+}
+
+
+@media screen and (max-width: 768px) {
+  .menu-icon {
+    display: flex;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background-color: black;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .menu-icon-line {
+    transition: all 0.3s ease;
+  }
+
+  .line-1-active {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .line-2-active {
+    opacity: 0;
+  }
+
+  .line-3-active {
+    transform: rotate(-45deg) translate(5px, -5px);
+  }
+}

@@ -1,0 +1,46 @@
+.about-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 120px); /* Restando el tamaño del header y el footer */
+    padding: 2%; /* Uso de porcentaje para el padding */
+    box-sizing: border-box;
+  }
+  
+  .about-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    max-width: 90%; /* Máximo ancho del contenedor */
+    width: 100%; /* Asegurar que ocupe el 100% del contenedor padre */
+  }
+  
+  .about-text {
+    flex: 1;
+    padding: 2%; /* Uso de porcentaje para el padding */
+  }
+  
+  .about-image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .about-image img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 9px; /* Opcional: añade bordes redondeados a la imagen */
+  }
+  
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .about-content {
+      flex-direction: column;
+    }
+  
+    .about-image {
+      margin-top: 5%; /* Uso de porcentaje para el margen superior */
+    }
+  }
+  
