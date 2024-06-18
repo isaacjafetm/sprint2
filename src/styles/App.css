@@ -1,12 +1,16 @@
 .App {
   text-align: center;
-  background-color: white;
-  height: 100vh;
+  background-color: #313d3e;
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
-
+.hamburger-menu {
+  display: block;
+  cursor: pointer;
+}
 .App-header {
+  display: flex;
   background-color: black;
   color: white;
   padding: 20px;
@@ -80,11 +84,13 @@
 .menu-icon-line {
   width: 100%;
   height: 2px;
-  background-color: white;
+  background-color: #313d3e;
 }
 
 .nav-links {
   display: flex;
+  justify-content: center;
+  align-items: center;
   gap: 20px;
 }
 
@@ -92,6 +98,8 @@
   color: white;
   text-decoration: none;
   font-size: 16px;
+  margin: 0px;
+  padding: 10px;
 }
 
 .nav-links a:hover {
@@ -100,11 +108,12 @@
 
 .App-header-right {
   display: flex;
+  align-items: center;
   gap: px;
 }
 
 .App-header-right a {
-  color: white;
+  color: #313d3e;
   text-decoration: none;
   font-size: 16px;
 }
@@ -118,7 +127,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: white;
+  background-color: #313d3e;
   color: black;
   width: 100%;
 }
@@ -133,12 +142,13 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 500px; /* Altura del contenedor del slider */
+  width: 100%;
+  height: auto;
 }
 
 .slider-image {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
 }
 
@@ -169,7 +179,7 @@
 
 .product-box {
   border: 6px solid  #FC4442;
-  aspect-ratio: 1; /* Mantener una proporción de 1:1 para la caja del producto */
+  aspect-ratio: auto; /* Mantener una proporción de 1:1 para la caja del producto */
   display: flex;
   justify-content: center; /* Centrar contenido horizontalmente */
   align-items: center; /* Centrar contenido verticalmente */
@@ -178,12 +188,15 @@
 
 .product-image {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover; /* Ajustar las imágenes al tamaño del contenedor */
 }
 
 .home {
   padding-bottom: 0.1%; /* Añadir relleno en la parte inferior para el espacio */
+}
+.hamburger-menu {
+  display: none; /* Ocultar el menú hamburguesa en tamaños de pantalla más grandes */
 }
 
 .footer {
@@ -210,6 +223,7 @@
   .nav-links {
     display: none;
     flex-direction: column;
+    position: absolute;
     background-color: black;
     width: 100%;
     padding: 20px;

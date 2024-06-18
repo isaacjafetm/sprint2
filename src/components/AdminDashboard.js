@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/admin.css';
-import {supabase} from '../supabaseClient';
+import {supabase, supabaseAdmin} from '../supabaseClient';
 
 const roles = ['admin', 'tecnico', 'cliente']; // Lista de roles disponibles
 
@@ -153,7 +153,9 @@ const AdminDashboard = () => {
                                 </button>
                                 <span>&nbsp;&nbsp;</span>
                                 {/* Botón para eliminar usuario */}
-                                <button onClick={() => handleDeleteUser(user.id)}>Eliminar</button>
+                                <button
+                                    disabled={user.rol === 'admin'} 
+                                    onClick={() => handleDeleteUser(user.id)}>Eliminar</button>
                             </td>
                         </tr>
                     ))}

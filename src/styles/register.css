@@ -30,7 +30,7 @@
 button {
     width: 100%;
     padding: 10px;
-    background-color: #28a745;
+    background-color: #9e1a1a;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -38,5 +38,5 @@ button {
 }
 
 button:hover {
-    background-color: #218838;
+    background-color: #6b0e0e;
 }

@@ -1,6 +1,7 @@
 // src/components/Register.js
 import React, { useState } from 'react';
 import '../styles/register.css';
+import { useNavigate } from 'react-router-dom';
 import {supabase}  from '../supabaseClient';
 
 const Register = () => {
@@ -10,6 +11,8 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [, setError] = useState('');
+    const navigate = useNavigate();
+
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -39,6 +42,7 @@ const Register = () => {
             }
 
             alert("Usuario creado exitósamente");
+            navigate('/login');
          } catch (error) {
             console.error('Error during sign-up:', error);
             setError('Error al crear el usuario. Inténtalo de nuevo más tarde.');

@@ -15,7 +15,8 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
         try {
             // Authenticate with Supabase Auth
              // eslint-disable-next-line
-            const { data: {}, error: signInError } = await supabase.auth.signInWithPassword({
+            const { data, error: signInError } = await supabase.auth.signInWithPassword({
+                
                 email: username,
                 password: password
             });
