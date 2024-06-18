@@ -25,19 +25,19 @@ function Home() {
       <div className="slider-container">
         <Slider {...settings}>
           <div className="slider-item">
-            <img src="./ISWproyecto/images/product1.png" alt="Product 1" className="slider-image" />
+            <img src="/images/product1.png" alt="Product 1" className="slider-image" />
           </div>
           <div className="slider-item">
-            <img src="./ISWproyecto/images/product2.png" alt="Product 2" className="slider-image" />
+            <img src="/images/product2.png" alt="Product 2" className="slider-image" />
           </div>
           <div className="slider-item">
-            <img src="./ISWproyecto/images/product3.jpg" alt="Product 3" className="slider-image" />
+            <img src="/images/product3.jpg" alt="Product 3" className="slider-image" />
           </div>
           <div className="slider-item">
-            <img src="./ISWproyecto/images/product4.jpg" alt="Product 4" className="slider-image" />
+            <img src="/images/product4.jpg" alt="Product 4" className="slider-image" />
           </div>
           <div className="slider-item">
-            <img src="./ISWproyecto/images/product5.jpg" alt="Product 5" className="slider-image" />
+            <img src="/images/product5.jpg" alt="Product 5" className="slider-image" />
           </div>
         </Slider>
       </div>
@@ -47,17 +47,17 @@ function Home() {
         <div className="product-grid">
           <Link to="/product1" className="product-link">
             <div className="product-box">
-              <img src="./ISWproyecto/images/product1.png" alt="Product 1" className="product-image" />
+              <img src="/images/product1.png" alt="Product 1" className="product-image" />
             </div>
           </Link>
           <Link to="/product2" className="product-link">
             <div className="product-box">
-              <img src="./ISWproyecto/images/product2.png" alt="Product 2" className="product-image" />
+              <img src="/images/product2.png" alt="Product 2" className="product-image" />
             </div>
           </Link>
           <Link to="/product3" className="product-link">
             <div className="product-box">
-              <img src="./ISWproyecto/images/product3.jpg" alt="Product 3" className="product-image" />
+              <img src="/images/product3.jpg" alt="Product 3" className="product-image" />
             </div>
           </Link>
         </div>
@@ -120,7 +120,7 @@ function App() {
             <button onClick={handleLogout} className="logout-button">Logout</button>
           ) : (
             <Link to="/login">
-              <img src="./ISWproyecto/images/login.png" alt="Login" className="login-image" />
+              <img src="/images/login.png" alt="Login" className="login-image" />
             </Link>
           )}
           
