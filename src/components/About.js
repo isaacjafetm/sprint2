@@ -12,7 +12,7 @@ function About() {
           </p>
         </div>
         <div className="about-image">
-          <img src="./ISWproyecto/images/local.jpg" alt="About Us" />
+          <img src="/images/local.jpg" alt="About Us" />
         </div>
       </div>
     </div>
