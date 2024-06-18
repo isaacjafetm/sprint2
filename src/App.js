@@ -10,6 +10,7 @@ import AdminDashboard from './components/AdminDashboard';
 import CustomerAppointments from './components/CustomerAppointments';
 import './styles/App.css';
 import MisBicis from './components/MisBicis';
+import OrderProduct from './components/orderproduct';
 
 function Home() {
   const settings = {
@@ -114,6 +115,10 @@ function App() {
             <Link to="/misBicis" onClick={() => setMenuOpen(false)}>Mis Bicis</Link>
             
           )}
+          {isLoggedIn  && currentUser && currentUser.rol === 'admin' && (
+            <Link to="/OrdenProductoAdmin" onClick={() => setMenuOpen(false)}>Orden de Producto</Link>
+            
+          )}
         </nav>
         <div className="App-header-right">
           {isLoggedIn ? (
@@ -139,6 +144,7 @@ function App() {
         <Route path="/admin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <AdminDashboard /> : <Home />} />
         <Route path="/customer-appointments" element={isLoggedIn && currentUser && currentUser.rol === 'cliente' ? <CustomerAppointments /> : <Home />} />
         <Route path="/misbicis" element={isLoggedIn && currentUser && currentUser.rol === 'cliente' ? <MisBicis /> : <Home />} />
+        <Route path="/OrdenProductoAdmin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrderProduct /> : <Home />} />
         {/* Add other routes as needed */}
       </Routes>
     </div>
