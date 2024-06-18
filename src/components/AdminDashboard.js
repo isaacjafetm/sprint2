@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/admin.css';
-import {supabase, supabaseAdmin} from '../supabaseClient';
+import {supabase} from '../supabaseClient';
 
 const roles = ['admin', 'tecnico', 'cliente']; // Lista de roles disponibles
 
