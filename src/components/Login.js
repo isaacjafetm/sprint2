@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import '../styles/login.css';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
 
 const Login = ({ setIsLoggedIn, setCurrentUser }) => {
@@ -74,7 +74,7 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
                 <button type="submit">Login</button>
             </form>
             <p className="register-link">
-                ¿No tienes una cuenta? <a href="/register">Regístrate Aquí</a>
+                ¿No tienes una cuenta? <Link to="/register">Regístrate Aquí</Link>
             </p>
             {error && <p className="error-message">{error}</p>}
         </div>
