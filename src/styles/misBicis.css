@@ -1,0 +1,49 @@
+.mainBicis {
+    max-width: 90%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+    text-align: center;
+  }
+  
+  .listaBicis {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .biciCard {
+    background-color: #f8f8f8;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 45%;
+    margin: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .biciCard h3 {
+    margin-top: 0;
+  }
+  
+  .biciCard p {
+    margin: 5px 0;
+  }
+  
+  .biciCard button {
+    background-color: #941a1a;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    margin: 5px;
+    cursor: pointer;
+    font-size: 14px;
+  }
+  
+  .biciCard button:hover {
+    background-color: #0056b3;
+  }
+  

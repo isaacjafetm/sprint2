@@ -1,0 +1,20 @@
+/* src/styles/technicianDashboard.css */
+.technician-dashboard-container {
+    max-width: 1500px; /* Ajusta el ancho máximo según sea necesario */
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.technician-calendar-container {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    max-width: 90%; /* Asegúrate de que el ancho máximo sea del 100% del contenedor padre */
+    overflow-x: auto; /* Añade un scroll horizontal si es necesario */
+    height: 90% /* Ajusta la altura según sea necesario */
+}

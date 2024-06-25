@@ -1,0 +1,83 @@
+/* src/styles/listaCombos.css */
+.lista-combos-container {
+    max-width: 80%;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.lista-combos-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.combo-card {
+    border: 1px solid #ddd;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.combo-details input.combo-input, .combo-details textarea.combo-textarea {
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.combo-details textarea.combo-textarea {
+    height: 100px;
+}
+
+.combo-card h3 {
+    margin: 0;
+}
+
+.combo-card p {
+    margin: 5px 0;
+}
+
+.combo-card .actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.combo-card button {
+    padding: 10px 20px;
+    background-color: #941a1a;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.combo-card button:hover {
+    background-color: #941a1a;
+}
+
+.combo-card .delete-button {
+    background-color: #dc3545;
+}
+
+.combo-card .delete-button:hover {
+    background-color: #c82333;
+}
+
+.success-message {
+    background-color: #4CAF50; /* Color de fondo verde */
+    color: white; /* Texto en color blanco */
+    padding: 10px; /* Espaciado interno */
+    margin-bottom: 10px; /* Espaciado inferior */
+    border-radius: 5px; /* Bordes redondeados */
+    text-align: center;
+}

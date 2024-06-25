@@ -1,61 +1,80 @@
-.mainCrearBici{
-  max-width: 80%;
-    margin: 20px auto;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background-color: #313d3e;
-    background-color: white;
+/* crearBici.css */
+.mainCrearBici {
+  max-width: 100%;
+  width: 90%; /* Aumenta el ancho del panel */
+  margin: 20% auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: white;
 }
 
-form {
-  background-color: rgb(236, 236, 236);
-  border: 2px black solid;
-  width: 70%;
-  margin: 0 auto;
-  padding: 0.3em 0.5em;
-  text-align: left;
+.formGroup {
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #eaeaea;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.unaPreg1,
+.unaPreg2 {
+  margin: 10px 0;
 }
 
 .unaPreg1 {
   display: flex;
+  justify-content: space-between;
+}
+
+.unaPreg1 .unLabel {
+  width: 30%;
+  text-align: right;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.unaPreg1 .unInput {
+  width: 65%;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.unaPreg2 label {
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.unaPreg2 textarea {
   width: 100%;
-  margin: 0.35em 0;
-}
-
-.unaPreg1 input {
-  height: 25px;
-}
-
-.unLabel {
-  width: 20%;
-}
-
-.unInput {
-  width: 80%;
-}
-
-.titulo-SubGrupoBici {
-  text-align: left;
-}
-
-.unaPreg2 {
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  margin: 0.35em 0;
-}
-
-textarea {
-  width: 100%;
-  height: 50px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  resize: vertical;
 }
 
 .sbmtBICI {
-  background-color: green;
+  background-color: #941a1a;
   color: white;
-  width: 70%;
-  margin: 0 auto;
-  display: block;
-  height: 30px;
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.sbmtBICI:hover {
+  background-color: #721414;
+}
+
+.titulo-SubGrupoBici {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: bold;
+  color: #333;
 }

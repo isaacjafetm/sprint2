@@ -1,11 +1,11 @@
-/* src/styles/admin.css */
+/* src/styles/customerAppointment.css */
+
 .admin-container {
     max-width: 80%;
     margin: 20px auto;
     padding: 20px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    background-color: #313d3e;
     background-color: white;
 }
 
@@ -49,6 +49,7 @@ select {
     border: 1px solid #ddd;
     border-radius: 5px;
     cursor: pointer;
+    width: 100%; /* Asegura que el select ocupe todo el ancho de la celda */
 }
 
 .success-message {
@@ -57,4 +58,4 @@ select {
     padding: 10px; /* Espaciado interno */
     margin-bottom: 10px; /* Espaciado inferior */
     border-radius: 5px; /* Bordes redondeados */
-  }
+}
