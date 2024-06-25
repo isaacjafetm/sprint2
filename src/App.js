@@ -7,10 +7,11 @@ import About from './components/About';
 import Login from './components/Login';
 import Register from './components/Register';
 import AdminDashboard from './components/AdminDashboard';
-import CustomerAppointments from './components/CustomerAppointments';
+import CustomerDashboard from './components/CustomerDashboard';
 import './styles/App.css';
-import MisBicis from './components/MisBicis';
 import OrderProduct from './components/orderproduct';
+import TechnicianDashboard from './components/TechnicianDashboard';
+import OrdenTrabajo from './components/OrdenTrabajo';
 
 function Home() {
   const settings = {
@@ -108,17 +109,19 @@ function App() {
             <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
           )}
           {isLoggedIn  && currentUser && currentUser.rol === 'cliente' && (
-            <Link to="/customer-appointments" onClick={() => setMenuOpen(false)}>Reservar Cita</Link>
-            
-          )}
-          {isLoggedIn  && currentUser && currentUser.rol === 'cliente' && (
-            <Link to="/misBicis" onClick={() => setMenuOpen(false)}>Mis Bicis</Link>
+            <Link to="/customer-dashboard" onClick={() => setMenuOpen(false)}>Servicios</Link>
             
           )}
           {isLoggedIn  && currentUser && currentUser.rol === 'admin' && (
             <Link to="/OrdenProductoAdmin" onClick={() => setMenuOpen(false)}>Orden de Producto</Link>
             
           )}
+          {isLoggedIn && currentUser && currentUser.rol === 'tecnico' && (
+            <Link to="/technician-dashboard" onClick={() => setMenuOpen(false)}>Tecnico</Link>
+          )}
+          {isLoggedIn && currentUser && currentUser.rol === 'admin' && (
+            <Link to="/OrdenTrabajo" onClick={() => setMenuOpen(false)}>Ordenes de trabajo</Link>
+           )}
         </nav>
         <div className="App-header-right">
           {isLoggedIn ? (
@@ -142,9 +145,10 @@ function App() {
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <AdminDashboard /> : <Home />} />
-        <Route path="/customer-appointments" element={isLoggedIn && currentUser && currentUser.rol === 'cliente' ? <CustomerAppointments /> : <Home />} />
-        <Route path="/misbicis" element={isLoggedIn && currentUser && currentUser.rol === 'cliente' ? <MisBicis /> : <Home />} />
+        <Route path="/customer-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'cliente' ? <CustomerDashboard /> : <Home />} />
+        <Route path="/technician-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <TechnicianDashboard/> : <Home />} />
         <Route path="/OrdenProductoAdmin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrderProduct /> : <Home />} />
+        <Route path="/OrdenTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenTrabajo /> : <Home />} />
         {/* Add other routes as needed */}
       </Routes>
     </div>
