@@ -12,6 +12,10 @@ import './styles/App.css';
 import OrderProduct from './components/orderproduct';
 import TechnicianDashboard from './components/TechnicianDashboard';
 import OrdenTrabajo from './components/OrdenTrabajo';
+import OrdenesTrabajo from './components/OrdenesTrabajo';
+import VistaBicis from './components/VistaBicis';
+
+
 
 function Home() {
   const settings = {
@@ -101,7 +105,6 @@ function App() {
         </Link>
         <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
           <Link to="/about" onClick={() => setMenuOpen(false)}>Quienes Somos</Link>
-          <Link to="/certifications" onClick={() => setMenuOpen(false)}>Certificaciones</Link>
           <Link to="/contacts" onClick={() => setMenuOpen(false)}>Contactos</Link>
           <Link to="/stores" onClick={() => setMenuOpen(false)}>Tiendas</Link>
           <Link to="/equipment" onClick={() => setMenuOpen(false)}>Equipamiento</Link>
@@ -119,8 +122,14 @@ function App() {
           {isLoggedIn && currentUser && currentUser.rol === 'tecnico' && (
             <Link to="/technician-dashboard" onClick={() => setMenuOpen(false)}>Tecnico</Link>
           )}
+          {isLoggedIn && currentUser && currentUser.rol === 'tecnico' && (
+            <Link to="/VistaBicis" onClick={() => setMenuOpen(false)}>Bicicletas</Link>
+          )}
           {isLoggedIn && currentUser && currentUser.rol === 'admin' && (
-            <Link to="/OrdenTrabajo" onClick={() => setMenuOpen(false)}>Ordenes de trabajo</Link>
+            <Link to="/OrdenTrabajo" onClick={() => setMenuOpen(false)}>Crear Orden de Trabajo</Link>
+           )}
+          {isLoggedIn && currentUser && currentUser.rol === 'admin' && (
+            <Link to="/OrdenesTrabajo" onClick={() => setMenuOpen(false)}>Ordenes de Trabajo</Link>
            )}
         </nav>
         <div className="App-header-right">
@@ -149,6 +158,8 @@ function App() {
         <Route path="/technician-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <TechnicianDashboard/> : <Home />} />
         <Route path="/OrdenProductoAdmin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrderProduct /> : <Home />} />
         <Route path="/OrdenTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenTrabajo /> : <Home />} />
+        <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenesTrabajo /> : <Home />} />
+        <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis/> : <Home />} />
         {/* Add other routes as needed */}
       </Routes>
     </div>
