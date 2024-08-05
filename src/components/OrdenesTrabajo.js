@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-// import '../styles/footer.css';
+import '../styles/ordenes.css';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import {  } from '@fortawesome/free-solid-svg-icons';
 // import { faInstagram, faFacebook, faTiktok } from '@fortawesome/free-brands-svg-icons';
@@ -45,16 +45,16 @@ function OrdenesTrabajo() {
 
   return (
    <div className="ordenesList">
-    <h3>Órdenes de Trabajo</h3>
+    <h1 id='tituloOrdenes'>Ordenes de Trabajo</h1>
       <table className="user-table">
           <thead>
               <tr>
-                  <th>Cliente</th>
-                  <th>Teléfono</th>
-                  <th>Fecha</th>
-                  <th>Hora</th>
-                  <th>Servicios</th>
-                  <th>Acciones</th>
+                <th>Cliente</th>
+                <th>Teléfono</th>
+                <th>Fecha</th>
+                <th>Hora</th>
+                <th>Servicios</th>
+                <th>Acciones</th>
               </tr>
           </thead>
           <tbody>
