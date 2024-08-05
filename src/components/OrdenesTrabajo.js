@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/ordenes.css';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import {  } from '@fortawesome/free-solid-svg-icons';
-// import { faInstagram, faFacebook, faTiktok } from '@fortawesome/free-brands-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenSquare, faTrashCan  } from '@fortawesome/free-solid-svg-icons';
 import {supabase}  from '../supabaseClient';
 
 function OrdenesTrabajo() {
@@ -49,10 +48,11 @@ function OrdenesTrabajo() {
       <table className="user-table">
           <thead>
               <tr>
+                <th>ID orden</th>
                 <th>Cliente</th>
                 <th>Teléfono</th>
                 <th>Fecha</th>
-                <th>Hora</th>
+                <th>Estado</th>
                 <th>Servicios</th>
                 <th>Acciones</th>
               </tr>
@@ -60,14 +60,22 @@ function OrdenesTrabajo() {
           <tbody>
               {ordenes.map((orden) => (
                   <tr key={orden.id}>
-                      <td>{orden.cliente}</td>
-                      <td>{orden.telefono}</td>
-                      <td>{orden.fecha}</td>
-                      <td>{orden.hora}</td>
-                      <td>{orden.servicios.join(', ')}</td>
-                      <td>
-                          <button onClick={() => deleteOrden(orden.id)}>Eliminar</button>
-                      </td>
+                    <td>{orden.id}</td>
+                    <td>{orden.cliente}</td>
+                    <td>{orden.telefono}</td>
+                    <td>{orden.fecha}</td>
+                    <td>Recibida</td>
+                    <td>{orden.servicios.join(', ')}</td>
+                    <td>
+                      <div className="acciones">
+                        <a href="#" className='editAction'>
+                          <FontAwesomeIcon icon={faPenSquare} />
+                        </a>
+                        <a href="#" className='deleteAction'>
+                          <FontAwesomeIcon icon={faTrashCan} />
+                        </a>
+                      </div>
+                    </td>
                   </tr>
               ))}
           </tbody>
@@ -77,3 +85,6 @@ function OrdenesTrabajo() {
 }
 
 export default OrdenesTrabajo;
+
+
+// <button onClick={() => deleteOrden(orden.id)}>Eliminar</button>
