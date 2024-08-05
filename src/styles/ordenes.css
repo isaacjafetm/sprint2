@@ -1,0 +1,28 @@
+#tituloOrdenes {
+  color: white;
+}
+
+.acciones {
+  display: flex;
+  justify-content: center;
+}
+
+.acciones a {
+  padding: 0 1em;
+}
+
+.deleteAction {
+  color: red;
+}
+
+.editAction {
+  color: blue;
+}
+
+.backwards {
+  color: green;
+}
+
+.hidden {
+  display: none;
+}
