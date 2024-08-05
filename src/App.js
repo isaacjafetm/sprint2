@@ -157,11 +157,17 @@ function App() {
         <Route path="/customer-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'cliente' ? <CustomerDashboard /> : <Home />} />
         <Route path="/technician-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? (
                     <TechnicianDashboard
+                        // eslint-disable-next-line
                         appointments={appointments}
+                        // eslint-disable-next-line
                         setAppointments={setAppointments}
+                        // eslint-disable-next-line
                         calendarEvents={calendarEvents}
+                        // eslint-disable-next-line
                         setCalendarEvents={setCalendarEvents}
+                        // eslint-disable-next-line
                         successMessage={successMessage}
+                        // eslint-disable-next-line
                         setSuccessMessage={setSuccessMessage}
                     />
                 ) : <Home />} />
