@@ -14,6 +14,10 @@ import TechnicianDashboard from './components/TechnicianDashboard';
 import OrdenTrabajo from './components/OrdenTrabajo';
 import OrdenesTrabajo from './components/OrdenesTrabajo';
 
+import VistaBicis from './components/VistaBicis';
+
+
+
 function Home() {
   const settings = {
     dots: true,
@@ -119,6 +123,9 @@ function App() {
           {isLoggedIn && currentUser && currentUser.rol === 'tecnico' && (
             <Link to="/technician-dashboard" onClick={() => setMenuOpen(false)}>Tecnico</Link>
           )}
+          {isLoggedIn && currentUser && currentUser.rol === 'tecnico' && (
+            <Link to="/VistaBicis" onClick={() => setMenuOpen(false)}>Bicicletas</Link>
+          )}
           {isLoggedIn && currentUser && currentUser.rol === 'admin' && (
             <Link to="/OrdenTrabajo" onClick={() => setMenuOpen(false)}>Crear Orden de Trabajo</Link>
            )}
@@ -152,7 +159,14 @@ function App() {
         <Route path="/technician-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <TechnicianDashboard/> : <Home />} />
         <Route path="/OrdenProductoAdmin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrderProduct /> : <Home />} />
         <Route path="/OrdenTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenTrabajo /> : <Home />} />
-        <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenesTrabajo /> : <Home />} />
+
+      
+      <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenesTrabajo /> : <Home />} />
+
+        <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis/> : <Home />} />
+
+
+
         {/* Add other routes as needed */}
       </Routes>
     </div>
