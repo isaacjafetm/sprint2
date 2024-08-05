@@ -155,7 +155,22 @@ function App() {
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <AdminDashboard /> : <Home />} />
         <Route path="/customer-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'cliente' ? <CustomerDashboard /> : <Home />} />
-        <Route path="/technician-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <TechnicianDashboard/> : <Home />} />
+        <Route path="/technician-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? (
+                    <TechnicianDashboard
+                        // eslint-disable-next-line
+                        appointments={appointments}
+                        // eslint-disable-next-line
+                        setAppointments={setAppointments}
+                        // eslint-disable-next-line
+                        calendarEvents={calendarEvents}
+                        // eslint-disable-next-line
+                        setCalendarEvents={setCalendarEvents}
+                        // eslint-disable-next-line
+                        successMessage={successMessage}
+                        // eslint-disable-next-line
+                        setSuccessMessage={setSuccessMessage}
+                    />
+                ) : <Home />} />
         <Route path="/OrdenProductoAdmin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrderProduct /> : <Home />} />
         <Route path="/OrdenTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenTrabajo /> : <Home />} />
         <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenesTrabajo /> : <Home />} />
