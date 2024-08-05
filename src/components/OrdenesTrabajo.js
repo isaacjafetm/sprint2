@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/ordenes.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenSquare, faTrashCan  } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faTrashCan, faBackward, faTrash  } from '@fortawesome/free-solid-svg-icons';
 import {supabase}  from '../supabaseClient';
 
 function OrdenesTrabajo() {
@@ -22,6 +22,27 @@ function OrdenesTrabajo() {
     };
       fetchOrders();
     }, []);
+
+  const confirmarEliminar = (id) => {
+    // e.preventDefault();
+    console.log('quiere borrar' + id);
+    const divConf = document.getElementById('confElim'+id);
+    divConf.classList.remove("hidden");
+    divConf.classList.add("acciones");
+    const divOriginal = document.getElementById('originalAcc'+id);
+    divOriginal.classList.remove("acciones");
+    divOriginal.classList.add("hidden");
+  };
+
+  const desconfirmarEliminar = (id) => {
+    console.log('no quiere borrar'+id);
+    const divConf = document.getElementById('confElim'+id);
+    divConf.classList.remove("acciones");
+    divConf.classList.add("hidden");
+    const divOriginal = document.getElementById('originalAcc'+id);
+    divOriginal.classList.remove("hidden");
+    divOriginal.classList.add("acciones");
+  };
 
   const deleteOrden = async (id) => {
     if (!id) {
@@ -67,12 +88,20 @@ function OrdenesTrabajo() {
                     <td>Recibida</td>
                     <td>{orden.servicios.join(', ')}</td>
                     <td>
-                      <div className="acciones">
+                      <div className="acciones" id={'originalAcc'+orden.id}>
                         <a href="#" className='editAction'>
                           <FontAwesomeIcon icon={faPenSquare} />
                         </a>
-                        <a href="#" className='deleteAction'>
+                        <a href="#" className='deleteAction' onClick={() => confirmarEliminar(orden.id)}>
                           <FontAwesomeIcon icon={faTrashCan} />
+                        </a>
+                      </div>
+                      <div className="hidden" id={'confElim'+orden.id}>
+                        <a href="#" className='backwards' onClick={() => desconfirmarEliminar(orden.id)}>
+                          <FontAwesomeIcon icon={faBackward} />
+                        </a>
+                        <a href="#" className='deleteAction' onClick={() => deleteOrden(orden.id)}>
+                          <FontAwesomeIcon icon={faTrash} />
                         </a>
                       </div>
                     </td>

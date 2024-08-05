@@ -14,3 +14,15 @@
 .deleteAction {
   color: red;
 }
+
+.editAction {
+  color: blue;
+}
+
+.backwards {
+  color: green;
+}
+
+.hidden {
+  display: none;
+}
