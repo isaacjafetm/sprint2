@@ -13,7 +13,6 @@ import OrderProduct from './components/orderproduct';
 import TechnicianDashboard from './components/TechnicianDashboard';
 import OrdenTrabajo from './components/OrdenTrabajo';
 import OrdenesTrabajo from './components/OrdenesTrabajo';
-
 import VistaBicis from './components/VistaBicis';
 
 
@@ -159,14 +158,8 @@ function App() {
         <Route path="/technician-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <TechnicianDashboard/> : <Home />} />
         <Route path="/OrdenProductoAdmin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrderProduct /> : <Home />} />
         <Route path="/OrdenTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenTrabajo /> : <Home />} />
-
-      
-      <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenesTrabajo /> : <Home />} />
-
+        <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenesTrabajo /> : <Home />} />
         <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis/> : <Home />} />
-
-
-
         {/* Add other routes as needed */}
       </Routes>
     </div>
