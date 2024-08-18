@@ -26,10 +26,10 @@ const CustomerDashboard = () => {
                     <CustomerAppointments />
                 </TabPanel>
                 <TabPanel>
-                    <MisBicis />
+                    <MisBicis clienteId={currentUser.id} />
                 </TabPanel>
                 <TabPanel>
-                    <CrearBicis />
+                    <CrearBicis clienteId={currentUser.id}/>
                 </TabPanel>
                 <TabPanel>
                     <ListaCombos currentUser={currentUser} />
