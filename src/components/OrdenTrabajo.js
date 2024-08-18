@@ -25,17 +25,6 @@ function OrdenTrabajo() {
         recibidaPor: ''
     });
 
-    
-
-    /*useEffect(() => {
-        if (currentUser) {
-            setFormData((prevFormData) => ({
-                ...prevFormData,
-                personaAutorizada: currentUser.nombre
-            }));
-        }
-    }, [currentUser]);*/
-
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -52,9 +41,7 @@ function OrdenTrabajo() {
         }
     };
 
-    // eslint-disable-next-line
     const [ordenes, setOrdenes] = useState([]);
-
     const handleSubmit = async (e) => {
         e.preventDefault();
      // Obtener la fecha actual en formato YYYY-MM-DD
@@ -85,6 +72,7 @@ function OrdenTrabajo() {
         } else {
             
             setOrdenes(prevOrdenes => [...prevOrdenes, formData]);
+            alert('Orden de trabajo creada con éxito'); // Mostrar mensaje de éxito
             setFormData({
                 cliente: '',
                 telefono: '',
@@ -92,9 +80,6 @@ function OrdenTrabajo() {
                 marca: '',
                 servicios: [],
                 comentarios: '',
-                fechaRecibida: '',
-                horaRecibida: '',
-                recibidaPor: ''
             });
         }
     };
