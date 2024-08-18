@@ -74,7 +74,7 @@ function OrdenTrabajo() {
                     comentarios: formData.comentarios,
                     fecha: fechaActual,
                     hora: horaActual,
-                    recibidaPor: formData.recibidaPor
+                    recibidaPor: currentUser.nombre
                 }
 
             ])
@@ -182,12 +182,6 @@ function OrdenTrabajo() {
                     </div>
                 </div> 
 
-                <div className="firstFormGroup">
-                    <div className="unDatoForm">
-                        <label htmlFor="recibidaPor">Recibida Por:</label>
-                        <input type="text" id="recibidaPor" name="recibidaPor" value={formData.recibidaPor} onChange={handleChange} required />
-                    </div>
-                </div>
 
                 <label htmlFor="comentarios">Comentarios:</label>
                 <textarea id="comentarios" name="comentarios" value={formData.comentarios} onChange={handleChange}></textarea>
