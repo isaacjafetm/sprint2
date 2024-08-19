@@ -40,7 +40,7 @@ function OrdenTrabajo() {
         }
     };
 
-    const [ordenes, setOrdenes] = useState([]);
+    const [setOrdenes] = useState([]);
     const handleSubmit = async (e) => {
         e.preventDefault();
      // Obtener la fecha actual en formato YYYY-MM-DD
