@@ -11,7 +11,7 @@ const VistaBicis = () => {
     const fetchBicicletas = async () => {
       setLoading(true); // Inicia la carga
       try {
-        let query = supabase.from('bicicli').select('*');
+        let query = supabase.from('bicicli').select('*, cliente:cli_id (nombre)');
 
         if (filtro === 'enTaller') {
           query = query.eq('entaller', true);
@@ -57,8 +57,8 @@ const VistaBicis = () => {
         <table>
           <thead>
             <tr>
+              <th>Dueño</th>
               <th>Modelo</th>
-              <th>Nombre</th>
               <th>Marco</th>
               <th>Amortiguador</th>
               <th>Horquilla</th>
@@ -81,8 +81,8 @@ const VistaBicis = () => {
           <tbody>
             {bicicletas.map((bicicleta) => (
               <tr key={bicicleta.id}>
+                <td>{bicicleta.cliente ? bicicleta.cliente.nombre : 'Sin dueño'}</td>
                 <td>{bicicleta.modelo}</td>
-                <td>{bicicleta.nombre}</td>
                 <td>{bicicleta.marco}</td>
                 <td>{bicicleta.amortiguador}</td>
                 <td>{bicicleta.horquilla}</td>
