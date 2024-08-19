@@ -4,18 +4,21 @@ import '../styles/misBicis.css';
 import { supabase } from '../supabaseClient';
 import EditarBiciPopup from './EditarBiciPopup';
 
-function MisBicis() {
+function MisBicis({ clienteId }) { // Recibir clienteId como prop
   const [bicicletas, setBicicletas] = useState([]);
   const [selectedBici, setSelectedBici] = useState(null);
 
   useEffect(() => {
-    fetchBicicletas();
-  }, []);
+    if (clienteId) {
+      fetchBicicletas(clienteId);
+    }
+  }, [clienteId]);
 
-  const fetchBicicletas = async () => {
+  const fetchBicicletas = async (clienteId) => {
     const { data, error } = await supabase
       .from('bicicli')
-      .select('*');
+      .select('*')
+      .eq('cli_id', clienteId);
 
     if (error) {
       console.error('Error fetching bicicletas:', error);
@@ -65,7 +68,7 @@ function MisBicis() {
         <EditarBiciPopup
           bici={selectedBici}
           closePopup={closePopup}
-          fetchBicicletas={fetchBicicletas}
+          fetchBicicletas={() => fetchBicicletas(clienteId)}
           actualizarBici={actualizarBici}
         />
       )}
