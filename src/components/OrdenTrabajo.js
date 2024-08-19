@@ -14,7 +14,6 @@ function OrdenTrabajo() {
 
     const [formData, setFormData] = useState({
         cliente: '',
-        //personaAutorizada:  currentUser ? currentUser.nombre : '',
         telefono: '',
         valor: '',
         marca: '',
