@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import '../styles/VistaBicis.css';
 import { supabase } from '../supabaseClient';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPenSquare, faTrashCan, faBackward, faTrash  } from '@fortawesome/free-solid-svg-icons';
+
 
 const VistaBicis = () => {
   const [bicicletas, setBicicletas] = useState([]);
@@ -33,6 +36,43 @@ const VistaBicis = () => {
 
     fetchBicicletas();
   }, [filtro]); // Vuelve a cargar datos cuando cambia el filtro
+
+  const confirmarEliminar = (id) => {
+    const divConf = document.getElementById('confElim'+id);
+    divConf.classList.remove("hidden");
+    divConf.classList.add("acciones");
+    const divOriginal = document.getElementById('originalAcc'+id);
+    divOriginal.classList.remove("acciones");
+    divOriginal.classList.add("hidden");
+  };
+
+  const desconfirmarEliminar = (id) => {
+    const divConf = document.getElementById('confElim'+id);
+    divConf.classList.remove("acciones");
+    divConf.classList.add("hidden");
+    const divOriginal = document.getElementById('originalAcc'+id);
+    divOriginal.classList.remove("hidden");
+    divOriginal.classList.add("acciones");
+  };
+
+  const deleteBici = async (id) => {
+    if (!id) {
+        console.error('Invalid ID provided for deletion:', id);
+        return;
+    }
+
+    const { error } = await supabase
+        .from('bicicli')
+        .delete()
+        .eq('id', id);
+
+    if (error) {
+        console.error('Error deleting data:', error);
+    } else {
+        console.log('Bike deleted successfully.');
+        setBicicletas(prevBicicletas => prevBicicletas.filter(bicicleta => bicicleta.id !== id));
+    }
+  }
 
   if (loading) {
     return <p>Cargando información de bicicletas...</p>;
@@ -76,6 +116,7 @@ const VistaBicis = () => {
               <th>Manillar</th>
               <th>Asiento</th>
               <th>Dropper</th>
+              <th>Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -100,6 +141,24 @@ const VistaBicis = () => {
                 <td>{bicicleta.timon}</td>
                 <td>{bicicleta.asiento}</td>
                 <td>{bicicleta.dropper}</td>
+                <td>
+                  <div className="acciones" id={'originalAcc'+bicicleta.id}>
+                    <button className='editAction' onClick={() => {/* tu lógica de edición aquí */}}>
+                      <FontAwesomeIcon icon={faPenSquare} />
+                    </button>
+                    <button className='deleteAction' onClick={() => confirmarEliminar(bicicleta.id)}>
+                      <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                  </div>
+                  <div className="hidden" id={'confElim'+bicicleta.id}>
+                    <button className='backwards' onClick={() => desconfirmarEliminar(bicicleta.id)}>
+                      <FontAwesomeIcon icon={faBackward} />
+                    </button>
+                    <button className='deleteAction' onClick={() => deleteBici(bicicleta.id)}>
+                      <FontAwesomeIcon icon={faTrash} />
+                    </button>
+                  </div>
+                </td>
               </tr>
             ))}
           </tbody>
