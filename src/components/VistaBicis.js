@@ -2,14 +2,16 @@ import React, { useEffect, useState } from 'react';
 import '../styles/VistaBicis.css';
 import { supabase } from '../supabaseClient';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenSquare, faTrashCan, faBackward, faTrash  } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faTrashCan, faBackward, faTrash,} from '@fortawesome/free-solid-svg-icons';
+import EditarBiciPopup from './EditarBiciPopup';
 
 
-const VistaBicis = () => {
+
+const VistaBicis = ({ clienteId }) => {
   const [bicicletas, setBicicletas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtro, setFiltro] = useState('todas'); // Estado para el filtro seleccionado
-
+  const [selectedBici, setSelectedBici] = useState(null);  
   useEffect(() => {
     const fetchBicicletas = async () => {
       setLoading(true); // Inicia la carga
@@ -37,6 +39,19 @@ const VistaBicis = () => {
     fetchBicicletas();
   }, [filtro]); // Vuelve a cargar datos cuando cambia el filtro
 
+  //Funciones para actualizar
+  const actualizarBici = (biciActualizada) => {
+    setBicicletas(bicicletas.map(bici =>
+      bici.id === biciActualizada.id ? biciActualizada : bici
+    ));
+  };
+
+  const closePopup = () => {
+    setSelectedBici(null);
+  };
+
+
+  //Funciones para eliminar
   const confirmarEliminar = (id) => {
     const divConf = document.getElementById('confElim'+id);
     divConf.classList.remove("hidden");
@@ -143,7 +158,7 @@ const VistaBicis = () => {
                 <td>{bicicleta.dropper}</td>
                 <td>
                   <div className="acciones" id={'originalAcc'+bicicleta.id}>
-                    <button className='editAction' onClick={() => {/* tu lógica de edición aquí */}}>
+                    <button className='editAction' onClick={() => setSelectedBici(bicicleta)}>
                       <FontAwesomeIcon icon={faPenSquare} />
                     </button>
                     <button className='deleteAction' onClick={() => confirmarEliminar(bicicleta.id)}>
@@ -164,6 +179,13 @@ const VistaBicis = () => {
           </tbody>
         </table>
       </div>
+      {selectedBici && (
+        <EditarBiciPopup
+          bici={selectedBici}
+          closePopup={closePopup}
+          actualizarBici={actualizarBici}
+        />
+      )}
     </div>
   );
 };
