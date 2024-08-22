@@ -30,7 +30,8 @@ function CrearBicis({ clienteId }) {
       timon: formData.get('timonBici'),
       asiento: formData.get('asientoBici'),
       dropper: formData.get('dropperAsientoBici'),
-      cli_id: clienteId
+      cli_id: clienteId,
+      EnTaller: false
     };
 
     // Insert data into Supabase
