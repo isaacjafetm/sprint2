@@ -7,16 +7,27 @@ import MisBicis from './MisBicis';
 import ListaCombos from './ListaCombos';
 import CustomerCalendar from './CustomerCalendar'; // Importa el componente del calendario
 import '../styles/admin.css';
+import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
+
 
 const CustomerDashboard = () => {
     const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
     const [appointments, setAppointments] = useState([]);
 
     useEffect(() => {
-        const storedAppointments = localStorage.getItem('appointments');
-        if (storedAppointments) {
-            setAppointments(JSON.parse(storedAppointments));
-        }
+        const fetchAppointments = async () => {
+            const { data, error } = await supabase
+                .from('citas')
+                .select('*');
+
+            if (error) {
+                console.error('Error fetching appointments:', error);
+            } else {
+                setAppointments(data);
+            }
+        };
+
+        fetchAppointments();
     }, []);
 
     return (
