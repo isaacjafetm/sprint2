@@ -3,6 +3,11 @@ import React, { useState } from 'react';
 const defaultHours = ['09:00'];
 const defaultDays = [0, 1, 2, 3, 4]; // Lunes(0) -> Viernes(4)
 
+const saveAppointments = (appointments) => {
+    localStorage.setItem('appointments', JSON.stringify(appointments));
+    console.log('Appointments saved:', appointments);
+};
+
 const GestionCitas = ({ appointments, setAppointments, successMessage, setSuccessMessage }) => {
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
@@ -23,10 +28,16 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
             return;
         }
 
-        const newAppointment = { date, time, reserved: false, customerName: '' };
+        const newAppointment = {
+            id: Date.now(), // Genera un ID único basado en la fecha y hora actual
+            date,
+            time,
+            reserved: false,
+            customerName: ''
+        };
         const updatedAppointments = [...appointments, newAppointment];
         setAppointments(updatedAppointments);
-        localStorage.setItem('appointments', JSON.stringify(updatedAppointments));
+        saveAppointments(updatedAppointments);
         setDate('');
         setTime('');
         setSuccessMessage(`Cita agregada para el ${date} a las ${time}.`);
@@ -52,7 +63,13 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
                         appointment.date === dayString && appointment.time === timeSlot
                     );
                     if (!isDuplicate) {
-                        newAppointments.push({ date: dayString, time: timeSlot, reserved: false, customerName: '' });
+                        newAppointments.push({
+                            id: Date.now() + Math.random(), // Genera un ID único basado en la fecha, hora actual y un valor aleatorio
+                            date: dayString,
+                            time: timeSlot,
+                            reserved: false,
+                            customerName: ''
+                        });
                     }
                 });
             }
@@ -60,7 +77,7 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
 
         const updatedAppointments = [...appointments, ...newAppointments];
         setAppointments(updatedAppointments);
-        localStorage.setItem('appointments', JSON.stringify(updatedAppointments));
+        saveAppointments(updatedAppointments);
         setSuccessMessage('Citas generadas automáticamente para el rango de días seleccionado.');
         setTimeout(() => {
             setSuccessMessage('');
@@ -121,7 +138,7 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
                         <button onClick={() => handleRemoveHour(index)}>Eliminar Hora</button>
                     </div>
                 ))}
-                <br></br>
+                <br />
                 <button onClick={handleAddHour}>Agregar Hora</button>
             </div>
             <div className="form-group">
@@ -129,10 +146,10 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
                 <div>
                     {[0, 1, 2, 3, 4, 5, 6].map(day => (
                         <label key={day} style={{ display: 'inline-block', marginRight: '10px' }}>
-                            <input 
-                                type="checkbox" 
-                                checked={!selectedDays.includes(day)} 
-                                onChange={() => handleDaysChange(day)} 
+                            <input
+                                type="checkbox"
+                                checked={!selectedDays.includes(day)}
+                                onChange={() => handleDaysChange(day)}
                             />
                             {['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'][day]}
                         </label>
