@@ -37,11 +37,7 @@ const CustomerDashboard = () => {
                     <MisBicis clienteId={currentUser.id} />
                 </TabPanel>
                 <TabPanel>
-<<<<<<< HEAD
-                    <CrearBicis clienteId={currentUser.id}/>
-=======
                     <CrearBicis clienteId={currentUser.id} />
->>>>>>> GabrielBranch
                 </TabPanel>
                 <TabPanel>
                     <ListaCombos currentUser={currentUser} />
