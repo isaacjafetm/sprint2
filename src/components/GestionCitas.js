@@ -1,12 +1,8 @@
 import React, { useState } from 'react';
+import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
 
 const defaultHours = ['09:00'];
 const defaultDays = [0, 1, 2, 3, 4]; // Lunes(0) -> Viernes(4)
-
-const saveAppointments = (appointments) => {
-    localStorage.setItem('appointments', JSON.stringify(appointments));
-    console.log('Appointments saved:', appointments);
-};
 
 const GestionCitas = ({ appointments, setAppointments, successMessage, setSuccessMessage }) => {
     const [date, setDate] = useState('');
@@ -16,7 +12,7 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
     const [hours, setHours] = useState(defaultHours);
     const [selectedDays, setSelectedDays] = useState(defaultDays);
 
-    const addAppointment = () => {
+    const addAppointment = async () => {
         const isDuplicate = appointments.some(appointment =>
             appointment.date === date && appointment.time === time
         );
@@ -27,33 +23,48 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
             }, 3000);
             return;
         }
-
+    
         const newAppointment = {
-            id: Date.now(), // Genera un ID único basado en la fecha y hora actual
-            date,
-            time,
-            reserved: false,
-            customerName: ''
+            fecha: date,
+            hora: time,
+            reservada: false,
+            id_cliente: null,  // Aquí se puede asignar el id del cliente si se tiene
+            motivo: ''         // Este campo puede ser opcional o se puede completar en la UI
         };
-        const updatedAppointments = [...appointments, newAppointment];
-        setAppointments(updatedAppointments);
-        saveAppointments(updatedAppointments);
-        setDate('');
-        setTime('');
-        setSuccessMessage(`Cita agregada para el ${date} a las ${time}.`);
+    
+        // Guardar en la base de datos
+        try {
+            const {  error } = await supabase
+                .from('citas')
+                .insert([newAppointment]);
+    
+            if (error) {
+                console.error('Error al agregar la cita:', error);
+                setSuccessMessage('Error al agregar la cita.');
+            } else {
+                setAppointments([...appointments, newAppointment]);
+                setSuccessMessage(`Cita agregada para el ${date} a las ${time}.`);
+            }
+        } catch (err) {
+            console.error('Error inesperado:', err);
+            setSuccessMessage('Error inesperado al agregar la cita.');
+        }
+    
         setTimeout(() => {
             setSuccessMessage('');
         }, 3000);
+    
+        setDate('');
+        setTime('');
     };
-
-    const generateAutomaticAppointments = () => {
+    
+    const generateAutomaticAppointments = async () => {
         const start = new Date(rangeStart);
         const end = new Date(rangeEnd);
         const newAppointments = [];
-
-        // Remover horas duplicadas
+    
         const uniqueHours = Array.from(new Set(hours));
-
+    
         for (let day = new Date(start); day <= end; day.setDate(day.getDate() + 1)) {
             const dayOfWeek = day.getDay();
             if (selectedDays.includes(dayOfWeek)) {
@@ -64,25 +75,39 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
                     );
                     if (!isDuplicate) {
                         newAppointments.push({
-                            id: Date.now() + Math.random(), // Genera un ID único basado en la fecha, hora actual y un valor aleatorio
-                            date: dayString,
-                            time: timeSlot,
-                            reserved: false,
-                            customerName: ''
+                            fecha: dayString,
+                            hora: timeSlot,
+                            reservada: false,
+                            id_cliente: null,
+                            motivo: ''
                         });
                     }
                 });
             }
         }
-
-        const updatedAppointments = [...appointments, ...newAppointments];
-        setAppointments(updatedAppointments);
-        saveAppointments(updatedAppointments);
-        setSuccessMessage('Citas generadas automáticamente para el rango de días seleccionado.');
+    
+        try {
+            const { error } = await supabase
+                .from('citas')
+                .insert(newAppointments);
+    
+            if (error) {
+                console.error('Error al generar citas:', error);
+                setSuccessMessage('Error al generar citas.');
+            } else {
+                setAppointments([...appointments, ...newAppointments]);
+                setSuccessMessage('Citas generadas automáticamente para el rango de días seleccionado.');
+            }
+        } catch (err) {
+            console.error('Error inesperado:', err);
+            setSuccessMessage('Error inesperado al generar citas.');
+        }
+    
         setTimeout(() => {
             setSuccessMessage('');
         }, 3000);
     };
+    
 
     const handleHoursChange = (index, newHour) => {
         const updatedHours = [...hours];
