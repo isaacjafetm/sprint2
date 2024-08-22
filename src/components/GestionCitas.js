@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
 import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
 
-const defaultHours = ['09:00'];
-const defaultDays = [0, 1, 2, 3, 4]; // Lunes(0) -> Viernes(4)
-
 const GestionCitas = ({ appointments, setAppointments, successMessage, setSuccessMessage }) => {
     const [date, setDate] = useState('');
     const [time, setTime] = useState('');
     const [rangeStart, setRangeStart] = useState('');
     const [rangeEnd, setRangeEnd] = useState('');
-    const [hours, setHours] = useState(defaultHours);
-    const [selectedDays, setSelectedDays] = useState(defaultDays);
+    const [hours, setHours] = useState(['09:00']); // Cambié esto para usar un valor por defecto simple
+    const [selectedDays, setSelectedDays] = useState([0, 1, 2, 3, 4]); // Lunes(0) -> Viernes(4)
 
     const addAppointment = async () => {
         const isDuplicate = appointments.some(appointment =>
-            appointment.date === date && appointment.time === time
+            appointment.fecha === date && appointment.hora === time
         );
         if (isDuplicate) {
             setSuccessMessage('Error: Ya existe una cita en esa fecha y hora.');
@@ -23,21 +20,21 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
             }, 3000);
             return;
         }
-    
+
         const newAppointment = {
             fecha: date,
             hora: time,
             reservada: false,
-            id_cliente: null,  // Aquí se puede asignar el id del cliente si se tiene
-            motivo: ''         // Este campo puede ser opcional o se puede completar en la UI
+            cliente_id: null,  // Aquí se puede asignar el id del cliente si se tiene
+            motivo: null       // Este campo puede ser opcional o se puede completar en la UI
         };
-    
+
         // Guardar en la base de datos
         try {
-            const {  error } = await supabase
+            const { error } = await supabase
                 .from('citas')
                 .insert([newAppointment]);
-    
+
             if (error) {
                 console.error('Error al agregar la cita:', error);
                 setSuccessMessage('Error al agregar la cita.');
@@ -49,48 +46,48 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
             console.error('Error inesperado:', err);
             setSuccessMessage('Error inesperado al agregar la cita.');
         }
-    
+
         setTimeout(() => {
             setSuccessMessage('');
         }, 3000);
-    
+
         setDate('');
         setTime('');
     };
-    
+
     const generateAutomaticAppointments = async () => {
         const start = new Date(rangeStart);
         const end = new Date(rangeEnd);
         const newAppointments = [];
-    
+
         const uniqueHours = Array.from(new Set(hours));
-    
+
         for (let day = new Date(start); day <= end; day.setDate(day.getDate() + 1)) {
             const dayOfWeek = day.getDay();
             if (selectedDays.includes(dayOfWeek)) {
                 const dayString = day.toISOString().split('T')[0];
                 uniqueHours.forEach(timeSlot => {
                     const isDuplicate = appointments.some(appointment =>
-                        appointment.date === dayString && appointment.time === timeSlot
+                        appointment.fecha === dayString && appointment.hora === timeSlot
                     );
                     if (!isDuplicate) {
                         newAppointments.push({
                             fecha: dayString,
                             hora: timeSlot,
                             reservada: false,
-                            id_cliente: null,
-                            motivo: ''
+                            cliente_id: null,
+                            motivo: null
                         });
                     }
                 });
             }
         }
-    
+
         try {
             const { error } = await supabase
                 .from('citas')
                 .insert(newAppointments);
-    
+
             if (error) {
                 console.error('Error al generar citas:', error);
                 setSuccessMessage('Error al generar citas.');
@@ -102,12 +99,11 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
             console.error('Error inesperado:', err);
             setSuccessMessage('Error inesperado al generar citas.');
         }
-    
+
         setTimeout(() => {
             setSuccessMessage('');
         }, 3000);
     };
-    
 
     const handleHoursChange = (index, newHour) => {
         const updatedHours = [...hours];

@@ -2,6 +2,7 @@ import React from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
+import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
 
 // Configura la localización para Big Calendar
 const localizer = momentLocalizer(moment);
@@ -9,10 +10,10 @@ const localizer = momentLocalizer(moment);
 const CustomerCalendar = ({ appointments }) => {
     const events = appointments.map(appointment => ({
         id: appointment.id,
-        title: appointment.reserved ? 'Reservado' : 'Disponible',
-        start: new Date(`${appointment.date}T${appointment.time}`),
-        end: new Date(`${appointment.date}T${appointment.time}`),
-        reserved: appointment.reserved
+        title: appointment.reservada ? 'TRUE' : 'Disponible',
+        start: new Date(`${appointment.fecha}T${appointment.hora}`),
+        end: new Date(new Date(`${appointment.fecha}T${appointment.hora}`).getTime() + 60 * 60 * 1000), // Añade 1 hora a la cita
+        reserved: appointment.reservada
     }));
 
     const eventStyleGetter = (event) => {
