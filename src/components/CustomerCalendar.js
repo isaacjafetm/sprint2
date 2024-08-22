@@ -13,7 +13,7 @@ const CustomerCalendar = ({ appointments }) => {
     
     const events = appointments.map(appointment => ({
         id: appointment.id,
-        title: appointment.reservada ? 'TRUE' : 'Disponible',
+        title: appointment.reservada ? 'Reservada' : 'Disponible',
         start: new Date(`${appointment.fecha}T${appointment.hora}`),
         end: new Date(new Date(`${appointment.fecha}T${appointment.hora}`).getTime() + 60 * 60 * 1000), // Añade 1 hora a la cita
         reserved: appointment.reservada
