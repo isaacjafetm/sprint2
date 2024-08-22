@@ -26,7 +26,7 @@ const ListaCitas = ({ setAppointments, successMessage, setSuccessMessage }) => {
         fetchAppointments();
     }, [setSuccessMessage]);
 
-    const deleteAppointment = async (id) => {
+   /* const deleteAppointment = async (id) => {
         const confirmation = window.confirm('¿Estás seguro de que deseas eliminar esta cita?');
         if (confirmation) {
             try {
@@ -53,7 +53,7 @@ const ListaCitas = ({ setAppointments, successMessage, setSuccessMessage }) => {
                 setSuccessMessage('');
             }, 3000);
         }
-    };
+    };*/
 
     return (
         <div>

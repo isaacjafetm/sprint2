@@ -1,27 +1,53 @@
-import React, { useState } from 'react';
+// src/components/ReservarCita.js
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom'; // Importa useParams y useNavigate
+import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
 
-const saveAppointments = (appointments) => {
-    localStorage.setItem('appointments', JSON.stringify(appointments));
-    console.log('Appointments saved:', appointments);
-};
+const ReservarCita = () => {
+    const { id } = useParams(); // Obtiene el ID de la cita desde los parámetros de la URL
+    const [appointment, setAppointment] = useState(null);
+    const navigate = useNavigate(); // Usa useNavigate para redirección
 
-const ReservarCita = ({ appointments, setAppointments }) => {
-    const [selectedAppointment, setSelectedAppointment] = useState(null);
+    useEffect(() => {
+        // Fetch the appointment data from Supabase
+        const fetchAppointment = async () => {
+            const { data, error } = await supabase
+                .from('citas')
+                .select('*')
+                .eq('id', id)
+                .single(); // Obtiene solo un registro
 
-    const handleReserve = (appointment) => {
+            if (error) {
+                console.error('Error al obtener la cita:', error);
+            } else {
+                setAppointment(data);
+            }
+        };
+
+        fetchAppointment();
+    }, [id]);
+
+    const handleReserve = async () => {
+        if (!appointment) return;
+
         const confirmation = window.confirm('¿Estás seguro de que deseas reservar esta cita?');
         if (confirmation) {
-            // Reservar la cita
-            const updatedAppointments = appointments.map(appt => 
-                appt.id === appointment.id ? { ...appt, reserved: true } : appt
-            );
-            setAppointments(updatedAppointments);
-            saveAppointments(updatedAppointments); // Guarda las citas actualizadas
+            // Actualiza la cita en la base de datos
+            const { error } = await supabase
+                .from('citas')
+                .update({ reservada: true })
+                .eq('id', id);
 
-            // Redirigir al dashboard de clientes
-            window.location.href = '/customer-dashboard'; // Cambia esto según la lógica de redirección
+            if (error) {
+                console.error('Error al reservar la cita:', error);
+            } else {
+                // Redirige al dashboard de clientes
+                navigate('/customer-dashboard'); // Cambia esto según la lógica de redirección
+            }
         }
     };
+
+    if (!appointment) return <p>Cargando...</p>;
 
     return (
         <div>
@@ -35,17 +61,13 @@ const ReservarCita = ({ appointments, setAppointments }) => {
                     </tr>
                 </thead>
                 <tbody>
-                    {appointments.map((appointment) => (
-                        !appointment.reserved && (
-                            <tr key={appointment.id}>
-                                <td>{appointment.date}</td>
-                                <td>{appointment.time}</td>
-                                <td>
-                                    <button onClick={() => handleReserve(appointment)}>Reservar</button>
-                                </td>
-                            </tr>
-                        )
-                    ))}
+                    <tr>
+                        <td>{appointment.fecha}</td>
+                        <td>{appointment.hora}</td>
+                        <td>
+                            <button onClick={handleReserve}>Reservar</button>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
