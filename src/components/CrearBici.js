@@ -31,8 +31,10 @@ function CrearBicis({ clienteId }) {
       asiento: formData.get('asientoBici'),
       dropper: formData.get('dropperAsientoBici'),
       cli_id: clienteId,
-      EnTaller: false
-    };
+      entaller: false
+    }
+
+    console.log('Form data:', newBici);
 
     // Insert data into Supabase
     const { data, error } = await supabase
