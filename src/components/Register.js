@@ -49,20 +49,6 @@ const Register = () => {
         }
 
         
-
-        /*const newUser = {
-            name: name,
-            phone: phone,
-            username: username,
-            password: password,
-            role: 'customer', // Por defecto, los nuevos usuarios son clientes
-        };
-
-        const storedUsers = JSON.parse(localStorage.getItem('users')) || [];
-        storedUsers.push(newUser);
-        localStorage.setItem('users', JSON.stringify(storedUsers));*/
-
-        
     };
 
     return (
