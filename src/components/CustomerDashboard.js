@@ -4,7 +4,6 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import CrearBicis from './CrearBici';
 import MisBicis from './MisBicis';
-import ListaCombos from './ListaCombos';
 import CustomerCalendar from './CustomerCalendar'; // Importa el componente del calendario
 import '../styles/admin.css';
 import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
@@ -38,7 +37,6 @@ const CustomerDashboard = () => {
                     <Tab>Reservar Cita</Tab>
                     <Tab>Mis Bicis</Tab>
                     <Tab>Crear Bicis</Tab>
-                    <Tab>Lista de Combos</Tab>
                 </TabList>
 
                 <TabPanel>
@@ -49,9 +47,6 @@ const CustomerDashboard = () => {
                 </TabPanel>
                 <TabPanel>
                     <CrearBicis clienteId={currentUser.id} />
-                </TabPanel>
-                <TabPanel>
-                    <ListaCombos currentUser={currentUser} />
                 </TabPanel>
             </Tabs>
         </div>

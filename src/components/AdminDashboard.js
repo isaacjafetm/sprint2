@@ -7,8 +7,6 @@ import { supabase } from '../supabaseClient';
 import GestionUsuario from './GestionUsuario';
 import GestionCitas from './GestionCitas';
 import ListaCitas from './ListaCitas';
-import GestionCombos from './GestionCombos'; // Importa el nuevo componente
-import ListaCombos from './ListaCombos'; // Importa el nuevo componente
 
 const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
@@ -46,8 +44,6 @@ const AdminDashboard = () => {
                     <Tab>Gestión de Usuarios</Tab>
                     <Tab>Gestión de Citas</Tab>
                     <Tab>Lista de Citas</Tab>
-                    <Tab>Gestión de Combos</Tab>
-                    <Tab>Lista de Combos</Tab>
                 </TabList>
 
                 <TabPanel>
@@ -74,19 +70,6 @@ const AdminDashboard = () => {
                         setAppointments={setAppointments}
                         successMessage={successMessage}
                         setSuccessMessage={setSuccessMessage}
-                    />
-                </TabPanel>
-
-                <TabPanel>
-                    <GestionCombos
-                        successMessage={successMessage}
-                        setSuccessMessage={setSuccessMessage}
-                    />
-                </TabPanel>
-
-                <TabPanel>
-                    <ListaCombos
-                        currentUser={{ rol: 'admin' }} // Pase la información del usuario actual para validación
                     />
                 </TabPanel>
             </Tabs>

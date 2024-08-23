@@ -15,7 +15,6 @@ import OrdenTrabajo from './components/OrdenTrabajo';
 import OrdenesTrabajo from './components/OrdenesTrabajo';
 import VistaBicis from './components/VistaBicis';
 import ReservarCita from './components/ReservarCita';
-//import ListaCitas from './components/ListaCitas'
 
 function Home() {
   const settings = {
@@ -76,7 +75,6 @@ function App() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
-  const [appointments, setAppointments] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -85,11 +83,6 @@ function App() {
       setIsLoggedIn(true);
       setCurrentUser(storedUser);
     }
-  }, []);
-
-  useEffect(() => {
-    const storedAppointments = JSON.parse(localStorage.getItem('appointments')) || [];
-    setAppointments(storedAppointments);
   }, []);
 
   const toggleMenu = () => {
@@ -162,7 +155,7 @@ function App() {
         <Route path="/OrdenTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenTrabajo /> : <Home />} />
         <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenesTrabajo /> : <Home />} />
         <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis /> : <Home />} />
-        <Route path="/reservar-cita/:id" element={<ReservarCita appointments={appointments} setAppointments={setAppointments} />} />        
+        <Route path="/reservar-cita/:id" element={<ReservarCita/>} />        
         {/* Agregar otras rutas según sea necesario */}
       </Routes>
     </div>

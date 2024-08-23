@@ -1,4 +1,3 @@
-// src/components/ReservarCita.js
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Importa useParams y useNavigate
 import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
