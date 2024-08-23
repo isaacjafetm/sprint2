@@ -12,11 +12,7 @@ const TechnicianDashboard = () => {
                 <TabList>
                     <Tab>Calendario</Tab>
                 </TabList>
-
                 <TabPanel>
-                    <div className="technician-calendar-container">
-                        <Calendar />
-                    </div>
                 </TabPanel>
             </Tabs>
         </div>
