@@ -37,6 +37,7 @@ const CustomerDashboard = () => {
                     <Tab>Reservar Cita</Tab>
                     <Tab>Mis Bicis</Tab>
                     <Tab>Crear Bicis</Tab>
+                    <Tab>Mis citas</Tab>
                 </TabList>
 
                 <TabPanel>

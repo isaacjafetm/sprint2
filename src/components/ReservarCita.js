@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'; // Importa useParams y useNavigate
 import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
 
-const ReservarCita = () => {
+const ReservarCita = ({currentUser}) => {
     const { id } = useParams(); // Obtiene el ID de la cita desde los parámetros de la URL
     const [appointment, setAppointment] = useState(null);
     const navigate = useNavigate(); // Usa useNavigate para redirección
@@ -34,7 +34,7 @@ const ReservarCita = () => {
             // Actualiza la cita en la base de datos
             const { error } = await supabase
                 .from('citas')
-                .update({ reservada: true })
+                .update({ reservada: true, cliente_id: currentUser.id})
                 .eq('id', id);
 
             if (error) {

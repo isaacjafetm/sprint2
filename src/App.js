@@ -155,7 +155,7 @@ function App() {
         <Route path="/OrdenTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenTrabajo /> : <Home />} />
         <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenesTrabajo /> : <Home />} />
         <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis /> : <Home />} />
-        <Route path="/reservar-cita/:id" element={<ReservarCita/>} />        
+        <Route path="/reservar-cita/:id" element={<ReservarCita currentUser={currentUser}/>} />        
         {/* Agregar otras rutas según sea necesario */}
       </Routes>
     </div>
