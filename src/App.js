@@ -148,7 +148,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/admin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <AdminDashboard /> : <Home />} />
+        <Route path="/admin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <AdminDashboard currentUser={currentUser} /> : <Home />} />
         <Route path="/customer-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'cliente' ? <CustomerDashboard /> : <Home />} />
         <Route path="/technician-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? (<TechnicianDashboard />) : <Home />} />
         <Route path="/OrdenProductoAdmin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrderProduct /> : <Home />} />

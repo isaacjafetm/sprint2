@@ -8,7 +8,7 @@ import GestionUsuario from './GestionUsuario';
 import GestionCitas from './GestionCitas';
 import ListaCitas from './ListaCitas';
 
-const AdminDashboard = () => {
+const AdminDashboard = ({currentUser}) => {
     const [users, setUsers] = useState([]);
     const [successMessage, setSuccessMessage] = useState('');
     const [appointments, setAppointments] = useState([]);
@@ -66,11 +66,8 @@ const AdminDashboard = () => {
 
                 <TabPanel>
                     <ListaCitas
-                        appointments={appointments}
-                        setAppointments={setAppointments}
-                        successMessage={successMessage}
-                        setSuccessMessage={setSuccessMessage}
-                    />
+                        currentUser={currentUser}
+                     />
                 </TabPanel>
             </Tabs>
         </div>

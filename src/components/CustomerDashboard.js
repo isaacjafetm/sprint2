@@ -7,6 +7,7 @@ import MisBicis from './MisBicis';
 import CustomerCalendar from './CustomerCalendar'; // Importa el componente del calendario
 import '../styles/admin.css';
 import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
+import ListaCitas from './ListaCitas';
 
 
 const CustomerDashboard = () => {
@@ -48,6 +49,9 @@ const CustomerDashboard = () => {
                 </TabPanel>
                 <TabPanel>
                     <CrearBicis clienteId={currentUser.id} />
+                </TabPanel>
+                <TabPanel>
+                    <ListaCitas currentUser={currentUser} />
                 </TabPanel>
             </Tabs>
         </div>
