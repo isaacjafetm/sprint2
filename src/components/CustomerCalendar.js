@@ -8,12 +8,12 @@ import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 const localizer = momentLocalizer(moment);
 
 const CustomerCalendar = ({ appointments }) => {
-    const navigate = useNavigate(); // Usa useNavigate en lugar de useHistory
+    const navigate = useNavigate();
 
     
     const events = appointments.map(appointment => ({
         id: appointment.id,
-        title: appointment.reservada ? 'TRUE' : 'Disponible',
+        title: appointment.reservada ? 'Reservada' : 'Disponible',
         start: new Date(`${appointment.fecha}T${appointment.hora}`),
         end: new Date(new Date(`${appointment.fecha}T${appointment.hora}`).getTime() + 60 * 60 * 1000), // Añade 1 hora a la cita
         reserved: appointment.reservada
@@ -33,8 +33,11 @@ const CustomerCalendar = ({ appointments }) => {
     };
 
     const handleEventClick = (event) => {
-        // Redirige a la página de reserva de citas con el ID de la cita
-        navigate(`/reservar-cita/${event.id}`);
+        if (!event.reserved) {
+            navigate(`/reservar-cita/${event.id}`);
+        } else {
+            alert("Esta cita ya está reservada.");
+        }
     };
 
     return (
