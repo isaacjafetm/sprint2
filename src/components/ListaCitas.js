@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
 
-const ListaCitas = ({ setAppointments, successMessage, setSuccessMessage }) => {
+const ListaCitas = ({currentUser}) => {
     const [appointments, setLocalAppointments] = useState([]);
 
     useEffect(() => {
@@ -13,47 +13,20 @@ const ListaCitas = ({ setAppointments, successMessage, setSuccessMessage }) => {
                 
                 if (error) {
                     console.error('Error al obtener citas:', error);
-                    setSuccessMessage('Error al obtener citas.');
-                } else {
-                    setLocalAppointments(data);
+                 } else {
+                      // Filtrar citas según el rol del usuario
+                      const filteredAppointments = currentUser.rol === 'admin'
+                      ? data // Admin ve todas las citas
+                      : data.filter(appointment => appointment.cliente_id === currentUser.id); // Cliente solo ve sus citas
+                        setLocalAppointments(filteredAppointments);
                 }
             } catch (err) {
                 console.error('Error inesperado:', err);
-                setSuccessMessage('Error inesperado al obtener citas.');
-            }
+             }
         };
 
         fetchAppointments();
-    }, [setSuccessMessage]);
-
-   /* const deleteAppointment = async (id) => {
-        const confirmation = window.confirm('¿Estás seguro de que deseas eliminar esta cita?');
-        if (confirmation) {
-            try {
-                const { error } = await supabase
-                    .from('citas')
-                    .delete()
-                    .eq('id', id);
-                
-                if (error) {
-                    console.error('Error al eliminar cita:', error);
-                    setSuccessMessage('Error al eliminar cita.');
-                } else {
-                    const updatedAppointments = appointments.filter(appointment => appointment.id !== id);
-                    setLocalAppointments(updatedAppointments);
-                    setAppointments(updatedAppointments); // Actualiza el estado en el componente padre
-                    setSuccessMessage(`Cita eliminada exitosamente.`);
-                }
-            } catch (err) {
-                console.error('Error inesperado:', err);
-                setSuccessMessage('Error inesperado al eliminar cita.');
-            }
-
-            setTimeout(() => {
-                setSuccessMessage('');
-            }, 3000);
-        }
-    };*/
+    },  [currentUser] );
 
     return (
         <div>

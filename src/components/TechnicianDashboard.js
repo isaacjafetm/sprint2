@@ -2,8 +2,6 @@
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import '../styles/technicianDashboard.css'; // Importa el nuevo CSS
-import Calendar from './Calendar';
-
 const TechnicianDashboard = () => {
     return (
         <div className="technician-dashboard-container">
@@ -12,11 +10,8 @@ const TechnicianDashboard = () => {
                 <TabList>
                     <Tab>Calendario</Tab>
                 </TabList>
-
                 <TabPanel>
-                    <div className="technician-calendar-container">
-                        <Calendar />
-                    </div>
+                   
                 </TabPanel>
             </Tabs>
         </div>
