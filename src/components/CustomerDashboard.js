@@ -35,15 +35,11 @@ const CustomerDashboard = () => {
             <h2>Panel de Cliente</h2>
             <Tabs>
                 <TabList>
-                    <Tab>Reservar Cita</Tab>
                     <Tab>Mis Bicis</Tab>
-                    <Tab>Crear Bicis</Tab>
+                    <Tab>Crear Bici</Tab>
                     <Tab>Mis citas</Tab>
+                    <Tab>Reservar cita</Tab>
                 </TabList>
-
-                <TabPanel>
-                    <CustomerCalendar appointments={appointments} />
-                </TabPanel>
                 <TabPanel>
                     <MisBicis clienteId={currentUser.id} />
                 </TabPanel>
@@ -52,6 +48,9 @@ const CustomerDashboard = () => {
                 </TabPanel>
                 <TabPanel>
                     <ListaCitas currentUser={currentUser} />
+                </TabPanel>
+                <TabPanel>
+                    <CustomerCalendar appointments={appointments} />
                 </TabPanel>
             </Tabs>
         </div>
