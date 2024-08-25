@@ -1,15 +1,59 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
 
-const ListaCitas = ({ appointments, setAppointments, successMessage, setSuccessMessage }) => {
-    const deleteAppointment = (index) => {
-        const updatedAppointments = appointments.filter((_, i) => i !== index);
-        setAppointments(updatedAppointments);
-        localStorage.setItem('appointments', JSON.stringify(updatedAppointments));
-        setSuccessMessage(`Cita eliminada exitosamente.`);
-        setTimeout(() => {
-            setSuccessMessage('');
-        }, 3000);
-    };
+const ListaCitas = ({ setAppointments, successMessage, setSuccessMessage }) => {
+    const [appointments, setLocalAppointments] = useState([]);
+
+    useEffect(() => {
+        const fetchAppointments = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from('citas')
+                    .select('*');
+                
+                if (error) {
+                    console.error('Error al obtener citas:', error);
+                    setSuccessMessage('Error al obtener citas.');
+                } else {
+                    setLocalAppointments(data);
+                }
+            } catch (err) {
+                console.error('Error inesperado:', err);
+                setSuccessMessage('Error inesperado al obtener citas.');
+            }
+        };
+
+        fetchAppointments();
+    }, [setSuccessMessage]);
+
+   /* const deleteAppointment = async (id) => {
+        const confirmation = window.confirm('¿Estás seguro de que deseas eliminar esta cita?');
+        if (confirmation) {
+            try {
+                const { error } = await supabase
+                    .from('citas')
+                    .delete()
+                    .eq('id', id);
+                
+                if (error) {
+                    console.error('Error al eliminar cita:', error);
+                    setSuccessMessage('Error al eliminar cita.');
+                } else {
+                    const updatedAppointments = appointments.filter(appointment => appointment.id !== id);
+                    setLocalAppointments(updatedAppointments);
+                    setAppointments(updatedAppointments); // Actualiza el estado en el componente padre
+                    setSuccessMessage(`Cita eliminada exitosamente.`);
+                }
+            } catch (err) {
+                console.error('Error inesperado:', err);
+                setSuccessMessage('Error inesperado al eliminar cita.');
+            }
+
+            setTimeout(() => {
+                setSuccessMessage('');
+            }, 3000);
+        }
+    };*/
 
     return (
         <div>
@@ -17,21 +61,20 @@ const ListaCitas = ({ appointments, setAppointments, successMessage, setSuccessM
             <table className="user-table">
                 <thead>
                     <tr>
+                        <th>ID</th>
                         <th>Fecha</th>
                         <th>Hora</th>
-                        <th>Cliente</th>
-                        <th>Acciones</th>
+                        <th>Reservada</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {appointments.map((appointment, index) => (
-                        <tr key={index}>
-                            <td>{appointment.date}</td>
-                            <td>{appointment.time}</td>
-                            <td>{appointment.customerName || 'No reservada'}</td>
-                            <td>
-                                <button onClick={() => deleteAppointment(index)}>Eliminar</button>
-                            </td>
+                    {appointments.map((appointment) => (
+                        <tr key={appointment.id}>
+                            <td>{appointment.id}</td>
+                            <td>{appointment.fecha}</td>
+                            <td>{appointment.hora}</td>
+                            <td>{appointment.reservada ? 'Sí' : 'No'}</td>
+                            {/* Se eliminó la columna de acciones */}
                         </tr>
                     ))}
                 </tbody>
