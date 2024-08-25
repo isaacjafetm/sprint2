@@ -27,7 +27,23 @@ function OrdenTrabajo() {
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        if (type === 'checkbox') {
+        
+        if (name === 'telefono') {
+            // Regular expression to validate phone number: starts with 3, 9, or 8 and contains only numbers
+            const validPattern = /^[398]\d*$/;
+            
+            // If the value matches the pattern or is empty (allow clearing the input), update the state
+            if (value === '' || validPattern.test(value)) {
+                setFormData({ ...formData, [name]: value });
+            }
+        }else if (name === 'valor') {
+            const validPattern = /^[0-9]*$/;
+            
+            if (validPattern.test(value)) {
+                setFormData({ ...formData, [name]: value });
+            }
+            
+        } else if (type === 'checkbox') {
             setFormData((prevData) => {
                 if (checked) {
                     return { ...prevData, servicios: [...prevData.servicios, value] };
@@ -97,7 +113,7 @@ function OrdenTrabajo() {
 
                     <div className="unDatoForm">
                         <label htmlFor="telefono">Teléfono:</label>
-                        <input type="tel" id="telefono" name="telefono" value={formData.telefono} onChange={handleChange} required />
+                        <input type="tel" id="telefono" name="telefono" value={formData.telefono} onChange={handleChange} pattern="\d{8}" maxLength="8" required />
                     </div>
 
                 </div>
@@ -109,7 +125,7 @@ function OrdenTrabajo() {
                     
                     <div className="unDatoForm">
                         <label htmlFor="valor">Valor a Cancelar:</label>
-                        <input type="number" id="valor" name="valor" value={formData.valor} onChange={handleChange} required />
+                        <input type="text" id="valor" name="valor" value={formData.valor} onChange={handleChange}  min={0} required step={1} />
                     </div>
                 </div>
 

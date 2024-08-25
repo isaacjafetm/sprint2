@@ -5,6 +5,13 @@ const roles = ['admin', 'tecnico', 'cliente'];
 
 const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) => {
     const [roleChanges, setRoleChanges] = useState({});
+    const [showAddUserForm, setShowAddUserForm] = useState(false);
+    const [newUser, setNewUser] = useState({
+        nombre: '',
+        correo: '',
+        telefono: '',
+        rol: 'cliente',
+    });
 
     const handleRoleSelection = (id, newRole) => {
         setRoleChanges({
@@ -64,9 +71,114 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
         }
     };
 
+    const handleAddUserSubmit = async (e, id) => {
+        
+        e.preventDefault();
+        try{
+        const { nombre, correo, telefono, rol, password } = newUser;
+        const { data: signUpData } = await supabase.auth.signUp({
+            email: correo, password: password
+        });
+
+        
+
+        const { error } = await supabase
+            .from('clientes')
+            .insert([{ id: signUpData.user.id, nombre: nombre, correo: correo, telefono: telefono, rol: rol, contraseña: password }]);
+
+        if (error) {
+            console.error('Error adding user:', error);
+            setSuccessMessage(`Error agregando usuario: ${error.message}`);
+        } else {
+      
+            setSuccessMessage('Usuario agregado exitosamente.');
+            setTimeout(() => {
+                setSuccessMessage('');
+            }, 3000);
+            setShowAddUserForm(false);
+            setNewUser({ nombre: '', correo: '', telefono: '', rol: 'cliente' });
+         
+        }
+        } catch (error) {
+            console.error('Error during sign-up:', error);
+            
+        }
+    };
+
+    const handleTelefonoChange = (e) => {
+        const { value } = e.target;
+        const validPattern = /^[389][0-9]{0,7}$/;
+
+        if (value === '' || validPattern.test(value)) {
+            setNewUser({ ...newUser, telefono: value });
+        } 
+    };
+
     return (
         <div>
             <h3>Gestión de Usuarios</h3>
+            <button onClick={() => setShowAddUserForm(!showAddUserForm)}>
+                {showAddUserForm ? 'Cancelar' : 'Agregar Nuevo Usuario'}
+            </button>
+            {showAddUserForm && (
+                <form onSubmit={handleAddUserSubmit}>
+                    <div>
+                        <label htmlFor="nombre">Nombre:</label>
+                        <input
+                            type="text"
+                            id="nombre"
+                            value={newUser.nombre}
+                            onChange={(e) => setNewUser({ ...newUser, nombre: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="correo">Correo:</label>
+                        <input
+                            type="email"
+                            id="correo"
+                            value={newUser.correo}
+                            onChange={(e) => setNewUser({ ...newUser, correo: e.target.value })}
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="telefono">Teléfono:</label>
+                        <input
+                            type="text"
+                            id="telefono"
+                            value={newUser.telefono}
+                            onChange={handleTelefonoChange}
+                            pattern="\d{8}" maxLength="8"
+                            required
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="password">Contraseña:</label>
+                        <input
+                            type="password"
+                            id="password"
+                            value={newUser.password}
+                            onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
+                            required
+                            minLength={6} 
+                        />
+                    </div>
+                    <div>
+                        <label htmlFor="rol">Rol:</label>
+                        <select
+                            id="rol"
+                            value={newUser.rol}
+                            onChange={(e) => setNewUser({ ...newUser, rol: e.target.value })}
+                        >
+                            {roles.map(role => (
+                                <option key={role} value={role}>{role}</option>
+                            ))}
+                        </select>
+                    </div>
+                    <button type="submit">Agregar Usuario</button>
+                </form>
+            )}
             <table className="user-table">
                 <thead>
                     <tr>
@@ -101,9 +213,7 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
                                     Cambiar Rol
                                 </button>
                                 <span>&nbsp;&nbsp;</span>
-                                <button
-                                    disabled={user.rol === 'admin'}
-                                    onClick={() => handleDeleteUser(user.id)}>Eliminar</button>
+                                <button disabled={user.rol === 'admin'} onClick={() => handleDeleteUser(user.id)}>Eliminar</button>
                             </td>
                         </tr>
                     ))}

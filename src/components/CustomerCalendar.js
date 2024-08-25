@@ -8,7 +8,7 @@ import { useNavigate } from 'react-router-dom'; // Importa useNavigate
 const localizer = momentLocalizer(moment);
 
 const CustomerCalendar = ({ appointments }) => {
-    const navigate = useNavigate(); // Usa useNavigate en lugar de useHistory
+    const navigate = useNavigate();
 
     
     const events = appointments.map(appointment => ({
@@ -33,8 +33,11 @@ const CustomerCalendar = ({ appointments }) => {
     };
 
     const handleEventClick = (event) => {
-        // Redirige a la página de reserva de citas con el ID de la cita
-        navigate(`/reservar-cita/${event.id}`);
+        if (!event.reserved) {
+            navigate(`/reservar-cita/${event.id}`);
+        } else {
+            alert("Esta cita ya está reservada.");
+        }
     };
 
     return (
