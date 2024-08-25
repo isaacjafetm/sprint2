@@ -10,6 +10,9 @@ const TechnicianDashboard = () => {
                 <TabList>
                     <Tab>Calendario</Tab>
                 </TabList>
+                <TabPanel>
+                   
+                </TabPanel>
             </Tabs>
         </div>
     );
