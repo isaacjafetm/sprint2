@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../styles/VistaBicis.css';
 import { supabase } from '../supabaseClient';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenSquare, faTrashCan, faBackward, faTrash,} from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faTrashCan, faBackward, faTrash, faInfoCircle} from '@fortawesome/free-solid-svg-icons';
 import EditarBiciPopup from './EditarBiciPopup';
 
 
@@ -11,7 +11,8 @@ const VistaBicis = ({ clienteId }) => {
   const [bicicletas, setBicicletas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtro, setFiltro] = useState('todas'); // Estado para el filtro seleccionado
-  const [selectedBici, setSelectedBici] = useState(null);  
+  const [selectedBici, setSelectedBici] = useState(null);
+  const [moreInfoBici, setMoreInfoBici] = useState(null);   
   useEffect(() => {
     const fetchBicicletas = async () => {
       setLoading(true); // Inicia la carga
@@ -114,23 +115,7 @@ const VistaBicis = ({ clienteId }) => {
             <tr>
               <th>Dueño</th>
               <th>Modelo</th>
-              <th>Marco</th>
-              <th>Amortiguador</th>
-              <th>Horquilla</th>
-              <th>Cambiador</th>
-              <th>Maneta</th>
-              <th>Brackett</th>
-              <th>Casette</th>
-              <th>Cadena</th>
-              <th>Crank</th>
-              <th>Frenos</th>
-              <th>Ruedas</th>
-              <th>Llantas</th>
-              <th>Ejes</th>
-              <th>Stem</th>
-              <th>Manillar</th>
-              <th>Asiento</th>
-              <th>Dropper</th>
+              
               <th>Acciones</th>
             </tr>
           </thead>
@@ -139,23 +124,7 @@ const VistaBicis = ({ clienteId }) => {
               <tr key={bicicleta.id}>
                 <td>{bicicleta.cliente ? bicicleta.cliente.nombre : 'Sin dueño'}</td>
                 <td>{bicicleta.modelo}</td>
-                <td>{bicicleta.marco}</td>
-                <td>{bicicleta.amortiguador}</td>
-                <td>{bicicleta.horquilla}</td>
-                <td>{bicicleta.cambiador}</td>
-                <td>{bicicleta.maneta}</td>
-                <td>{bicicleta.brackett}</td>
-                <td>{bicicleta.casette}</td>
-                <td>{bicicleta.cadena}</td>
-                <td>{bicicleta.crank}</td>
-                <td>{bicicleta.frenos}</td>
-                <td>{bicicleta.ruedas}</td>
-                <td>{bicicleta.llantas}</td>
-                <td>{bicicleta.ejes}</td>
-                <td>{bicicleta.stem}</td>
-                <td>{bicicleta.timon}</td>
-                <td>{bicicleta.asiento}</td>
-                <td>{bicicleta.dropper}</td>
+                
                 <td>
                   <div className="acciones" id={'originalAcc'+bicicleta.id}>
                     <button className='editAction' onClick={() => setSelectedBici(bicicleta)}>
@@ -163,6 +132,9 @@ const VistaBicis = ({ clienteId }) => {
                     </button>
                     <button className='deleteAction' onClick={() => confirmarEliminar(bicicleta.id)}>
                       <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                    <button className='infoAction' onClick={() => setMoreInfoBici(bicicleta)}>
+                      <FontAwesomeIcon icon={faInfoCircle} />
                     </button>
                   </div>
                   <div className="hidden" id={'confElim'+bicicleta.id}>
@@ -185,6 +157,17 @@ const VistaBicis = ({ clienteId }) => {
           closePopup={closePopup}
           actualizarBici={actualizarBici}
         />
+      )}
+      {moreInfoBici && (
+        <div className="info-popup">
+          <h2>Detalles de la Bicicleta</h2>
+          <p><strong>Dueño:</strong> {moreInfoBici.cliente ? moreInfoBici.cliente.nombre : 'Sin dueño'}</p>
+          <p><strong>Modelo:</strong> {moreInfoBici.modelo}</p>
+          <p><strong>Color:</strong> {moreInfoBici.color}</p>
+          <p><strong>En taller:</strong> {moreInfoBici.entaller ? 'Sí' : 'No'}</p>
+          <p><strong>Fecha de registro:</strong> {moreInfoBici.fecha_registro}</p>
+          <button onClick={() => setMoreInfoBici(null)}>Cerrar</button>
+        </div>
       )}
     </div>
   );
