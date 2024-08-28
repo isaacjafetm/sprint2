@@ -9,6 +9,7 @@ import GestionCitas from './GestionCitas';
 import ListaCitas from './ListaCitas';
 import GestionCombos from './GestionCombos'; // Importa el nuevo componente
 import ListaCombos from './ListaCombos'; // Importa el nuevo componente
+import AgregarProducto from './AgregarProducto';
 
 const AdminDashboard = () => {
     const [users, setUsers] = useState([]);
@@ -48,6 +49,7 @@ const AdminDashboard = () => {
                     <Tab>Lista de Citas</Tab>
                     <Tab>Gestión de Combos</Tab>
                     <Tab>Lista de Combos</Tab>
+                    <Tab>Agregar Producto</Tab>
                 </TabList>
 
                 <TabPanel>
@@ -88,6 +90,10 @@ const AdminDashboard = () => {
                     <ListaCombos
                         currentUser={{ rol: 'admin' }} // Pase la información del usuario actual para validación
                     />
+                </TabPanel>
+
+                <TabPanel>
+                    <AgregarProducto />
                 </TabPanel>
             </Tabs>
         </div>
