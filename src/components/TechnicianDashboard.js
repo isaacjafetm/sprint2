@@ -1,5 +1,5 @@
 // src/components/TechnicianDashboard.js
-import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
+import { Tab, Tabs, TabList } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import '../styles/technicianDashboard.css'; // Importa el nuevo CSS
 const TechnicianDashboard = () => {
@@ -10,9 +10,6 @@ const TechnicianDashboard = () => {
                 <TabList>
                     <Tab>Calendario</Tab>
                 </TabList>
-                <TabPanel>
-                   
-                </TabPanel>
             </Tabs>
         </div>
     );

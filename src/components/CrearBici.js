@@ -32,6 +32,7 @@ function CrearBicis({ clienteId }) {
       dropper: formData.get('dropperAsientoBici'),
       cli_id: clienteId,
       entaller: false
+  
     }
 
     console.log('Form data:', newBici);
