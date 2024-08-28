@@ -103,29 +103,29 @@ function App() {
           <h1 className="company-name">YOUR BIKE</h1>
         </Link>
         <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
-          <Link to="/about" onClick={() => setMenuOpen(false)}>Quienes Somos</Link>
-          <Link to="/stores" onClick={() => setMenuOpen(false)}>Tiendas</Link>
-          <Link to="/equipment" onClick={() => setMenuOpen(false)}>Equipamiento</Link>
+        {(!isLoggedIn || (currentUser && currentUser.rol === 'cliente')) && (
+            <>
+              <Link to="/about" onClick={() => setMenuOpen(false)}>Quienes Somos</Link>
+              <Link to="/stores" onClick={() => setMenuOpen(false)}>Tiendas</Link>
+              <Link to="/equipment" onClick={() => setMenuOpen(false)}>Equipamiento</Link>
+            </>
+          )}
           {isLoggedIn && currentUser && currentUser.rol === 'admin' && (
-            <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
+            <>
+              <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
+              <Link to="/OrdenProductoAdmin" onClick={() => setMenuOpen(false)}>Orden de Producto</Link>
+              <Link to="/OrdenTrabajo" onClick={() => setMenuOpen(false)}>Crear Orden de Trabajo</Link>
+              <Link to="/OrdenesTrabajo" onClick={() => setMenuOpen(false)}>Ordenes de Trabajo</Link>
+            </>
           )}
           {isLoggedIn && currentUser && currentUser.rol === 'cliente' && (
             <Link to="/customer-dashboard" onClick={() => setMenuOpen(false)}>Servicios</Link>
           )}
-          {isLoggedIn && currentUser && currentUser.rol === 'admin' && (
-            <Link to="/OrdenProductoAdmin" onClick={() => setMenuOpen(false)}>Orden de Producto</Link>
-          )}
           {isLoggedIn && currentUser && currentUser.rol === 'tecnico' && (
-            <Link to="/technician-dashboard" onClick={() => setMenuOpen(false)}>Tecnico</Link>
-          )}
-          {isLoggedIn && currentUser && currentUser.rol === 'tecnico' && (
-            <Link to="/VistaBicis" onClick={() => setMenuOpen(false)}>Bicicletas</Link>
-          )}
-          {isLoggedIn && currentUser && currentUser.rol === 'admin' && (
-            <Link to="/OrdenTrabajo" onClick={() => setMenuOpen(false)}>Crear Orden de Trabajo</Link>
-          )}
-          {isLoggedIn && currentUser && currentUser.rol === 'admin' && (
-            <Link to="/OrdenesTrabajo" onClick={() => setMenuOpen(false)}>Ordenes de Trabajo</Link>
+            <>
+              <Link to="/technician-dashboard" onClick={() => setMenuOpen(false)}>Tecnico</Link>
+              <Link to="/VistaBicis" onClick={() => setMenuOpen(false)}>Bicicletas</Link>
+            </>
           )}
         </nav>
         <div className="App-header-right">
