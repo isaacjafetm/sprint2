@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import '../styles/VistaBicis.css';
 import { supabase } from '../supabaseClient';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenSquare, faTrashCan, faBackward, faTrash,} from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faTrashCan, faBackward, faTrash, faComments } from '@fortawesome/free-solid-svg-icons';
 import EditarBiciPopup from './EditarBiciPopup';
 
 
@@ -12,6 +12,9 @@ const VistaBicis = ({ clienteId }) => {
   const [loading, setLoading] = useState(true);
   const [filtro, setFiltro] = useState('todas'); // Estado para el filtro seleccionado
   const [selectedBici, setSelectedBici] = useState(null);  
+  const [showComentarios, setShowComentarios] = useState(false);
+  const [comentarios, setComentarios] = useState({});
+
   useEffect(() => {
     const fetchBicicletas = async () => {
       setLoading(true); // Inicia la carga
@@ -39,6 +42,14 @@ const VistaBicis = ({ clienteId }) => {
     fetchBicicletas();
   }, [filtro]); // Vuelve a cargar datos cuando cambia el filtro
 
+  useEffect(() => {
+    // Cargar comentarios desde localStorage cuando el componente se monte
+    const storedComentarios = localStorage.getItem('comentarios');
+    if (storedComentarios) {
+      setComentarios(JSON.parse(storedComentarios));
+    }
+  }, []);
+
   //Funciones para actualizar
   const actualizarBici = (biciActualizada) => {
     setBicicletas(bicicletas.map(bici =>
@@ -48,6 +59,7 @@ const VistaBicis = ({ clienteId }) => {
 
   const closePopup = () => {
     setSelectedBici(null);
+    setShowComentarios(false);
   };
 
 
@@ -88,6 +100,22 @@ const VistaBicis = ({ clienteId }) => {
         setBicicletas(prevBicicletas => prevBicicletas.filter(bicicleta => bicicleta.id !== id));
     }
   }
+
+  const handleShowComentarios = (bici) => {
+    setSelectedBici(bici);
+    setShowComentarios(true);
+  };
+
+  const addComentario = (biciId, comentario) => {
+    setComentarios(prevComentarios => {
+      const newComentarios = {
+        ...prevComentarios,
+        [biciId]: [...(prevComentarios[biciId] || []), comentario]
+      };
+      localStorage.setItem('comentarios', JSON.stringify(newComentarios)); // Guardar en localStorage
+      return newComentarios;
+    });
+  };
 
   if (loading) {
     return <p>Cargando información de bicicletas...</p>;
@@ -158,11 +186,17 @@ const VistaBicis = ({ clienteId }) => {
                 <td>{bicicleta.dropper}</td>
                 <td>
                   <div className="acciones" id={'originalAcc'+bicicleta.id}>
-                    <button className='editAction' onClick={() => setSelectedBici(bicicleta)}>
+                    <button className='editAction' onClick={() => {
+                      setShowComentarios(false); // Asegura que no se muestre el popup de comentarios
+                      setSelectedBici(bicicleta)
+                      }}>
                       <FontAwesomeIcon icon={faPenSquare} />
                     </button>
                     <button className='deleteAction' onClick={() => confirmarEliminar(bicicleta.id)}>
                       <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                    <button className='commentAction' onClick={() => handleShowComentarios(bicicleta)}>
+                      <FontAwesomeIcon icon={faComments} />
                     </button>
                   </div>
                   <div className="hidden" id={'confElim'+bicicleta.id}>
@@ -179,12 +213,37 @@ const VistaBicis = ({ clienteId }) => {
           </tbody>
         </table>
       </div>
-      {selectedBici && (
+      {selectedBici && !showComentarios &&  (
         <EditarBiciPopup
           bici={selectedBici}
           closePopup={closePopup}
           actualizarBici={actualizarBici}
         />
+      )}
+
+      {selectedBici && showComentarios && (
+        <div className="comentariosPopup">
+          <h3>Comentarios para {selectedBici.nombre}</h3>
+          <button onClick={closePopup}>Cerrar</button>
+          <ul>
+            {(comentarios[selectedBici.id] || []).length > 0 ? (
+              comentarios[selectedBici.id].map((comentario, index) => (
+                <li key={index}>{comentario}</li>
+              ))
+            ) : (
+              <li>No hay comentarios para esta bicicleta.</li>
+            )}
+          </ul>
+          <textarea
+            placeholder="Agregar un comentario"
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && e.target.value.trim()) {
+                addComentario(selectedBici.id, e.target.value.trim());
+                e.target.value = '';
+              }
+            }}
+          />
+        </div>
       )}
     </div>
   );
