@@ -7,6 +7,7 @@ import { supabase } from '../supabaseClient';
 import GestionUsuario from './GestionUsuario';
 import GestionCitas from './GestionCitas';
 import ListaCitas from './ListaCitas';
+import AgregarProducto from './AgregarProducto';
 
 const AdminDashboard = ({currentUser}) => {
     const [users, setUsers] = useState([]);
@@ -44,6 +45,8 @@ const AdminDashboard = ({currentUser}) => {
                     <Tab>Gestión de Usuarios</Tab>
                     <Tab>Gestión de Citas</Tab>
                     <Tab>Lista de Citas</Tab>
+                    <Tab>Agregar Producto</Tab>
+
                 </TabList>
 
                 <TabPanel>
@@ -68,6 +71,10 @@ const AdminDashboard = ({currentUser}) => {
                     <ListaCitas
                         currentUser={currentUser}
                      />
+                </TabPanel>
+
+                <TabPanel>
+                    <AgregarProducto />
                 </TabPanel>
             </Tabs>
         </div>

@@ -1,0 +1,26 @@
+.datosAgreProd {
+  margin: 0 auto;
+  width: 65%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  font-size: 1.15em;
+}
+
+.datosAgreProd label {
+  margin: 0.45em 0.8em;
+
+}
+
+.datosAgreProd input {
+  margin-bottom: 0.65em;
+  height: 30px;
+}
+
+.datosAgreProd textarea {
+  height: 60px;
+} 
+
+.datosAgreProd button {
+  background-color: green;
+}

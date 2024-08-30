@@ -1,6 +1,6 @@
 /* src/styles/admin.css */
 .admin-container {
-    max-width: 80%;
+    width: 85%;
     margin: 20px auto;
     padding: 20px;
     border: 1px solid #ccc;
