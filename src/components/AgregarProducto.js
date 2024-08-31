@@ -3,58 +3,90 @@ import '../styles/agregarProducto.css';
 import { supabase } from '../supabaseClient';
 
 const AgregarProducto = () => {
-
   const [formDataAP, setFormDataAP] = useState({
     nombreProd: '',
-    precioProd: -1,
+    precioProd: '',
     descripProd: '',
-    cantInvProd: -1,
-});
+    cantInvProd: ''
+  });
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormDataAP({
+      ...formDataAP,
+      [name]: value
+    });
+  };
 
-    // const { error } = await supabase
-    //     .from('ordentrabajo')
-    //     .insert([
-    //         {
-    //             nombreProd: formData.nombreProd,
-    //             precioProd: formData.precioProd,
-    //             descripProd: formData.descripProd,
-    //             cantInvProd: formData.cantInvProd
-    //         }
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    //     ])
-    //     .select();
-    
-    // if (error) {
-    //     console.error('Error inserting data into crearProducto', error);
-    // } else {
-        
-        // setOrdenes(prevOrdenes => [...prevOrdenes, formData]);
-        // alert('Orden de trabajo creada con éxito'); // Mostrar mensaje de éxito
-        // setFormData({
-        //     cliente: '',
-        //     telefono: '',
-        //     valor: '',
-        //     marca: '',
-        //     servicios: [],
-        //     comentarios: '',
-        // });
-    // }
-// };
+    // Insert product into Supabase
+    const { data, error } = await supabase
+      .from('productos')
+      .insert([
+        {
+          nombreproducto: formDataAP.nombreProd,
+          precio: parseFloat(formDataAP.precioProd),
+          descripcion: formDataAP.descripProd,
+          cantinventario: parseInt(formDataAP.cantInvProd)
+        }
+      ]);
+
+    if (error) {
+      console.error('Error adding product:', error.message);
+    } else {
+      console.log('Product added successfully:', data);
+      // Optionally, reset the form or show a success message
+      setFormDataAP({
+        nombreProd: '',
+        precioProd: '',
+        descripProd: '',
+        cantInvProd: ''
+      });
+    }
+  };
 
   return (
     <div className="agreProdCont">
-      <form id="agreProd-form" /*onSubmit={handleSubmit}*/ className="agreProd">
+      <form id="agreProd-form" onSubmit={handleSubmit} className="agreProd">
         <h3>Agregar producto</h3>
         <div className="datosAgreProd">
           <label htmlFor="nombreProd">Nombre del Producto:</label>
-          <input type="text" id="nombreProd" name="nombreProd" /*value={formDataAP.nombreProd} onChange={handleChange}*/ required />
-          <label htmlFor="precioProd">Nombre del Producto:</label>
-          <input type="text" id="precioProd" name="precioProd" /*value={formDataAP.precioProd} onChange={handleChange}*/ />
+          <input 
+            type="text" 
+            id="nombreProd" 
+            name="nombreProd" 
+            value={formDataAP.nombreProd} 
+            onChange={handleChange} 
+            required 
+          />
+          <label htmlFor="precioProd">Precio del Producto:</label>
+          <input 
+            type="text" 
+            id="precioProd" 
+            name="precioProd" 
+            value={formDataAP.precioProd} 
+            onChange={handleChange} 
+            required
+          />
           <label htmlFor="descripProd">Descripcion:</label>
-          <textarea id="descripProd" name="descripProd" /*value={formDataAP.descripProd} onChange={handleChange}*/></textarea>
+          <textarea 
+            id="descripProd" 
+            name="descripProd" 
+            value={formDataAP.descripProd} 
+            onChange={handleChange} 
+            required
+          ></textarea>
+          <label htmlFor="cantInvProd">Cantidad en Inventario:</label>
+          <input 
+            type="number" 
+            id="cantInvProd" 
+            name="cantInvProd" 
+            value={formDataAP.cantInvProd} 
+            onChange={handleChange} 
+            required
+          />
 
           <button type="submit">Agregar</button>
         </div>
