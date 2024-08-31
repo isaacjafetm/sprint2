@@ -49,7 +49,10 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
     };
 
     const handleDeleteUser = async (id) => {
-        const { error: clienteError } = await supabase
+        
+        const confirmation = window.confirm('¿Estás seguro de que deseas eliminar el usuario?');
+        if(confirmation){
+            const { error: clienteError } = await supabase
             .from('clientes')
             .delete()
             .eq('id', id);
@@ -69,6 +72,9 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
                 setSuccessMessage('');
             }, 3000);
         }
+
+        }
+        
     };
 
     const handleAddUserSubmit = async (e, id) => {
