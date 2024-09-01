@@ -34,7 +34,9 @@ function MisBicis({ clienteId }) { // Recibir clienteId como prop
   };
 
   const eliminarBici = async (id) => {
-    const { error } = await supabase
+    const confirmation = window.confirm('¿Estás seguro de que deseas eliminar esta bicicleta?');
+    if (confirmation) {
+      const { error } = await supabase
       .from('bicicli')
       .delete()
       .eq('id', id);
@@ -43,6 +45,7 @@ function MisBicis({ clienteId }) { // Recibir clienteId como prop
       console.error('Error deleting bicicleta:', error);
     } else {
       setBicicletas(bicicletas.filter(bici => bici.id !== id));
+    }
     }
   };
 
