@@ -3,8 +3,6 @@ import { supabase } from '../supabaseClient';
 import '../styles/admin.css';
 import Button from 'react-bootstrap/Button';
 
-
-
 const roles = ['admin', 'tecnico', 'cliente'];
 
 const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) => {
@@ -222,7 +220,7 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
                                 <Button
                                    className="btn-dark-red"
                                     onClick={() => handleRoleChangeButtonClick(user.id)}
-                                    disabled={user.rol === 'admin'}
+                                    disabled={user.rol === 'admin' || !roleChanges[user.id] || roleChanges[user.id] === user.rol}
                                 >
                                     Cambiar Rol
                                 </Button>
