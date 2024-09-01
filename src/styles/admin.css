@@ -58,3 +58,13 @@ select {
     margin-bottom: 10px; /* Espaciado inferior */
     border-radius: 5px; /* Bordes redondeados */
   }
+
+  .btn-dark-red {
+    background-color: #7a0909 !important; /* Rojo oscuro personalizado */
+    border-color: #a00 !important; /* Color de borde rojo oscuro */
+}
+
+.btn-dark-red:hover {
+    background-color: #a00 !important; /* Color de fondo al pasar el mouse */
+    border-color: #900 !important; /* Color del borde al pasar el mouse */
+}

@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { supabase } from '../supabaseClient';
+import '../styles/admin.css';
+import Button from 'react-bootstrap/Button';
+
+
 
 const roles = ['admin', 'tecnico', 'cliente'];
 
@@ -123,9 +127,12 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
     return (
         <div>
             <h3>Gestión de Usuarios</h3>
-            <button onClick={() => setShowAddUserForm(!showAddUserForm)}>
+            <Button
+                className="btn-dark-red"
+                onClick={() => setShowAddUserForm(!showAddUserForm)}
+            >
                 {showAddUserForm ? 'Cancelar' : 'Agregar Nuevo Usuario'}
-            </button>
+            </Button>
             {showAddUserForm && (
                 <form onSubmit={handleAddUserSubmit}>
                     <div>
@@ -167,7 +174,7 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
                             value={newUser.password}
                             onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
                             required
-                            minLength={6} 
+                            minLength={6}
                         />
                     </div>
                     <div>
@@ -182,7 +189,7 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
                             ))}
                         </select>
                     </div>
-                    <button type="submit">Agregar Usuario</button>
+                    <Button type="submit" className="btn-dark-red">Agregar Usuario</Button>
                 </form>
             )}
             <table className="user-table">
@@ -212,14 +219,21 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
                                 </select>
                             </td>
                             <td>
-                                <button
+                                <Button
+                                   className="btn-dark-red"
                                     onClick={() => handleRoleChangeButtonClick(user.id)}
                                     disabled={user.rol === 'admin'}
                                 >
                                     Cambiar Rol
-                                </button>
+                                </Button>
                                 <span>&nbsp;&nbsp;</span>
-                                <button disabled={user.rol === 'admin'} onClick={() => handleDeleteUser(user.id)}>Eliminar</button>
+                                <Button
+                                    className="btn-dark-red"
+                                    disabled={user.rol === 'admin'}
+                                    onClick={() => handleDeleteUser(user.id)}
+                                >
+                                    Eliminar
+                                </Button>
                             </td>
                         </tr>
                     ))}
