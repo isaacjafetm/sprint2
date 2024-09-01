@@ -100,7 +100,7 @@ function App() {
     <div className="App">
       <header className="App-header">
         <Link to="/" className="company-name-link">
-          <h1 className="company-name">YOUR BIKE</h1>
+        <img src="/images/YourBike.jpg" alt="Login" className="logo-image" />
         </Link>
         <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
         {(!isLoggedIn || (currentUser && currentUser.rol === 'cliente')) && (

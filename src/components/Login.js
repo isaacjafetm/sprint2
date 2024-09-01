@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import '../styles/login.css';
 import { useNavigate, Link } from 'react-router-dom';
 import { supabase } from '../supabaseClient';
+import { Button } from 'react-bootstrap';
+import Form from 'react-bootstrap/Form';
+
 
 const Login = ({ setIsLoggedIn, setCurrentUser }) => {
     const [username, setUsername] = useState('');
@@ -51,33 +54,33 @@ const Login = ({ setIsLoggedIn, setCurrentUser }) => {
 
     return (
         <div className="login-container">
-            <h2>Login</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="username">Email:</label>
-                    <input
-                        type="text"
-                        id="username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Contraseña:</label>
-                    <input
-                        type="password"
-                        id="password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                </div>
-                <button type="submit">Login</button>
-            </form>
-            <p className="register-link">
-                ¿No tienes una cuenta? <Link to="/register">Regístrate Aquí</Link>
-            </p>
-            {error && <p className="error-message">{error}</p>}
-        </div>
+        <h2>Login</h2>
+        <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="username" className="form-group">
+                <Form.Label>Email:</Form.Label>
+                <Form.Control
+                    type="text"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+            </Form.Group>
+
+            <Form.Group controlId="password" className="form-group">
+                <Form.Label>Contraseña:</Form.Label>
+                <Form.Control
+                    type="password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+            </Form.Group>
+
+            <Button variant="outline-danger" type="submit">Login</Button>
+        </Form>
+        <p className="register-link">
+            ¿No tienes una cuenta? <Link to="/register">Regístrate Aquí</Link>
+        </p>
+        {error && <p className="error-message">{error}</p>}
+    </div>
     );
 };
 
