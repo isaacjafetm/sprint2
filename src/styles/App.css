@@ -263,4 +263,27 @@
   .line-3-active {
     transform: rotate(-45deg) translate(5px, -5px);
   }
+
+  .logout-button {
+    background-color: transparent; /* Make background transparent */
+    border: none; /* Remove border */
+    color: #dc3545; /* Red color */
+    font-size: 20px; /* Increase the icon size */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    transition: color 0.3s ease;
+}
+
+.logout-button:hover {
+    color: #c82333; /* Darker red on hover */
+}
+
+.logout-button i {
+    margin-right: 5px; /* Add space between icon and text if needed */
+}
+
+
 }

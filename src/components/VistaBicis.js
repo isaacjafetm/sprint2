@@ -123,9 +123,9 @@ const VistaBicis = ({ clienteId }) => {
 
   return (
     <div>
-      <h1>Información de Bicicletas</h1>
-      <div>
-        <label htmlFor="filtro">Filtrar por:</label>
+    <h1 id='tituloBicis'>Bicicletas</h1>     
+     <div>
+        <label htmlFor="filtro" className="filtro-label">Filtrar por:</label>
         <select
           id="filtro"
           value={filtro}

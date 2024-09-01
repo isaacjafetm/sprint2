@@ -1,5 +1,30 @@
+@keyframes fall {
+  0% {
+      opacity: 0;
+      transform: translateY(-50px); /* Comienza 50px por encima de su posición final */
+  }
+  100% {
+      opacity: 1;
+      transform: translateY(0); /* Finaliza en su posición original */
+  }
+
+  
+}
+
 #tituloOrdenes {
-  color: black;
+  font-size: 36px; /* Tamaño grande para destacar el título */
+  font-weight: 700; /* Negrita para mayor impacto */
+  color: #000; /* Color negro */
+  text-transform: uppercase; /* Texto en mayúsculas para un estilo más fuerte */
+  letter-spacing: 2px; /* Espaciado entre letras para una apariencia más moderna */
+  text-align: center; /* Centra el texto */
+  margin: 20px 0; /* Margen superior e inferior para separar el título de otros elementos */
+  padding: 10px; /* Espaciado interno para hacer que el título "respire" */
+  border-bottom: 4px solid #333; /* Línea de separación en la parte inferior para un toque elegante */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra sutil para un efecto de profundidad */
+  display: inline-block; /* Ajusta el ancho del título al contenido */
+  animation: fall 0.6s ease-out;
+
 }
 
 .acciones {
