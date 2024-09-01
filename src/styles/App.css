@@ -36,6 +36,20 @@
   height: auto;
 }
 
+.logo-image {
+  width: 50px; /* Keep the original width */
+  padding-left: 20px; /* Adds space between the image and the navbar */
+  height: auto; /* Maintain the original height */
+  transform: scaleX(2.5); /* Stretch the image horizontally */
+  transition: transform 0.3s ease, filter 0.3s ease; /* Smooth transition for scale and filter */
+  filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2)); /* Adds a subtle shadow to the image */
+}
+
+.logo-image:hover {
+  transform: scaleX(2.5) scale(1.1); /* Slightly enlarge on hover for effect */
+  filter: drop-shadow(3px 6px 8px rgba(0, 0, 0, 0.3)); /* Enhance shadow on hover */
+}
+
 .login-page {
   text-align: center;
   padding: 20px;
@@ -249,4 +263,27 @@
   .line-3-active {
     transform: rotate(-45deg) translate(5px, -5px);
   }
+
+  .logout-button {
+    background-color: transparent; /* Make background transparent */
+    border: none; /* Remove border */
+    color: #dc3545; /* Red color */
+    font-size: 20px; /* Increase the icon size */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    transition: color 0.3s ease;
+}
+
+.logout-button:hover {
+    color: #c82333; /* Darker red on hover */
+}
+
+.logout-button i {
+    margin-right: 5px; /* Add space between icon and text if needed */
+}
+
+
 }

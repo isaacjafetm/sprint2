@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/OrdenTrabajo.css';
 import {supabase}  from '../supabaseClient';
+import { Form} from 'react-bootstrap';
+
 
 function OrdenTrabajo() {
     const [currentUser, setCurrentUser] = useState(null);
@@ -104,29 +106,61 @@ function OrdenTrabajo() {
     return (
         <div id="form-container">
             <form id="order-form" onSubmit={handleSubmit}>
-                <h2>Crear Orden de Trabajo</h2>
+           <h2>Crear Orden de Trabajo</h2>
                 <div className="firstFormGroup">
-                    <div className="unDatoForm">
-                        <label htmlFor="cliente">Nombre del Cliente:</label>
-                        <input type="text" id="cliente" name="cliente" value={formData.cliente} onChange={handleChange} required />
-                    </div>
+                    <Form.Group className="unDatoForm">
+                    <Form.Label htmlFor="cliente">Nombre del Cliente:</Form.Label>
+                    <Form.Control
+                        type="text"
+                        id="cliente"
+                        name="cliente"
+                        value={formData.cliente}
+                        onChange={handleChange}
+                        required
+                    />
+                    </Form.Group>
 
-                    <div className="unDatoForm">
-                        <label htmlFor="telefono">Teléfono:</label>
-                        <input type="tel" id="telefono" name="telefono" value={formData.telefono} onChange={handleChange} pattern="\d{8}" maxLength="8" required />
-                    </div>
-
+                    <Form.Group className="unDatoForm">
+                    <Form.Label htmlFor="telefono">Teléfono:</Form.Label>
+                    <Form.Control
+                        type="tel"
+                        id="telefono"
+                        name="telefono"
+                        value={formData.telefono}
+                        onChange={handleChange}
+                        pattern="\d{8}"
+                        maxLength="8"
+                        required
+                    />
+                    </Form.Group>
                 </div>
+
                 <div className="firstFormGroup">
-                    <div className="unDatoForm">
-                        <label htmlFor="marca">Marca de la Bicicleta:</label>
-                        <input type="text" id="marca" name="marca" value={formData.marca} onChange={handleChange} required />
-                    </div>
-                    
-                    <div className="unDatoForm">
-                        <label htmlFor="valor">Valor a Cancelar:</label>
-                        <input type="text" id="valor" name="valor" value={formData.valor} onChange={handleChange}  min={0} required step={1} />
-                    </div>
+                    <Form.Group className="unDatoForm">
+                    <Form.Label htmlFor="marca">Marca de la Bicicleta:</Form.Label>
+                    <Form.Control
+                        type="text"
+                        id="marca"
+                        name="marca"
+                        value={formData.marca}
+                        onChange={handleChange}
+                        required
+                    />
+                    </Form.Group>
+
+                    <Form.Group className="unDatoForm">
+                    <Form.Label htmlFor="valor">Valor a Cancelar:</Form.Label>
+                    <Form.Control
+                        type="number"
+                        id="valor"
+                        name="valor"
+                        value={formData.valor}
+                        onChange={handleChange}
+                        min={0}
+                        required
+                        step={1}
+                    />
+                    </Form.Group>
                 </div>
 
                 <h3>Servicios a realizar</h3>

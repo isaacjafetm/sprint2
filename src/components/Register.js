@@ -3,6 +3,8 @@ import React, { useState } from 'react';
 import '../styles/register.css';
 import { useNavigate } from 'react-router-dom';
 import {supabase}  from '../supabaseClient';
+import { Form, Button} from 'react-bootstrap';
+
 
 const Register = () => {
     const [name, setName] = useState('');
@@ -53,55 +55,59 @@ const Register = () => {
 
     return (
         <div className="register-container">
-            <h2>Registro</h2>
-            <form onSubmit={handleSubmit}>
-                <div className="form-group">
-                    <label htmlFor="name">Nombre Completo:</label>
-                    <input
+            <h2 className="text-center">Registro</h2>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group controlId="name" className="mb-3">
+                    <Form.Label>Nombre Completo:</Form.Label>
+                    <Form.Control
                         type="text"
-                        id="name"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
+                        required
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="phone">Número Telefónico:</label>
-                    <input
+                </Form.Group>
+                <Form.Group controlId="phone" className="mb-3">
+                    <Form.Label>Número Telefónico:</Form.Label>
+                    <Form.Control
                         type="text"
-                        id="phone"
                         value={phone}
                         onChange={(e) => setPhone(e.target.value)}
+                        required
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="username">Email:</label>
-                    <input
-                        type="text"
-                        id="username"
+                </Form.Group>
+                <Form.Group controlId="username" className="mb-3">
+                    <Form.Label>Email:</Form.Label>
+                    <Form.Control
+                        type="email"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
+                        required
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="password">Contraseña:</label>
-                    <input
+                </Form.Group>
+                <Form.Group controlId="password" className="mb-3">
+                    <Form.Label>Contraseña:</Form.Label>
+                    <Form.Control
                         type="password"
-                        id="password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
+                        required
+                        minLength={6}
                     />
-                </div>
-                <div className="form-group">
-                    <label htmlFor="confirmPassword">Confirmar Contraseña:</label>
-                    <input
+                </Form.Group>
+                <Form.Group controlId="confirmPassword" className="mb-3">
+                    <Form.Label>Confirmar Contraseña:</Form.Label>
+                    <Form.Control
                         type="password"
-                        id="confirmPassword"
                         value={confirmPassword}
                         onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
+                        minLength={6}
                     />
-                </div>
-                <button type="submit">Registrar</button>
-            </form>
+                </Form.Group>
+                <Button variant="outline-danger" type="submit" className="w-100">
+                    Registrar
+                </Button>
+            </Form>
         </div>
     );
 };

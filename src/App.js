@@ -16,6 +16,7 @@ import OrdenesTrabajo from './components/OrdenesTrabajo';
 import VistaBicis from './components/VistaBicis';
 import ReservarCita from './components/ReservarCita';
 
+
 function Home() {
   const settings = {
     dots: true,
@@ -90,17 +91,20 @@ function App() {
   };
 
   const handleLogout = () => {
+    const confirmed = window.confirm("Esta seguro de que quieres cerrar sesion?");
+  if (confirmed) {
     setIsLoggedIn(false);
     setCurrentUser(null);
     localStorage.removeItem('loggedInUser');
     navigate('/');
+  }
   };
 
   return (
     <div className="App">
       <header className="App-header">
         <Link to="/" className="company-name-link">
-          <h1 className="company-name">YOUR BIKE</h1>
+        <img src="/images/YourBike.jpg" alt="Login" className="logo-image" />
         </Link>
         <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
         {(!isLoggedIn || (currentUser && currentUser.rol === 'cliente')) && (
@@ -141,13 +145,16 @@ function App() {
         </nav>
         <div className="App-header-right">
           {isLoggedIn ? (
-            <button onClick={handleLogout} className="logout-button">Logout</button>
+            <button onClick={handleLogout} className="logout-button">
+              <i className="bi bi-box-arrow-right"></i> {/* Bootstrap logout icon */}
+            </button>
           ) : (
             <Link to="/login">
               <img src="/images/login.png" alt="Login" className="login-image" />
             </Link>
           )}
         </div>
+
         <div className="hamburger-menu" onClick={toggleMenu}>
           <div className="bar"></div>
           <div className="bar"></div>

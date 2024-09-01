@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../supabaseClient';
+import '../styles/admin.css';
+import Button from 'react-bootstrap/Button';
 
 const roles = ['admin', 'tecnico', 'cliente'];
 
@@ -49,32 +51,52 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
     };
 
     const handleDeleteUser = async (id) => {
-        
         const confirmation = window.confirm('¿Estás seguro de que deseas eliminar el usuario?');
-        if(confirmation){
-            const { error: clienteError } = await supabase
-            .from('clientes')
-            .delete()
-            .eq('id', id);
-
-        if (clienteError) {
-            console.error('Error borrando usuario de clientes:', clienteError);
-            setSuccessMessage(`Error borrando usuario de clientes: ${clienteError.message}`);
-            setTimeout(() => {
-                setSuccessMessage('');
-            }, 3000);
-        } else {
-            const updatedUsers = users.filter(user => user.id !== id);
-            setUsers(updatedUsers);
-
-            setSuccessMessage(`Usuario eliminado exitosamente.`);
-            setTimeout(() => {
-                setSuccessMessage('');
-            }, 3000);
+        if (confirmation) {
+            try {
+                // Begin a transaction
+                const { error: bicisError } = await supabase
+                    .from('bicicli')
+                    .delete()
+                    .eq('cli_id', id);
+    
+                if (bicisError) {
+                    throw new Error(`Error borrando bicicletas: ${bicisError.message}`);
+                }
+    
+                const { error: citasError } = await supabase
+                    .from('citas')
+                    .delete()
+                    .eq('cliente_id', id);
+    
+                if (citasError) {
+                    throw new Error(`Error borrando citas: ${citasError.message}`);
+                }
+    
+                const { error: clienteError } = await supabase
+                    .from('clientes')
+                    .delete()
+                    .eq('id', id);
+    
+                if (clienteError) {
+                    throw new Error(`Error borrando usuario de clientes: ${clienteError.message}`);
+                }
+    
+                const updatedUsers = users.filter(user => user.id !== id);
+                setUsers(updatedUsers);
+    
+                setSuccessMessage('Usuario y sus datos asociados eliminados exitosamente.');
+                setTimeout(() => {
+                    setSuccessMessage('');
+                }, 3000);
+            } catch (error) {
+                console.error(error.message);
+                setSuccessMessage(`Error: ${error.message}`);
+                setTimeout(() => {
+                    setSuccessMessage('');
+                }, 3000);
+            }
         }
-
-        }
-        
     };
 
     const handleAddUserSubmit = async (e, id) => {
@@ -123,9 +145,12 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
     return (
         <div>
             <h3>Gestión de Usuarios</h3>
-            <button onClick={() => setShowAddUserForm(!showAddUserForm)}>
+            <Button
+                className="btn-dark-red"
+                onClick={() => setShowAddUserForm(!showAddUserForm)}
+            >
                 {showAddUserForm ? 'Cancelar' : 'Agregar Nuevo Usuario'}
-            </button>
+            </Button>
             {showAddUserForm && (
                 <form onSubmit={handleAddUserSubmit}>
                     <div>
@@ -167,7 +192,7 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
                             value={newUser.password}
                             onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
                             required
-                            minLength={6} 
+                            minLength={6}
                         />
                     </div>
                     <div>
@@ -182,7 +207,7 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
                             ))}
                         </select>
                     </div>
-                    <button type="submit">Agregar Usuario</button>
+                    <Button type="submit" className="btn-dark-red">Agregar Usuario</Button>
                 </form>
             )}
             <table className="user-table">
@@ -212,14 +237,21 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
                                 </select>
                             </td>
                             <td>
-                                <button
+                                <Button
+                                   className="btn-dark-red"
                                     onClick={() => handleRoleChangeButtonClick(user.id)}
-                                    disabled={user.rol === 'admin'}
+                                    disabled={user.rol === 'admin' || !roleChanges[user.id] || roleChanges[user.id] === user.rol}
                                 >
                                     Cambiar Rol
-                                </button>
+                                </Button>
                                 <span>&nbsp;&nbsp;</span>
-                                <button disabled={user.rol === 'admin'} onClick={() => handleDeleteUser(user.id)}>Eliminar</button>
+                                <Button
+                                    className="btn-dark-red"
+                                    disabled={user.rol === 'admin'}
+                                    onClick={() => handleDeleteUser(user.id)}
+                                >
+                                    Eliminar
+                                </Button>
                             </td>
                         </tr>
                     ))}
