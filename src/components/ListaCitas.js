@@ -52,6 +52,14 @@ const ListaCitas = ({currentUser}) => {
         fetchAppointments();
     },  [currentUser] );
 
+    // Function to format time into 12-hour format
+    const formatTime = (time) => {
+        const [hour, minute] = time.split(':');
+        let formattedHour = hour % 12 || 12;
+        let period = hour >= 12 ? 'PM' : 'AM';
+        return `${formattedHour}:${minute} ${period}`;
+    };
+
     return (
         <div>
             <h3>Lista de Citas</h3>
@@ -69,7 +77,7 @@ const ListaCitas = ({currentUser}) => {
                         <tr key={appointment.id}>
                             <td>{appointment.clienteNombre}</td>
                             <td>{appointment.fecha}</td>
-                            <td>{appointment.hora}</td>
+                            <td>{formatTime(appointment.hora)}</td>
                             <td>{appointment.reservada ? 'Sí' : 'No'}</td>
                             {/* Se eliminó la columna de acciones */}
                         </tr>
