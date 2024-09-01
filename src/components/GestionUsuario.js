@@ -51,32 +51,52 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
     };
 
     const handleDeleteUser = async (id) => {
-        
         const confirmation = window.confirm('¿Estás seguro de que deseas eliminar el usuario?');
-        if(confirmation){
-            const { error: clienteError } = await supabase
-            .from('clientes')
-            .delete()
-            .eq('id', id);
-
-        if (clienteError) {
-            console.error('Error borrando usuario de clientes:', clienteError);
-            setSuccessMessage(`Error borrando usuario de clientes: ${clienteError.message}`);
-            setTimeout(() => {
-                setSuccessMessage('');
-            }, 3000);
-        } else {
-            const updatedUsers = users.filter(user => user.id !== id);
-            setUsers(updatedUsers);
-
-            setSuccessMessage(`Usuario eliminado exitosamente.`);
-            setTimeout(() => {
-                setSuccessMessage('');
-            }, 3000);
+        if (confirmation) {
+            try {
+                // Begin a transaction
+                const { error: bicisError } = await supabase
+                    .from('bicicli')
+                    .delete()
+                    .eq('cli_id', id);
+    
+                if (bicisError) {
+                    throw new Error(`Error borrando bicicletas: ${bicisError.message}`);
+                }
+    
+                const { error: citasError } = await supabase
+                    .from('citas')
+                    .delete()
+                    .eq('cliente_id', id);
+    
+                if (citasError) {
+                    throw new Error(`Error borrando citas: ${citasError.message}`);
+                }
+    
+                const { error: clienteError } = await supabase
+                    .from('clientes')
+                    .delete()
+                    .eq('id', id);
+    
+                if (clienteError) {
+                    throw new Error(`Error borrando usuario de clientes: ${clienteError.message}`);
+                }
+    
+                const updatedUsers = users.filter(user => user.id !== id);
+                setUsers(updatedUsers);
+    
+                setSuccessMessage('Usuario y sus datos asociados eliminados exitosamente.');
+                setTimeout(() => {
+                    setSuccessMessage('');
+                }, 3000);
+            } catch (error) {
+                console.error(error.message);
+                setSuccessMessage(`Error: ${error.message}`);
+                setTimeout(() => {
+                    setSuccessMessage('');
+                }, 3000);
+            }
         }
-
-        }
-        
     };
 
     const handleAddUserSubmit = async (e, id) => {
