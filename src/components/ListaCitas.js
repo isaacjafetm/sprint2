@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
+import Button from 'react-bootstrap/Button';
 
 const ListaCitas = ({currentUser}) => {
     const [appointments, setLocalAppointments] = useState([]);
@@ -52,6 +53,31 @@ const ListaCitas = ({currentUser}) => {
         fetchAppointments();
     },  [currentUser] );
 
+    const handleCancel = async (appointmentId) => {
+        const confirmation= window.confirm("Desea cancelar tu cita?")
+        if(confirmation){
+            try {
+                const { data, error } = await supabase
+                  .from('citas')
+                  .update({ cliente_id: null, reservada: false })
+                  .eq('id', appointmentId);
+            
+                if (error) {
+                  console.error('Error updating appointment:', error);
+                } else {
+                  // Update the appointments state to reflect the changes
+                  setLocalAppointments(
+                    appointments.map(app =>
+                      app.id === appointmentId ? { ...app, cliente_id: null, reservada: false } : app
+                    )
+                  );
+                }
+              } catch (error) {
+                console.error('Error cancelling appointment:', error);
+              }
+        }
+      };
+
     // Function to format time into 12-hour format
     const formatTime = (time) => {
         const [hour, minute] = time.split(':');
@@ -70,6 +96,7 @@ const ListaCitas = ({currentUser}) => {
                         <th>Fecha</th>
                         <th>Hora</th>
                         <th>Reservada</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -79,6 +106,7 @@ const ListaCitas = ({currentUser}) => {
                             <td>{appointment.fecha}</td>
                             <td>{formatTime(appointment.hora)}</td>
                             <td>{appointment.reservada ? 'Sí' : 'No'}</td>
+                            <td><Button onClick={() => handleCancel(appointment.id)}>Cancelar Cita</Button></td>
                             {/* Se eliminó la columna de acciones */}
                         </tr>
                     ))}
