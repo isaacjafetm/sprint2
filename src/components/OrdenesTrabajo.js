@@ -137,7 +137,8 @@ function OrdenesTrabajo() {
                 <td>{orden.servicios.join(', ')}</td>
                 <td>
                   <div className="acciones" id={'originalAcc'+orden.id}>
-                    <button className='editAction' onClick={() => editOrden(orden.id)}>
+                    <button className='editAction' onClick={() => editOrden(orden.id)}
+                      disabled = {orden.Estado !== 'Recibido'}>
                       <FontAwesomeIcon icon={faPenSquare} />
                     </button>
                     <button className='deleteAction' onClick={() => confirmarEliminar(orden.id)}>
