@@ -14,6 +14,8 @@ const VistaBicis = ({ clienteId }) => {
   const [selectedBici, setSelectedBici] = useState(null);  
   const [showComentarios, setShowComentarios] = useState(false);
   const [comentarios, setComentarios] = useState({});
+  const [busqueda, setBusqueda] = useState('');
+  const [terminoBusqueda, setTerminoBusqueda] = useState('');
 
   useEffect(() => {
     const fetchBicicletas = async () => {
@@ -27,11 +29,21 @@ const VistaBicis = ({ clienteId }) => {
           query = query.eq('entaller', false);
         }
 
+        if(terminoBusqueda){
+          query = query.ilike('cliente.nombre', `%${terminoBusqueda}%`);
+        }
+
         const { data, error } = await query;
         if (error) {
           throw error;
         }
-        setBicicletas(data);
+
+        if (terminoBusqueda) {
+          // Filtra las bicicletas que tienen un dueño y cuyo nombre coincide con el término de búsqueda
+          setBicicletas(data.filter(bici => bici.cliente && bici.cliente.nombre));
+        } else {
+          setBicicletas(data);
+        }
       } catch (error) {
         console.error('Error fetching bicicletas:', error);
       } finally {
@@ -40,15 +52,30 @@ const VistaBicis = ({ clienteId }) => {
     };
 
     fetchBicicletas();
-  }, [filtro]); // Vuelve a cargar datos cuando cambia el filtro
+  }, [filtro, terminoBusqueda]); // Vuelve a cargar datos cuando cambia el filtro
 
   useEffect(() => {
-    // Cargar comentarios desde localStorage cuando el componente se monte
-    const storedComentarios = localStorage.getItem('comentarios');
-    if (storedComentarios) {
-      setComentarios(JSON.parse(storedComentarios));
+    const fetchComentarios = async (biciId) => {
+      try {
+        const { data, error } = await supabase
+          .from('bicicli')
+          .select('comentarios')
+          .eq('id', biciId)
+          .single();
+
+        if (error) {
+          throw error;
+        }
+        setComentarios({ [biciId]: data.comentarios || [] });
+      } catch (error) {
+        console.error('Error fetching comentarios:', error);
+      }
+    };
+
+    if (selectedBici) {
+      fetchComentarios(selectedBici.id);
     }
-  }, []);
+  }, [selectedBici]);
 
   //Funciones para actualizar
   const actualizarBici = (biciActualizada) => {
@@ -106,15 +133,38 @@ const VistaBicis = ({ clienteId }) => {
     setShowComentarios(true);
   };
 
-  const addComentario = (biciId, comentario) => {
-    setComentarios(prevComentarios => {
+  const addComentario = async (biciId, comentario) => {
+    /*setComentarios(prevComentarios => {
       const newComentarios = {
         ...prevComentarios,
         [biciId]: [...(prevComentarios[biciId] || []), comentario]
       };
       localStorage.setItem('comentarios', JSON.stringify(newComentarios)); // Guardar en localStorage
       return newComentarios;
-    });
+    });*/
+    try {
+      const { data, error } = await supabase
+        .from('bicicli')
+        .update({ comentarios: [...(comentarios[biciId] || []), comentario] })
+        .eq('id', biciId)
+        .select('comentarios')
+        .single();
+
+      if(error){
+        throw(error)
+      }
+
+      setComentarios({ [biciId]: data.comentarios || [] });
+    } catch(error){
+      console.log(error)
+    }
+
+  };
+
+  const handleBusquedaKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      setTerminoBusqueda(busqueda); // Solo actualiza el término de búsqueda cuando se presiona Enter
+    }
   };
 
   if (loading) {
@@ -135,6 +185,17 @@ const VistaBicis = ({ clienteId }) => {
           <option value="enTaller">Bicis en taller</option>
           <option value="fueraTaller">Bicis fuera del taller</option>
         </select>
+      </div>
+      <div>
+        <label htmlFor="busqueda" className="busqueda-label">Buscar por nombre del dueño:</label>
+        <input
+          id="busqueda"
+          type="text"
+          value={busqueda}
+          onChange={(e) => setBusqueda(e.target.value)}
+          onKeyPress={handleBusquedaKeyPress}
+          placeholder="Nombre del dueño"
+        />
       </div>
       <div className="table-container">
         <table>
