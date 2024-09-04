@@ -119,7 +119,7 @@ function App() {
               <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
               <Link to="/OrdenProductoAdmin" onClick={() => setMenuOpen(false)}>Orden de Producto</Link>
               <Link to="/OrdenTrabajo" onClick={() => setMenuOpen(false)}>Crear Orden de Trabajo</Link>
-              <Link to="/OrdenesTrabajo" onClick={() => setMenuOpen(false)}>Ordenes de Trabajo</Link>
+              {/*<Link to="/OrdenesTrabajo" onClick={() => setMenuOpen(false)}>Ordenes de Trabajo</Link>*/}
             </>
           )}
           {isLoggedIn && currentUser && currentUser.rol === 'cliente' && (
@@ -134,9 +134,7 @@ function App() {
           {isLoggedIn && currentUser && currentUser.rol === 'tecnico' && (
             <Link to="/VistaBicis" onClick={() => setMenuOpen(false)}>Bicicletas</Link>
           )}
-          {isLoggedIn && currentUser && currentUser.rol === 'admin' && (
-            <Link to="/OrdenTrabajo" onClick={() => setMenuOpen(false)}>Crear Orden de Trabajo</Link>
-           )}
+          
           {isLoggedIn && currentUser && (currentUser.rol === 'admin' || currentUser.rol === 'tecnico')  && (
             <Link to="/OrdenesTrabajo" onClick={() => setMenuOpen(false)}>Ordenes de Trabajo</Link>
            )}
@@ -175,9 +173,9 @@ function App() {
         <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && (currentUser.rol === 'admin' || currentUser.rol === 'tecnico' )? <OrdenesTrabajo /> : <Home />} />
         <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis/> : <Home />} />
         {/* Add other routes as needed */}
-
+        {/*
         <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenesTrabajo /> : <Home />} />
-        <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis /> : <Home />} />
+        <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis /> : <Home />} />*/}
         <Route path="/reservar-cita/:id" element={<ReservarCita currentUser={currentUser}/>} />        
         {/* Agregar otras rutas según sea necesario */}
 

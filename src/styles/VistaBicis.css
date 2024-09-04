@@ -38,6 +38,14 @@
 
 }
 
+.busqueda-label {
+  font-weight: 900; /* Hace el texto extremadamente negrita */
+  padding-right: 10px; /* Ajusta el padding a la derecha */
+  display: inline-block; /* Asegura que el padding se aplique correctamente */
+  font-size: 16px; /* Aumenta el tamaño de la fuente si es necesario */
+  color: #000;
+}
+
 .table-container {
     max-width: 100%;
     overflow-x: auto;

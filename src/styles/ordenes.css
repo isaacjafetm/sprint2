@@ -11,7 +11,7 @@
   
 }
 
-#tituloOrdenes {
+#tituloOrdenes, #tituloMisOrdenes {
   font-size: 36px; /* Tamaño grande para destacar el título */
   font-weight: 700; /* Negrita para mayor impacto */
   color: #000; /* Color negro */
@@ -46,6 +46,11 @@
 
 .backwards {
   color: green;
+}
+
+.terminadoAction {
+  background-color: green;
+  color: white;
 }
 
 .hidden {
