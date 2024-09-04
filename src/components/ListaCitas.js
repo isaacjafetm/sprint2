@@ -96,7 +96,9 @@ const ListaCitas = ({currentUser}) => {
                         <th>Fecha</th>
                         <th>Hora</th>
                         <th>Reservada</th>
+                        {currentUser && currentUser.rol === 'cliente' && (
                         <th></th>
+                        )}
                     </tr>
                 </thead>
                 <tbody>
@@ -106,8 +108,9 @@ const ListaCitas = ({currentUser}) => {
                             <td>{appointment.fecha}</td>
                             <td>{formatTime(appointment.hora)}</td>
                             <td>{appointment.reservada ? 'Sí' : 'No'}</td>
-                            <td><Button onClick={() => handleCancel(appointment.id)}>Cancelar Cita</Button></td>
-                            {/* Se eliminó la columna de acciones */}
+                            {currentUser && currentUser.rol === 'cliente' && (
+                            <td> <Button variant="danger" onClick={() => handleCancel(appointment.id)}>Cancelar cita</Button> </td>  
+                             )}
                         </tr>
                     ))}
                 </tbody>
