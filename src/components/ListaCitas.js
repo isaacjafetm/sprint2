@@ -64,6 +64,7 @@ const ListaCitas = ({currentUser}) => {
             
                 if (error) {
                   console.error('Error updating appointment:', error);
+                  console.log(data);
                 } else {
                   // Update the appointments state to reflect the changes
                   setLocalAppointments(
