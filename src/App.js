@@ -4,6 +4,7 @@ import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import About from './components/About';
+import Productos from './components/Productos';
 import Login from './components/Login';
 import Register from './components/Register';
 import AdminDashboard from './components/AdminDashboard';
@@ -110,10 +111,10 @@ function App() {
         {(!isLoggedIn || (currentUser && currentUser.rol === 'cliente')) && (
             <>
               <Link to="/about" onClick={() => setMenuOpen(false)}>Quienes Somos</Link>
-              <Link to="/stores" onClick={() => setMenuOpen(false)}>Tiendas</Link>
-              <Link to="/equipment" onClick={() => setMenuOpen(false)}>Equipamiento</Link>
+              {/* <Link to="/stores" onClick={() => setMenuOpen(false)}>Tiendas</Link> */}
             </>
           )}
+          <Link to="/productos" onClick={() => setMenuOpen(false)}>Productos</Link>
           {isLoggedIn && currentUser && currentUser.rol === 'admin' && (
             <>
               <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
@@ -162,6 +163,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/productos" element={<Productos />} />
         <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} />} />
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <AdminDashboard currentUser={currentUser} /> : <Home />} />
