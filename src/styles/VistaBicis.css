@@ -28,22 +28,27 @@
   display: inline-block; /* Ajusta el ancho del título al contenido */
 }
 
-
 .filtro-label {
-  font-weight: 900; /* Hace el texto extremadamente negrita */
-  padding-right: 10px; /* Ajusta el padding a la derecha */
-  display: inline-block; /* Asegura que el padding se aplique correctamente */
-  font-size: 16px; /* Aumenta el tamaño de la fuente si es necesario */
-  color: #000; /* Asegura que el texto sea negro (o ajusta según tu esquema de colores) */
-
+  font-weight: 900; 
+  padding-right: 10px; 
+  display: inline-block; 
+  font-size: 16px; 
+  color: #fff; /* Cambia el color del texto a blanco */
+  background-color: #000; /* Fondo negro para contraste */
+  padding: 5px; /* Añade un poco de relleno para que el fondo sea más visible */
+  border-radius: 4px; /* Esquinas redondeadas para un look más suave */
 }
+
 
 .busqueda-label {
   font-weight: 900; /* Hace el texto extremadamente negrita */
   padding-right: 10px; /* Ajusta el padding a la derecha */
   display: inline-block; /* Asegura que el padding se aplique correctamente */
   font-size: 16px; /* Aumenta el tamaño de la fuente si es necesario */
-  color: #000;
+  color: #f8f2f2;
+  background-color: #000; /* Fondo negro para contraste */
+  border-radius: 4px; /* Esquinas redondeadas para un look más suave */
+  padding: 3px; /* Añade un poco de relleno para que el fondo sea más visible */
 }
 
 .table-container {
@@ -86,4 +91,24 @@
   tbody tr:last-of-type {
     border-bottom: 2px solid #980075;
   }
-  
+
+  .filtro-busqueda-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Center the entire container horizontally */
+    gap: 10px; /* Adds space between the filter and search sections */
+    width: 100%;
+    max-width: 300px; /* Controls the width of the container */
+    margin: 0 auto; /* Centers the container on the page */
+  }
+
+
+  #filtro,
+  #busqueda {
+    width: 100%; /* Makes the input and select elements take up the full width of the container */
+    padding: 8px;
+    box-sizing: border-box; /* Ensures padding doesn’t affect the width */
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    max-width: 100%; /* Prevents the input and select from being wider than the container */
+  }

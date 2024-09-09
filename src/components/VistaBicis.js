@@ -174,7 +174,8 @@ const VistaBicis = ({ clienteId }) => {
   return (
     <div>
     <h1 id='tituloBicis'>Bicicletas</h1>     
-     <div>
+    <div>
+      <div className="filter-container">
         <label htmlFor="filtro" className="filtro-label">Filtrar por:</label>
         <select
           id="filtro"
@@ -185,17 +186,18 @@ const VistaBicis = ({ clienteId }) => {
           <option value="enTaller">Bicis en taller</option>
           <option value="fueraTaller">Bicis fuera del taller</option>
         </select>
-      </div>
-      <div>
-        <label htmlFor="busqueda" className="busqueda-label">Buscar por nombre del dueño:</label>
-        <input
-          id="busqueda"
-          type="text"
-          value={busqueda}
-          onChange={(e) => setBusqueda(e.target.value)}
-          onKeyPress={handleBusquedaKeyPress}
-          placeholder="Nombre del dueño"
-        />
+        </div>
+        <div className="search-container">
+          <label htmlFor="busqueda" className="busqueda-label">Buscar por nombre del dueño:</label>
+          <input
+            id="busqueda"
+            type="text"
+            value={busqueda}
+            onChange={(e) => setBusqueda(e.target.value)}
+            onKeyPress={handleBusquedaKeyPress}
+            placeholder="Nombre del dueño"
+          />
+        </div>
       </div>
       <div className="table-container">
         <table>
@@ -206,20 +208,6 @@ const VistaBicis = ({ clienteId }) => {
               <th>Marco</th>
               <th>Amortiguador</th>
               <th>Horquilla</th>
-              <th>Cambiador</th>
-              <th>Maneta</th>
-              <th>Brackett</th>
-              <th>Casette</th>
-              <th>Cadena</th>
-              <th>Crank</th>
-              <th>Frenos</th>
-              <th>Ruedas</th>
-              <th>Llantas</th>
-              <th>Ejes</th>
-              <th>Stem</th>
-              <th>Manillar</th>
-              <th>Asiento</th>
-              <th>Dropper</th>
               <th>Acciones</th>
             </tr>
           </thead>
@@ -231,32 +219,18 @@ const VistaBicis = ({ clienteId }) => {
                 <td>{bicicleta.marco}</td>
                 <td>{bicicleta.amortiguador}</td>
                 <td>{bicicleta.horquilla}</td>
-                <td>{bicicleta.cambiador}</td>
-                <td>{bicicleta.maneta}</td>
-                <td>{bicicleta.brackett}</td>
-                <td>{bicicleta.casette}</td>
-                <td>{bicicleta.cadena}</td>
-                <td>{bicicleta.crank}</td>
-                <td>{bicicleta.frenos}</td>
-                <td>{bicicleta.ruedas}</td>
-                <td>{bicicleta.llantas}</td>
-                <td>{bicicleta.ejes}</td>
-                <td>{bicicleta.stem}</td>
-                <td>{bicicleta.timon}</td>
-                <td>{bicicleta.asiento}</td>
-                <td>{bicicleta.dropper}</td>
                 <td>
                   <div className="acciones" id={'originalAcc'+bicicleta.id}>
-                    <button className='editAction' onClick={() => {
+                    <button className='editAction'  title="Editar/Ver más" onClick={() => {
                       setShowComentarios(false); // Asegura que no se muestre el popup de comentarios
                       setSelectedBici(bicicleta)
                       }}>
                       <FontAwesomeIcon icon={faPenSquare} />
                     </button>
-                    <button className='deleteAction' onClick={() => confirmarEliminar(bicicleta.id)}>
+                    <button className='deleteAction' title="Borrar" onClick={() => confirmarEliminar(bicicleta.id)}>
                       <FontAwesomeIcon icon={faTrashCan} />
                     </button>
-                    <button className='commentAction' onClick={() => handleShowComentarios(bicicleta)}>
+                    <button className='commentAction' title="Comentarios" onClick={() => handleShowComentarios(bicicleta)}>
                       <FontAwesomeIcon icon={faComments} />
                     </button>
                   </div>
