@@ -1,0 +1,26 @@
+.gridProd-container {
+  background-color: white;
+  margin: 0.5em 1em;
+  border-radius: 0.9em;
+}
+
+.actualGridProd {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.actualProd {
+  width: 24%;
+  border: black solid 3px;
+  padding: 0.3em 0.5em;
+  margin: 0.35em 0.25em;
+  border-radius: 1em;
+}
+
+.actualProd img {
+  width: 100%;
+  border-radius: 0.85em;
+  margin-bottom: 0.5em;
+}
