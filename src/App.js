@@ -111,10 +111,10 @@ function App() {
         {(!isLoggedIn || (currentUser && currentUser.rol === 'cliente')) && (
             <>
               <Link to="/about" onClick={() => setMenuOpen(false)}>Quienes Somos</Link>
-              <Link to="/stores" onClick={() => setMenuOpen(false)}>Tiendas</Link>
-              <Link to="/productos" onClick={() => setMenuOpen(false)}>Productos</Link>
+              {/* <Link to="/stores" onClick={() => setMenuOpen(false)}>Tiendas</Link> */}
             </>
           )}
+          <Link to="/productos" onClick={() => setMenuOpen(false)}>Productos</Link>
           {isLoggedIn && currentUser && currentUser.rol === 'admin' && (
             <>
               <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
