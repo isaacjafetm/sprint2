@@ -88,17 +88,6 @@ function MisBicis({ clienteId }) { // Recibir clienteId como prop
     setSelectedBici(null);
   };
 
-  const addComentario = (biciId, comentario) => {
-    setComentarios(prevComentarios => {
-      const newComentarios = {
-        ...prevComentarios,
-        [biciId]: [...(prevComentarios[biciId] || []), comentario]
-      };
-      localStorage.setItem('comentarios', JSON.stringify(newComentarios)); // Guardar en localStorage
-      return newComentarios;
-    });
-  };
-
   return (
     <div className="mainBicis">
       <h2>Tus Bicicletas</h2>
@@ -138,15 +127,6 @@ function MisBicis({ clienteId }) { // Recibir clienteId como prop
               <li>No hay comentarios para esta bicicleta.</li>
             )}
           </ul>
-          <textarea
-            placeholder="Agregar un comentario"
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && e.target.value.trim()) {
-                addComentario(selectedBici.id, e.target.value.trim());
-                e.target.value = '';
-              }
-            }}
-          />
         </div>
       )}
     </div>
