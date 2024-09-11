@@ -134,14 +134,6 @@ const VistaBicis = ({ clienteId }) => {
   };
 
   const addComentario = async (biciId, comentario) => {
-    /*setComentarios(prevComentarios => {
-      const newComentarios = {
-        ...prevComentarios,
-        [biciId]: [...(prevComentarios[biciId] || []), comentario]
-      };
-      localStorage.setItem('comentarios', JSON.stringify(newComentarios)); // Guardar en localStorage
-      return newComentarios;
-    });*/
     try {
       const { data, error } = await supabase
         .from('bicicli')

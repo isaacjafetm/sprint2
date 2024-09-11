@@ -21,17 +21,35 @@ function MisBicis({ clienteId }) { // Recibir clienteId como prop
       .from('bicicli')
       .select('*')
       .eq('cli_id', clienteId);
-      // Cargar comentarios desde localStorage
-      const storedComentarios = localStorage.getItem('comentarios');
-      if (storedComentarios) {
-        setComentarios(JSON.parse(storedComentarios));
-      }
     if (error) {
       console.error('Error fetching bicicletas:', error);
     } else {
       setBicicletas(data);
     }
   };
+
+  useEffect(() => {
+    const fetchComentarios = async (biciId) => {
+      try {
+        const { data, error } = await supabase
+          .from('bicicli')
+          .select('comentarios')
+          .eq('id', biciId)
+          .single();
+
+        if (error) {
+          throw error;
+        }
+        setComentarios({ [biciId]: data.comentarios || [] });
+      } catch (error) {
+        console.error('Error fetching comentarios:', error);
+      }
+    };
+
+    if (selectedBici) {
+      fetchComentarios(selectedBici.id);
+    }
+  }, [selectedBici]);
 
   const eliminarBici = async (id) => {
     const confirmation = window.confirm('¿Estás seguro de que deseas eliminar esta bicicleta?');
