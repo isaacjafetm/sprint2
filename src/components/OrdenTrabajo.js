@@ -61,43 +61,58 @@ function OrdenTrabajo() {
     const [setOrdenes] = useState([]);
     const handleSubmit = async (e) => {
         e.preventDefault();
-     // Obtener la fecha actual en formato YYYY-MM-DD
-    const fechaActual = new Date().toISOString().split('T')[0];
-    // Obtener la hora actual en formato HH:mm:ss
-    const horaActual = new Date().toLocaleTimeString('en-US', { hour12: false });
-        const { error } = await supabase
-            .from('ordentrabajo')
-            .insert([
-                {
-                    cliente: formData.cliente,
-                    autorizado: currentUser.nombre,
-                    telefono: formData.telefono,
-                    valor: formData.valor,
-                    marca: formData.marca,
-                    servicios: formData.servicios,
-                    comentarios: formData.comentarios,
-                    fecha: fechaActual,
-                    hora: horaActual,
-                    recibidaPor: currentUser.nombre
-                }
+        const fechaActual = new Date().toISOString().split('T')[0];
+        const horaActual = new Date().toLocaleTimeString('en-US', { hour12: false });
 
-            ])
-            .select();
-        
-        if (error) {
-            console.error('Error inserting data:', error);
-        } else {
-            
-            setOrdenes(prevOrdenes => [...prevOrdenes, formData]);
-            alert('Orden de trabajo creada con éxito'); // Mostrar mensaje de éxito
-            setFormData({
-                cliente: '',
-                telefono: '',
-                valor: '',
-                marca: '',
-                servicios: [],
-                comentarios: '',
-            });
+        try {
+            // Buscar el cli_id del cliente basado en el nombre ingresado
+            const { data: clienteData, error: clienteError } = await supabase
+                .from('clientes')
+                .select('id')
+                .eq('nombre', formData.cliente)
+                .single();
+
+            if (clienteError || !clienteData) {
+                throw new Error('Cliente no encontrado');
+            }
+
+            const cli_id = clienteData.id;
+
+            // Insertar la orden de trabajo con el cli_id del cliente
+            const { error } = await supabase
+                .from('ordentrabajo')
+                .insert([
+                    {
+                        cli_id:cli_id, // Usar cli_id en lugar del nombre del cliente
+                        autorizado: currentUser.nombre,
+                        telefono: formData.telefono,
+                        valor: formData.valor,
+                        marca: formData.marca,
+                        servicios: formData.servicios,
+                        comentarios: formData.comentarios,
+                        fecha: fechaActual,
+                        hora: horaActual,
+                        recibidaPor: currentUser.nombre,
+                    },
+                ])
+                .select();
+
+            if (error) {
+                console.error('Error inserting data:', error);
+            } else {
+                setOrdenes((prevOrdenes) => [...prevOrdenes, formData]);
+                alert('Orden de trabajo creada con éxito');
+                setFormData({
+                    cliente: '',
+                    telefono: '',
+                    valor: '',
+                    marca: '',
+                    servicios: [],
+                    comentarios: '',
+                });
+            }
+        } catch (error) {
+            console.error('Error en la creación de la orden de trabajo:', error);
         }
     };
     

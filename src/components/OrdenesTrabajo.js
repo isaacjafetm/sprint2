@@ -13,7 +13,7 @@ function OrdenesTrabajo() {
     const fetchOrders = async () => {
       const { data, error } = await supabase
         .from('ordentrabajo')
-        .select('*');
+        .select('*, cliente:cli_id (nombre)');
 
         if (error) {
           console.error('Error fetching data:', error);
@@ -130,7 +130,7 @@ function OrdenesTrabajo() {
             {ordenes.map((orden) => (
               <tr key={orden.id}>
                 <td>{orden.id}</td>
-                <td>{orden.cliente}</td>
+                <td>{orden.cliente ? orden.cliente.nombre : 'Sin dueño'}</td>
                 <td>{orden.telefono}</td>
                 <td>{orden.fecha}</td>
                 <td>{orden.Estado}</td>
@@ -178,7 +178,7 @@ function OrdenesTrabajo() {
             {userOrders.map((orden) => (
               <tr key={orden.id}>
                 <td>{orden.id}</td>
-                <td>{orden.cliente}</td>
+                <td>{orden.cliente ? orden.cliente.nombre : 'Sin dueño'}</td>
                 <td>{orden.telefono}</td>
                 <td>{orden.fecha}</td>
                 <td>{orden.Estado}</td>
