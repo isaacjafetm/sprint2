@@ -1,13 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/ordenes.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPenSquare, faTrashCan, faBackward, faTrash, faCheck  } from '@fortawesome/free-solid-svg-icons';
+import { faPenSquare, faTrashCan, faBackward, faTrash, faCheck, faComment } from '@fortawesome/free-solid-svg-icons';
 import {supabase}  from '../supabaseClient';
 
 function OrdenesTrabajo() {
   const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
   const [ordenes, setOrdenes] = useState([]);
   const [userOrders, setUserOrders] = useState([]);
+  const [selectedOrden, setSelectedOrden] = useState(null);
+  const [showComentarios, setShowComentarios] = useState(false);
+  const [observaciones, setObservaciones] = useState({});
 
   useEffect(() => {
     const fetchOrders = async () => {
@@ -25,6 +28,52 @@ function OrdenesTrabajo() {
     };
       fetchOrders();
     }, [currentUser]);
+
+    //Lo hice como los comentarios de VistaBicis que hizo Gabriel -Jafet
+    useEffect(() => {
+      const fetchObservaciones = async (id) => {
+        try {
+          const { data, error } = await supabase
+            .from('ordentrabajo')
+            .select('observaciones')
+            .eq('id', id)
+            .single();
+  
+          if (error) {
+            throw error;
+          }
+          setObservaciones({ [id]: data.observaciones || [] });
+        } catch (error) {
+          console.error('Error fetching comentarios:', error);
+        }
+      };
+  
+      if (selectedOrden) {
+        fetchObservaciones(selectedOrden.id);
+      }
+    }, [selectedOrden]);
+
+
+    const notifyClient = async (cliId, ordenId, mensaje) => {
+      try {
+        const { error } = await supabase
+          .from('notificaciones')
+          .insert([
+            {
+              cli_id: cliId,
+              orden_id: ordenId,
+              mensaje: mensaje,
+            }
+          ]);
+    
+        if (error) throw error;
+    
+        console.log('Notificación creada con éxito');
+      } catch (error) {
+        console.error('Error creando notificación:', error);
+      }
+    };
+    
 
   const confirmarEliminar = (id) => {
     // e.preventDefault();
@@ -82,6 +131,12 @@ function OrdenesTrabajo() {
           orden.id === id ? { ...orden, Estado: 'En proceso' } : orden
         );
         setOrdenes(updatedOrdenes);
+
+        const orden = updatedOrdenes.find(o => o.id === id);
+        if (orden) {
+          const mensaje = `Su bicicleta está en proceso.`;
+          notifyClient(orden.cli_id, id, mensaje);
+        }
       }
     }
   }
@@ -106,9 +161,45 @@ function OrdenesTrabajo() {
         );
         setOrdenes(updatedOrdenes);
         setUserOrders(updatedUserOrdenes)
+
+        const orden = updatedOrdenes.find(o => o.id === id);
+        if (orden) {
+          const mensaje = `Su bicicleta ya está lista para entregar.`;
+          notifyClient(orden.cli_id, id, mensaje);
+        }
+
       }
     }
   }
+
+  const handleShowComentarios = (orden) => {
+    setSelectedOrden(orden);
+    setShowComentarios(true);
+};
+
+const addComentario = async (ordenId, comentario) => {
+  if (!comentario.trim()) return;
+
+  try {
+    const { data, error } = await supabase
+      .from('ordentrabajo')
+      .update({ observaciones: [...(observaciones[ordenId] || []), comentario] })
+      .eq('id', ordenId)
+      .select('observaciones')
+      .single();
+
+    if (error) {
+      throw error;
+    }
+
+    setObservaciones((prev) => ({
+      ...prev,
+      [ordenId]: data.observaciones || [],
+    }));
+  } catch (error) {
+    console.error(error);
+  }
+};
 
   return (
     <div className="ordenesContainer">
@@ -143,6 +234,9 @@ function OrdenesTrabajo() {
                     </button>
                     <button className='deleteAction' onClick={() => confirmarEliminar(orden.id)}>
                       <FontAwesomeIcon icon={faTrashCan} />
+                    </button>
+                    <button className='commentAction' title="Comentarios" onClick={() => handleShowComentarios(orden)}>
+                      <FontAwesomeIcon icon={faComment} />
                     </button>
                   </div>
                   <div className="hidden" id={'confElim'+orden.id}>
@@ -196,6 +290,34 @@ function OrdenesTrabajo() {
           </tbody>
         </table>
       </div>
+      {/*Otra vez, lo hice como lo hizo Gabriel en VistaBicis*/}
+      {selectedOrden && showComentarios && (
+        <div className="comentariosPopup">
+          <h3>Observaciones para Orden #{selectedOrden.id}</h3>
+          <button onClick={() => setShowComentarios(false)}>Cerrar</button>
+          <ul>
+            {(observaciones[selectedOrden.id] || []).length > 0 ? (
+              observaciones[selectedOrden.id].map((comentario, index) => (
+                <li key={index}>{comentario}</li>
+              ))
+            ) : (
+              <li>No hay comentarios para esta orden.</li>
+            )}
+          </ul>
+          {selectedOrden.asignado === currentUser.id && (
+            <textarea
+              placeholder="Agregar un comentario"
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' && e.target.value.trim()) {
+                  addComentario(selectedOrden.id, e.target.value.trim());
+                  e.target.value = '';
+                }
+              }}
+            />
+          )}
+        </div>
+      )}
+
     </div>
   );
 }
