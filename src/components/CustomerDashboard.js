@@ -1,30 +1,21 @@
-// src/components/CustomerDashboard.js
 import React, { useState, useEffect } from 'react';
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import CrearBicis from './CrearBici';
 import MisBicis from './MisBicis';
-import CustomerCalendar from './CustomerCalendar'; // Importa el componente del calendario
-import '../styles/admin.css';
-import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
+import CustomerCalendar from './CustomerCalendar';
 import ListaCitas from './ListaCitas';
-
+import ChatComponent from './ChatComponent';
+import Forum from './Forum'; // Importa el componente del foro
 
 const CustomerDashboard = () => {
     const currentUser = JSON.parse(localStorage.getItem('loggedInUser'));
     const [appointments, setAppointments] = useState([]);
 
     useEffect(() => {
-        const fetchAppointments = async () => {
-            const { data, error } = await supabase
-                .from('citas')
-                .select('*');
-
-            if (error) {
-                console.error('Error fetching appointments:', error);
-            } else {
-                setAppointments(data);
-            }
+        const fetchAppointments = () => {
+            const storedAppointments = JSON.parse(localStorage.getItem('appointments')) || [];
+            setAppointments(storedAppointments);
         };
 
         fetchAppointments();
@@ -35,11 +26,16 @@ const CustomerDashboard = () => {
             <h2>Panel de Cliente</h2>
             <Tabs>
                 <TabList>
+                    <Tab>Foro</Tab> 
                     <Tab>Mis Bicis</Tab>
                     <Tab>Crear Bici</Tab>
                     <Tab>Mis citas</Tab>
                     <Tab>Reservar cita</Tab>
+                    <Tab>Chat</Tab>
                 </TabList>
+                <TabPanel>
+                    <Forum /> {/* Foro para los clientes */}
+                </TabPanel>
                 <TabPanel>
                     <MisBicis clienteId={currentUser.id} />
                 </TabPanel>
@@ -52,6 +48,9 @@ const CustomerDashboard = () => {
                 <TabPanel>
                     <CustomerCalendar appointments={appointments} />
                 </TabPanel>
+                <TabPanel>
+                    <ChatComponent currentUser={currentUser} />
+                </TabPanel>    
             </Tabs>
         </div>
     );

@@ -14,7 +14,6 @@ import TechnicianDashboard from './components/TechnicianDashboard';
 import OrdenTrabajo from './components/OrdenTrabajo';
 import OrdenesTrabajo from './components/OrdenesTrabajo';
 import VistaBicis from './components/VistaBicis';
-import ReservarCita from './components/ReservarCita';
 
 
 
@@ -173,7 +172,6 @@ function App() {
         <Route path="/OrdenTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenTrabajo /> : <Home />} />
         <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenesTrabajo /> : <Home />} />
         <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis/> : <Home />} />
-        <Route path="/reservar-cita" element={<ReservarCita appointments={appointments} setAppointments={setAppointments} />} />  
         {/* Add other routes as needed */}
       </Routes>
     </div>

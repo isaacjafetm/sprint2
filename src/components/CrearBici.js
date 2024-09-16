@@ -3,7 +3,7 @@ import React from 'react';
 import '../styles/crearBici.css'; // Ajusta la ruta según la estructura de tu proyecto
 import { supabase } from '../supabaseClient'; // Ajusta la importación según tu estructura
 
-function CrearBicis({ clienteId }) {
+function CrearBicis() {
   const submitCrearBici = async (e) => {
     e.preventDefault();
 
@@ -30,12 +30,7 @@ function CrearBicis({ clienteId }) {
       timon: formData.get('timonBici'),
       asiento: formData.get('asientoBici'),
       dropper: formData.get('dropperAsientoBici'),
-      cli_id: clienteId,
-      entaller: false
-  
-    }
-
-    console.log('Form data:', newBici);
+    };
 
     // Insert data into Supabase
     const { data, error } = await supabase

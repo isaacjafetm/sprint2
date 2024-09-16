@@ -1,0 +1,35 @@
+.chat-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 20px auto;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 10px;
+  }
+  
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 10px;
+  }
+  
+  .message {
+    margin-bottom: 5px;
+  }
+  
+  .message.own {
+    text-align: right;
+  }
+  
+  input {
+    width: calc(100% - 80px);
+    padding: 5px;
+    margin-right: 10px;
+  }
+  
+  button {
+    width: 60px;
+  }
+  

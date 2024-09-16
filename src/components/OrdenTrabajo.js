@@ -14,36 +14,35 @@ function OrdenTrabajo() {
 
     const [formData, setFormData] = useState({
         cliente: '',
+        //personaAutorizada:  currentUser ? currentUser.nombre : '',
         telefono: '',
+        /*hora: '',
+        fecha: '',*/
         valor: '',
         marca: '',
         servicios: [],
         comentarios: '',
+        propietario: '',
         fechaRecibida: '',
         horaRecibida: '',
         recibidaPor: ''
     });
 
+    
+
+    /*useEffect(() => {
+        if (currentUser) {
+            setFormData((prevFormData) => ({
+                ...prevFormData,
+                personaAutorizada: currentUser.nombre
+            }));
+        }
+    }, [currentUser]);*/
+
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
-        
-        if (name === 'telefono') {
-            // Regular expression to validate phone number: starts with 3, 9, or 8 and contains only numbers
-            const validPattern = /^[398]\d*$/;
-            
-            // If the value matches the pattern or is empty (allow clearing the input), update the state
-            if (value === '' || validPattern.test(value)) {
-                setFormData({ ...formData, [name]: value });
-            }
-        }else if (name === 'valor') {
-            const validPattern = /^[0-9]*$/;
-            
-            if (validPattern.test(value)) {
-                setFormData({ ...formData, [name]: value });
-            }
-            
-        } else if (type === 'checkbox') {
+        if (type === 'checkbox') {
             setFormData((prevData) => {
                 if (checked) {
                     return { ...prevData, servicios: [...prevData.servicios, value] };
@@ -56,13 +55,11 @@ function OrdenTrabajo() {
         }
     };
 
-    const [setOrdenes] = useState([]);
+    // eslint-disable-next-line
+    const [ordenes, setOrdenes] = useState([]);
+
     const handleSubmit = async (e) => {
         e.preventDefault();
-     // Obtener la fecha actual en formato YYYY-MM-DD
-    const fechaActual = new Date().toISOString().split('T')[0];
-    // Obtener la hora actual en formato HH:mm:ss
-    const horaActual = new Date().toLocaleTimeString('en-US', { hour12: false });
         const { error } = await supabase
             .from('ordentrabajo')
             .insert([
@@ -70,13 +67,16 @@ function OrdenTrabajo() {
                     cliente: formData.cliente,
                     autorizado: currentUser.nombre,
                     telefono: formData.telefono,
+                    //hora: formData.hora,
+                    //fecha: formData.fecha,
                     valor: formData.valor,
                     marca: formData.marca,
                     servicios: formData.servicios,
                     comentarios: formData.comentarios,
-                    fecha: fechaActual,
-                    hora: horaActual,
-                    recibidaPor: currentUser.nombre
+                    propietario: formData.propietario,
+                    fechaRec: formData.fechaRecibida,
+                    horaRec: formData.horaRecibida,
+                    recibidaPor: formData.recibidaPor
                 }
 
             ])
@@ -87,14 +87,19 @@ function OrdenTrabajo() {
         } else {
             
             setOrdenes(prevOrdenes => [...prevOrdenes, formData]);
-            alert('Orden de trabajo creada con éxito'); // Mostrar mensaje de éxito
             setFormData({
                 cliente: '',
                 telefono: '',
+               /* hora: '',
+                fecha: '',*/
                 valor: '',
                 marca: '',
                 servicios: [],
                 comentarios: '',
+                propietario: '',
+                fechaRecibida: '',
+                horaRecibida: '',
+                recibidaPor: ''
             });
         }
     };
@@ -113,7 +118,7 @@ function OrdenTrabajo() {
 
                     <div className="unDatoForm">
                         <label htmlFor="telefono">Teléfono:</label>
-                        <input type="tel" id="telefono" name="telefono" value={formData.telefono} onChange={handleChange} pattern="\d{8}" maxLength="8" required />
+                        <input type="tel" id="telefono" name="telefono" value={formData.telefono} onChange={handleChange} required />
                     </div>
 
                 </div>
@@ -125,7 +130,7 @@ function OrdenTrabajo() {
                     
                     <div className="unDatoForm">
                         <label htmlFor="valor">Valor a Cancelar:</label>
-                        <input type="text" id="valor" name="valor" value={formData.valor} onChange={handleChange}  min={0} required step={1} />
+                        <input type="number" id="valor" name="valor" value={formData.valor} onChange={handleChange} required />
                     </div>
                 </div>
 
@@ -182,6 +187,29 @@ function OrdenTrabajo() {
                     </div>
                 </div> 
 
+                <div className="firstFormGroup">
+                    <div className="unDatoForm">
+                        <label htmlFor="propietario">Propietario de la Bicicleta:</label>
+                        <input type="text" id="propietario" name="propietario" value={formData.propietario} onChange={handleChange} required />
+                    </div>
+
+                    <div className="unDatoForm">
+                        <label htmlFor="fechaRecibida">Fecha Recibida:</label>
+                        <input type="date" id="fechaRecibida" name="fechaRecibida" value={formData.fechaRecibida} onChange={handleChange} required />
+                    </div>
+
+                </div>
+                <div className="firstFormGroup">
+                    <div className="unDatoForm">
+                        <label htmlFor="horaRecibida">Hora Recibida:</label>
+                        <input type="time" id="horaRecibida" name="horaRecibida" value={formData.horaRecibida} onChange={handleChange} required />
+                    </div>
+
+                    <div className="unDatoForm">
+                        <label htmlFor="recibidaPor">Recibida Por:</label>
+                        <input type="text" id="recibidaPor" name="recibidaPor" value={formData.recibidaPor} onChange={handleChange} required />
+                    </div>
+                </div>
 
                 <label htmlFor="comentarios">Comentarios:</label>
                 <textarea id="comentarios" name="comentarios" value={formData.comentarios} onChange={handleChange}></textarea>
