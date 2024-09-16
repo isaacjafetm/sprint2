@@ -7,12 +7,35 @@ import {Form} from 'react-bootstrap';
 
 function OrdenTrabajo() {
     const [currentUser, setCurrentUser] = useState(null);
+    const [clientes, setClientes] = useState([]);
+    const [filteredClientes, setFilteredClientes] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');  // Estado para el mensaje de error
+
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('loggedInUser'));
         if (storedUser) {
             setCurrentUser(storedUser);
         }
+
+       // Obtener todos los nombres de clientes al cargar el componente
+        const fetchClientes = async () => {
+            const { data, error } = await supabase
+                .from('clientes')
+                .select('nombre')
+                .eq('rol', 'cliente');  // Filtrar por rol 'cliente'
+
+            
+            if (error) {
+                console.error('Error fetching clients:', error);
+            } else {
+                setClientes(data);
+            }
+        };
+
+        fetchClientes();
     }, []);
+
+    
 
     const [formData, setFormData] = useState({
         cliente: '',
@@ -53,6 +76,14 @@ function OrdenTrabajo() {
                     return { ...prevData, servicios: prevData.servicios.filter((servicio) => servicio !== value) };
                 }
             });
+        } else if (name === 'cliente') {
+            setFormData({ ...formData, [name]: value });
+
+            // Filtrar la lista de clientes para que coincida con lo que el usuario escribe
+            const filtered = clientes.filter(cliente =>
+                cliente.nombre.toLowerCase().includes(value.toLowerCase())
+            );
+            setFilteredClientes(filtered);
         } else {
             setFormData({ ...formData, [name]: value });
         }
@@ -63,6 +94,14 @@ function OrdenTrabajo() {
         e.preventDefault();
         const fechaActual = new Date().toISOString().split('T')[0];
         const horaActual = new Date().toLocaleTimeString('en-US', { hour12: false });
+
+         // Validar que el nombre del cliente esté en la lista de clientes
+         const clienteValido = clientes.some(cliente => cliente.nombre === formData.cliente);
+        
+         if (!clienteValido) {
+             setErrorMessage('El nombre del cliente no es válido. Selecciona un nombre de la lista.');
+             return; // Prevenir que se continúe con el submit si el nombre es inválido
+         }
 
         try {
             // Buscar el cli_id del cliente basado en el nombre ingresado
@@ -122,17 +161,25 @@ function OrdenTrabajo() {
         <div id="form-container">
             <form id="order-form" onSubmit={handleSubmit}>
            <h2>Crear Orden de Trabajo</h2>
+           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Mostrar mensaje de error */}
+
                 <div className="firstFormGroup">
                     <Form.Group className="unDatoForm">
                     <Form.Label htmlFor="cliente">Nombre del Cliente:</Form.Label>
                     <Form.Control
-                        type="text"
-                        id="cliente"
-                        name="cliente"
-                        value={formData.cliente}
-                        onChange={handleChange}
-                        required
-                    />
+                            type="text"
+                            id="cliente"
+                            name="cliente"
+                            value={formData.cliente}
+                            onChange={handleChange}
+                            required
+                            list="cliente-options" // Asociar el campo con la lista de opciones
+                        />
+                        <datalist id="cliente-options">
+                            {filteredClientes.map((cliente, index) => (
+                                <option key={index} value={cliente.nombre} />
+                            ))}
+                        </datalist>
                     </Form.Group>
 
                     <Form.Group className="unDatoForm">
