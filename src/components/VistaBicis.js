@@ -7,7 +7,7 @@ import EditarBiciPopup from './EditarBiciPopup';
 
 
 
-const VistaBicis = ({ clienteId }) => {
+const VistaBicis = ({currentUser}) => {
   const [bicicletas, setBicicletas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtro, setFiltro] = useState('todas'); // Estado para el filtro seleccionado
@@ -134,14 +134,6 @@ const VistaBicis = ({ clienteId }) => {
   };
 
   const addComentario = async (biciId, comentario) => {
-    /*setComentarios(prevComentarios => {
-      const newComentarios = {
-        ...prevComentarios,
-        [biciId]: [...(prevComentarios[biciId] || []), comentario]
-      };
-      localStorage.setItem('comentarios', JSON.stringify(newComentarios)); // Guardar en localStorage
-      return newComentarios;
-    });*/
     try {
       const { data, error } = await supabase
         .from('bicicli')
@@ -253,6 +245,7 @@ const VistaBicis = ({ clienteId }) => {
           bici={selectedBici}
           closePopup={closePopup}
           actualizarBici={actualizarBici}
+          currentUser={currentUser}
         />
       )}
 

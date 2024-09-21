@@ -12,13 +12,13 @@ import Register from './components/Register';
 import AdminDashboard from './components/AdminDashboard';
 import CustomerDashboard from './components/CustomerDashboard';
 import './styles/App.css';
-import OrderProduct from './components/orderproduct';
-import TechnicianDashboard from './components/TechnicianDashboard';
 import OrdenTrabajo from './components/OrdenTrabajo';
 import OrdenesTrabajo from './components/OrdenesTrabajo';
 import VistaBicis from './components/VistaBicis';
 import ReservarCita from './components/ReservarCita';
 import {supabase}  from './supabaseClient';
+import Footer from './components/Footer';
+
 
 function Home() {
   const settings = {
@@ -152,7 +152,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Link to="/" className="company-name-link">
+        <Link to="/" title="HomePage" className="company-name-link">
         <img src="/images/YourBike.jpg" alt="Login" className="logo-image" />
         </Link>
         <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
@@ -166,8 +166,7 @@ function App() {
           {isLoggedIn && currentUser && currentUser.rol === 'admin' && (
             <>
               <Link to="/admin" onClick={() => setMenuOpen(false)}>Admin</Link>
-              <Link to="/OrdenProductoAdmin" onClick={() => setMenuOpen(false)}>Orden de Producto</Link>
-              <Link to="/OrdenTrabajo" onClick={() => setMenuOpen(false)}>Crear Orden de Trabajo</Link>
+               <Link to="/OrdenTrabajo" onClick={() => setMenuOpen(false)}>Crear Orden de Trabajo</Link>
               {/*<Link to="/OrdenesTrabajo" onClick={() => setMenuOpen(false)}>Ordenes de Trabajo</Link>*/}
             </>
           )}
@@ -176,14 +175,9 @@ function App() {
           )}
           {isLoggedIn && currentUser && currentUser.rol === 'tecnico' && (
             <>
-              <Link to="/technician-dashboard" onClick={() => setMenuOpen(false)}>Tecnico</Link>
-              <Link to="/VistaBicis" onClick={() => setMenuOpen(false)}>Bicicletas</Link>
+               <Link to="/VistaBicis" onClick={() => setMenuOpen(false)}>Bicicletas</Link>
             </>
-          )}
-          {isLoggedIn && currentUser && currentUser.rol === 'tecnico' && (
-            <Link to="/VistaBicis" onClick={() => setMenuOpen(false)}>Bicicletas</Link>
-          )}
-          
+          )} 
           {isLoggedIn && currentUser && (currentUser.rol === 'admin' || currentUser.rol === 'tecnico')  && (
             <Link to="/OrdenesTrabajo" onClick={() => setMenuOpen(false)}>Ordenes de Trabajo</Link>
            )}
@@ -211,13 +205,13 @@ function App() {
               )}
             </div>
           )}
-          {isLoggedIn ? (            
-            <button onClick={handleLogout} className="logout-button">
+          {isLoggedIn ? (
+            <button onClick={handleLogout} title="LogOut" className="logout-button">
               <i className="bi bi-box-arrow-right"></i> {/* Bootstrap logout icon */}
             </button>
           ) : (
             <Link to="/login">
-              <img src="/images/login.png" alt="Login" className="login-image" />
+              <img src="/images/login.png" alt="Login" title="Login" className="login-image" />
             </Link>
           )}
         </div>
@@ -228,26 +222,27 @@ function App() {
           <div className="bar"></div>
         </div>
       </header>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/about" element={<About />} />
-        <Route path="/productos" element={<Productos />} />
-        <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/admin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <AdminDashboard currentUser={currentUser} /> : <Home />} />
-        <Route path="/customer-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'cliente' ? <CustomerDashboard /> : <Home />} />
-        <Route path="/technician-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? (<TechnicianDashboard />) : <Home />} />
-        <Route path="/OrdenProductoAdmin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrderProduct /> : <Home />} />
-        <Route path="/OrdenTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenTrabajo /> : <Home />} />
-
-        <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && (currentUser.rol === 'admin' || currentUser.rol === 'tecnico' )? <OrdenesTrabajo /> : <Home />} />
-        <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis/> : <Home />} />
-        {/* Add other routes as needed */}
-        {/**/}
-        <Route path="/reservar-cita/:id" element={<ReservarCita currentUser={currentUser}/>} />        
-        {/* Agregar otras rutas según sea necesario */}
-
-      </Routes>
+      <div className="mainContent">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/productos" element={<Productos />} />
+          <Route path="/login" element={<Login setIsLoggedIn={setIsLoggedIn} setCurrentUser={setCurrentUser} />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/admin" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <AdminDashboard currentUser={currentUser} /> : <Home />} />
+          <Route path="/customer-dashboard" element={isLoggedIn && currentUser && currentUser.rol === 'cliente' ? <CustomerDashboard /> : <Home />} />
+          <Route path="/OrdenTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenTrabajo /> : <Home />} />
+          <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && (currentUser.rol === 'admin' || currentUser.rol === 'tecnico' )? <OrdenesTrabajo /> : <Home />} />
+          <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis currentUser={currentUser}/> : <Home />} />
+          {/* Add other routes as needed */}
+          {/*
+          <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenesTrabajo /> : <Home />} />
+          <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis /> : <Home />} />*/}
+          <Route path="/reservar-cita/:id" element={<ReservarCita currentUser={currentUser}/>} />        
+          {/* Agregar otras rutas según sea necesario */}
+        </Routes>
+      </div>
+      <Footer/>
     </div>
   );
 }

@@ -54,25 +54,27 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
         const confirmation = window.confirm('¿Estás seguro de que deseas eliminar el usuario?');
         if (confirmation) {
             try {
-                // Begin a transaction
-                const { error: bicisError } = await supabase
+                // Desvincular bicicletas (set cli_id to NULL)
+                const { error: bicicletasError } = await supabase
                     .from('bicicli')
-                    .delete()
+                    .update({ cli_id: null })
                     .eq('cli_id', id);
     
-                if (bicisError) {
-                    throw new Error(`Error borrando bicicletas: ${bicisError.message}`);
+                if (bicicletasError) {
+                    throw new Error(`Error desvinculando bicicletas: ${bicicletasError.message}`);
                 }
     
+                // Desvincular citas (set cliente_id to NULL)
                 const { error: citasError } = await supabase
                     .from('citas')
-                    .delete()
+                    .update({ cliente_id: null })
                     .eq('cliente_id', id);
     
                 if (citasError) {
-                    throw new Error(`Error borrando citas: ${citasError.message}`);
+                    throw new Error(`Error desvinculando citas: ${citasError.message}`);
                 }
     
+                // Eliminar el cliente de la tabla 'clientes'
                 const { error: clienteError } = await supabase
                     .from('clientes')
                     .delete()
@@ -82,10 +84,12 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
                     throw new Error(`Error borrando usuario de clientes: ${clienteError.message}`);
                 }
     
+                // Actualizar la lista de usuarios localmente
                 const updatedUsers = users.filter(user => user.id !== id);
                 setUsers(updatedUsers);
     
-                setSuccessMessage('Usuario y sus datos asociados eliminados exitosamente.');
+                // Mostrar mensaje de éxito
+                setSuccessMessage('Usuario eliminado exitosamente.');
                 setTimeout(() => {
                     setSuccessMessage('');
                 }, 3000);
@@ -98,6 +102,7 @@ const GestionUsuario = ({ users, setUsers, successMessage, setSuccessMessage }) 
             }
         }
     };
+    
 
     const handleAddUserSubmit = async (e, id) => {
         

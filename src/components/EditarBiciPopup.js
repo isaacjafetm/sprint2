@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import '../styles/editarBiciPopup.css';
 import { supabase } from '../supabaseClient';
 
-const EditarBiciPopup = ({ bici, closePopup, actualizarBici }) => {
+const EditarBiciPopup = ({ bici, closePopup, actualizarBici, currentUser }) => {
     const [formValues, setFormValues] = useState({
         modelo: bici.modelo || '',
         nombre: bici.nombre || '',
@@ -45,6 +45,24 @@ const EditarBiciPopup = ({ bici, closePopup, actualizarBici }) => {
             closePopup();
         }
     };
+
+    const handleEnTaller = async () => {
+        const confirmation = window.confirm("¿Quiere ingresar esta bici al taller?");
+        if (confirmation) {
+            const { error } = await supabase
+                .from('bicicli')
+                .update({ entaller: true })
+                .eq('id', bici.id);
+
+            if (error) {
+                console.error('Error al ingresar la bicicleta al taller:', error);
+            } else {
+                // Actualiza el estado o realiza la acción que necesites
+                actualizarBici({ ...bici, entaller: true });
+                closePopup();
+            }
+        }
+    }; 
 
     return (
         <div className="popup">
@@ -207,6 +225,9 @@ const EditarBiciPopup = ({ bici, closePopup, actualizarBici }) => {
                     </div>
                     <button type="submit">Guardar Cambios</button>
                     <button type="button" onClick={closePopup}>Cancelar</button>
+                    {currentUser && currentUser.rol === 'tecnico' && (
+                    <button type="button" onClick={handleEnTaller}>Ingresar bici al taller</button>
+                    )}
                 </form>
             </div>
         </div>
