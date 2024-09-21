@@ -7,7 +7,7 @@ import EditarBiciPopup from './EditarBiciPopup';
 
 
 
-const VistaBicis = ({ clienteId }) => {
+const VistaBicis = ({currentUser}) => {
   const [bicicletas, setBicicletas] = useState([]);
   const [loading, setLoading] = useState(true);
   const [filtro, setFiltro] = useState('todas'); // Estado para el filtro seleccionado
@@ -245,6 +245,7 @@ const VistaBicis = ({ clienteId }) => {
           bici={selectedBici}
           closePopup={closePopup}
           actualizarBici={actualizarBici}
+          currentUser={currentUser}
         />
       )}
 

@@ -102,7 +102,7 @@ function MisBicis({ clienteId }) { // Recibir clienteId como prop
               setSelectedBici(bici);
               setShowComentarios(false); // Asegura que no se muestre el popup de comentarios
             }}>Editar</button>
-            <button onClick={() => handleShowComentarios(bici)}>Comentarios</button>
+            <button onClick={() => handleShowComentarios(bici)}>Comentarios del tecnico</button>
           </div>
         ))}
       </div>

@@ -103,7 +103,7 @@ function App() {
   return (
     <div className="App">
       <header className="App-header">
-        <Link to="/" className="company-name-link">
+        <Link to="/" title="HomePage" className="company-name-link">
         <img src="/images/YourBike.jpg" alt="Login" className="logo-image" />
         </Link>
         <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
@@ -137,12 +137,12 @@ function App() {
         </nav>
         <div className="App-header-right">
           {isLoggedIn ? (
-            <button onClick={handleLogout} className="logout-button">
+            <button onClick={handleLogout} title="LogOut" className="logout-button">
               <i className="bi bi-box-arrow-right"></i> {/* Bootstrap logout icon */}
             </button>
           ) : (
             <Link to="/login">
-              <img src="/images/login.png" alt="Login" className="login-image" />
+              <img src="/images/login.png" alt="Login" title="Login" className="login-image" />
             </Link>
           )}
         </div>
@@ -165,7 +165,7 @@ function App() {
           <Route path="/OrdenTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenTrabajo /> : <Home />} />
 
           <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && (currentUser.rol === 'admin' || currentUser.rol === 'tecnico' )? <OrdenesTrabajo /> : <Home />} />
-          <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis/> : <Home />} />
+          <Route path="/VistaBicis" element={isLoggedIn && currentUser && currentUser.rol === 'tecnico' ? <VistaBicis currentUser={currentUser}/> : <Home />} />
           {/* Add other routes as needed */}
           {/*
           <Route path="/OrdenesTrabajo" element={isLoggedIn && currentUser && currentUser.rol === 'admin' ? <OrdenesTrabajo /> : <Home />} />
