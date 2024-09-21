@@ -132,11 +132,7 @@ function App() {
               <Link to="/technician-dashboard" onClick={() => setMenuOpen(false)}>Tecnico</Link>
               <Link to="/VistaBicis" onClick={() => setMenuOpen(false)}>Bicicletas</Link>
             </>
-          )}
-          {isLoggedIn && currentUser && currentUser.rol === 'tecnico' && (
-            <Link to="/VistaBicis" onClick={() => setMenuOpen(false)}>Bicicletas</Link>
-          )}
-          
+          )} 
           {isLoggedIn && currentUser && (currentUser.rol === 'admin' || currentUser.rol === 'tecnico')  && (
             <Link to="/OrdenesTrabajo" onClick={() => setMenuOpen(false)}>Ordenes de Trabajo</Link>
            )}
