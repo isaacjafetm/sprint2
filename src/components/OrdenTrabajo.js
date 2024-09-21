@@ -7,12 +7,35 @@ import {Form} from 'react-bootstrap';
 
 function OrdenTrabajo() {
     const [currentUser, setCurrentUser] = useState(null);
+    const [clientes, setClientes] = useState([]);
+    const [filteredClientes, setFilteredClientes] = useState([]);
+    const [errorMessage, setErrorMessage] = useState('');  // Estado para el mensaje de error
+
     useEffect(() => {
         const storedUser = JSON.parse(localStorage.getItem('loggedInUser'));
         if (storedUser) {
             setCurrentUser(storedUser);
         }
+
+       // Obtener todos los nombres de clientes al cargar el componente
+        const fetchClientes = async () => {
+            const { data, error } = await supabase
+                .from('clientes')
+                .select('nombre')
+                .eq('rol', 'cliente');  // Filtrar por rol 'cliente'
+
+            
+            if (error) {
+                console.error('Error fetching clients:', error);
+            } else {
+                setClientes(data);
+            }
+        };
+
+        fetchClientes();
     }, []);
+
+    
 
     const [formData, setFormData] = useState({
         cliente: '',
@@ -53,51 +76,86 @@ function OrdenTrabajo() {
                     return { ...prevData, servicios: prevData.servicios.filter((servicio) => servicio !== value) };
                 }
             });
+        } else if (name === 'cliente') {
+            setFormData({ ...formData, [name]: value });
+
+            // Filtrar la lista de clientes para que coincida con lo que el usuario escribe
+            const filtered = clientes.filter(cliente =>
+                cliente.nombre.toLowerCase().includes(value.toLowerCase())
+            );
+            setFilteredClientes(filtered);
         } else {
             setFormData({ ...formData, [name]: value });
         }
     };
 
-    const [setOrdenes] = useState([]);
+    const [ordenes, setOrdenes] = useState([]);
+
+    useEffect(() => {
+        console.log(ordenes);
+      }, [ordenes]);
     const handleSubmit = async (e) => {
         e.preventDefault();
-     // Obtener la fecha actual en formato YYYY-MM-DD
-    const fechaActual = new Date().toISOString().split('T')[0];
-    // Obtener la hora actual en formato HH:mm:ss
-    const horaActual = new Date().toLocaleTimeString('en-US', { hour12: false });
-        const { error } = await supabase
-            .from('ordentrabajo')
-            .insert([
-                {
-                    cliente: formData.cliente,
-                    autorizado: currentUser.nombre,
-                    telefono: formData.telefono,
-                    valor: formData.valor,
-                    marca: formData.marca,
-                    servicios: formData.servicios,
-                    comentarios: formData.comentarios,
-                    fecha: fechaActual,
-                    hora: horaActual,
-                    recibidaPor: currentUser.nombre
-                }
+        const fechaActual = new Date().toISOString().split('T')[0];
+        const horaActual = new Date().toLocaleTimeString('en-US', { hour12: false });
 
-            ])
-            .select();
+         // Validar que el nombre del cliente esté en la lista de clientes
+         const clienteValido = clientes.some(cliente => cliente.nombre === formData.cliente);
         
-        if (error) {
-            console.error('Error inserting data:', error);
-        } else {
-            
-            setOrdenes(prevOrdenes => [...prevOrdenes, formData]);
-            alert('Orden de trabajo creada con éxito'); // Mostrar mensaje de éxito
-            setFormData({
-                cliente: '',
-                telefono: '',
-                valor: '',
-                marca: '',
-                servicios: [],
-                comentarios: '',
-            });
+         if (!clienteValido) {
+             setErrorMessage('El nombre del cliente no es válido. Selecciona un nombre de la lista.');
+             return; // Prevenir que se continúe con el submit si el nombre es inválido
+         }
+
+        try {
+            // Buscar el cli_id del cliente basado en el nombre ingresado
+            const { data: clienteData, error: clienteError } = await supabase
+                .from('clientes')
+                .select('id')
+                .eq('nombre', formData.cliente)
+                .single();
+
+            if (clienteError || !clienteData) {
+                throw new Error('Cliente no encontrado');
+            }
+
+            const cli_id = clienteData.id;
+
+            // Insertar la orden de trabajo con el cli_id del cliente
+            const { error } = await supabase
+                .from('ordentrabajo')
+                .insert([
+                    {
+                        cli_id:cli_id, // Usar cli_id en lugar del nombre del cliente
+                        telefono: formData.telefono,
+                        valor: formData.valor,
+                        marca: formData.marca,
+                        servicios: formData.servicios,
+                        comentarios: formData.comentarios,
+                        fecha: fechaActual,
+                        hora: horaActual,
+                        recibidaPor: currentUser.nombre,
+                    },
+                ])
+                .select();
+
+            if (error) {
+                console.error('Error inserting data:', error);
+            } else {
+                const newFormData = { ...formData };
+                setOrdenes((prevOrdenes) => [...prevOrdenes, newFormData]);
+                alert('Orden de trabajo creada con éxito');
+                setFormData({
+                    cliente: '',
+                    telefono: '',
+                    valor: '',
+                    marca: '',
+                    servicios: [],
+                    comentarios: '',
+                });
+            }
+        } catch (error) {
+            console.error('Error en la creación de la orden de trabajo:', error);
         }
     };
     
@@ -107,17 +165,25 @@ function OrdenTrabajo() {
         <div id="form-container">
             <form id="order-form" onSubmit={handleSubmit}>
            <h2>Crear Orden de Trabajo</h2>
+           {errorMessage && <p style={{ color: 'red' }}>{errorMessage}</p>} {/* Mostrar mensaje de error */}
+
                 <div className="firstFormGroup">
                     <Form.Group className="unDatoForm">
                     <Form.Label htmlFor="cliente">Nombre del Cliente:</Form.Label>
                     <Form.Control
-                        type="text"
-                        id="cliente"
-                        name="cliente"
-                        value={formData.cliente}
-                        onChange={handleChange}
-                        required
-                    />
+                            type="text"
+                            id="cliente"
+                            name="cliente"
+                            value={formData.cliente}
+                            onChange={handleChange}
+                            required
+                            list="cliente-options" // Asociar el campo con la lista de opciones
+                        />
+                        <datalist id="cliente-options">
+                            {filteredClientes.map((cliente, index) => (
+                                <option key={index} value={cliente.nombre} />
+                            ))}
+                        </datalist>
                     </Form.Group>
 
                     <Form.Group className="unDatoForm">

@@ -13,7 +13,7 @@ function OrdenesTrabajo() {
     const fetchOrders = async () => {
       const { data, error } = await supabase
         .from('ordentrabajo')
-        .select('*');
+        .select('*, cliente:cli_id (nombre)');
 
         if (error) {
           console.error('Error fetching data:', error);
@@ -130,26 +130,26 @@ function OrdenesTrabajo() {
             {ordenes.map((orden) => (
               <tr key={orden.id}>
                 <td>{orden.id}</td>
-                <td>{orden.cliente}</td>
+                <td>{orden.cliente ? orden.cliente.nombre : 'Sin dueño'}</td>
                 <td>{orden.telefono}</td>
                 <td>{orden.fecha}</td>
                 <td>{orden.Estado}</td>
                 <td>{orden.servicios.join(', ')}</td>
                 <td>
                   <div className="acciones" id={'originalAcc'+orden.id}>
-                    <button className='editAction' onClick={() => editOrden(orden.id)}
+                    <button className='editAction' title="Asignar Orden" onClick={() => editOrden(orden.id)}
                       disabled = {orden.Estado !== 'Recibido'}>
                       <FontAwesomeIcon icon={faPenSquare} />
                     </button>
-                    <button className='deleteAction' onClick={() => confirmarEliminar(orden.id)}>
+                    <button className='deleteAction' title="Eliminar" onClick={() => confirmarEliminar(orden.id)}>
                       <FontAwesomeIcon icon={faTrashCan} />
                     </button>
                   </div>
-                  <div className="hidden" id={'confElim'+orden.id}>
+                  <div className="hidden" title="Eliminar" id={'confElim'+orden.id}>
                     <button className='backwards' onClick={() => desconfirmarEliminar(orden.id)}>
                       <FontAwesomeIcon icon={faBackward} />
                     </button>
-                    <button className='deleteAction' onClick={() => deleteOrden(orden.id)}>
+                    <button className='deleteAction' title="Eliminar" onClick={() => deleteOrden(orden.id)}>
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
                   </div>
@@ -178,7 +178,7 @@ function OrdenesTrabajo() {
             {userOrders.map((orden) => (
               <tr key={orden.id}>
                 <td>{orden.id}</td>
-                <td>{orden.cliente}</td>
+                <td>{orden.cliente ? orden.cliente.nombre : 'Sin dueño'}</td>
                 <td>{orden.telefono}</td>
                 <td>{orden.fecha}</td>
                 <td>{orden.Estado}</td>
