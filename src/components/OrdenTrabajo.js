@@ -89,7 +89,11 @@ function OrdenTrabajo() {
         }
     };
 
-    const [setOrdenes] = useState([]);
+    const [ordenes, setOrdenes] = useState([]);
+
+    useEffect(() => {
+        console.log(ordenes);
+      }, [ordenes]);
     const handleSubmit = async (e) => {
         e.preventDefault();
         const fechaActual = new Date().toISOString().split('T')[0];
@@ -123,7 +127,6 @@ function OrdenTrabajo() {
                 .insert([
                     {
                         cli_id:cli_id, // Usar cli_id en lugar del nombre del cliente
-                        autorizado: currentUser.nombre,
                         telefono: formData.telefono,
                         valor: formData.valor,
                         marca: formData.marca,
@@ -139,7 +142,8 @@ function OrdenTrabajo() {
             if (error) {
                 console.error('Error inserting data:', error);
             } else {
-                setOrdenes((prevOrdenes) => [...prevOrdenes, formData]);
+                const newFormData = { ...formData };
+                setOrdenes((prevOrdenes) => [...prevOrdenes, newFormData]);
                 alert('Orden de trabajo creada con éxito');
                 setFormData({
                     cliente: '',
