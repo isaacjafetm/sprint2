@@ -137,19 +137,19 @@ function OrdenesTrabajo() {
                 <td>{orden.servicios.join(', ')}</td>
                 <td>
                   <div className="acciones" id={'originalAcc'+orden.id}>
-                    <button className='editAction' onClick={() => editOrden(orden.id)}
+                    <button className='editAction' title="Asignar Orden" onClick={() => editOrden(orden.id)}
                       disabled = {orden.Estado !== 'Recibido'}>
                       <FontAwesomeIcon icon={faPenSquare} />
                     </button>
-                    <button className='deleteAction' onClick={() => confirmarEliminar(orden.id)}>
+                    <button className='deleteAction' title="Eliminar" onClick={() => confirmarEliminar(orden.id)}>
                       <FontAwesomeIcon icon={faTrashCan} />
                     </button>
                   </div>
-                  <div className="hidden" id={'confElim'+orden.id}>
+                  <div className="hidden" title="Eliminar" id={'confElim'+orden.id}>
                     <button className='backwards' onClick={() => desconfirmarEliminar(orden.id)}>
                       <FontAwesomeIcon icon={faBackward} />
                     </button>
-                    <button className='deleteAction' onClick={() => deleteOrden(orden.id)}>
+                    <button className='deleteAction' title="Eliminar" onClick={() => deleteOrden(orden.id)}>
                       <FontAwesomeIcon icon={faTrash} />
                     </button>
                   </div>
