@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/productos.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {supabase}  from '../supabaseClient';
 
 function Productos () {
