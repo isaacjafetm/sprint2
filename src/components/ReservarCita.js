@@ -31,6 +31,13 @@ const ReservarCita = ({currentUser}) => {
     const handleReserve = async () => {
         if (!appointment) return;
 
+        // Verifica si la fecha de la cita es válida
+        const appointmentDate = new Date(appointment.fecha); // Asegúrate de que el campo fecha tenga el formato correcto
+        const currentDate = new Date();
+        if (appointmentDate < currentDate) {
+            setErrorMessage('Fecha inválida. No puedes reservar una cita en una fecha pasada.');
+            return;
+        }
         // Verificar si el cliente ya tiene una cita reservada
         const { data: existingAppointments, error: existingError } = await supabase
             .from('citas')

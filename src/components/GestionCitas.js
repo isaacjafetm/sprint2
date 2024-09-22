@@ -26,8 +26,7 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
             hora: time,
             reservada: false,
             cliente_id: null,  // Aquí se puede asignar el id del cliente si se tiene
-            motivo: null       // Este campo puede ser opcional o se puede completar en la UI
-        };
+         };
 
         // Guardar en la base de datos
         try {
@@ -76,8 +75,7 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
                             hora: timeSlot,
                             reservada: false,
                             cliente_id: null,
-                            motivo: null
-                        });
+                         });
                     }
                 });
             }
