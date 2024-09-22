@@ -54,17 +54,17 @@ function Home() {
       <div className="best-products">
         <h2>Mejores Productos</h2>
         <div className="product-grid">
-          <Link to="/product1" className="product-link">
+          <Link to="" className="product-link">
             <div className="product-box">
               <img src="/images/product1.png" alt="Product 1" className="product-image" />
             </div>
           </Link>
-          <Link to="/product2" className="product-link">
+          <Link to="" className="product-link">
             <div className="product-box">
               <img src="/images/product2.png" alt="Product 2" className="product-image" />
             </div>
           </Link>
-          <Link to="/product3" className="product-link">
+          <Link to="" className="product-link">
             <div className="product-box">
               <img src="/images/product3.jpg" alt="Product 3" className="product-image" />
             </div>
