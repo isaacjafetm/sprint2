@@ -209,7 +209,7 @@ const VistaBicis = ({currentUser}) => {
                 <td>{bicicleta.cliente ? bicicleta.cliente.nombre : 'Sin dueño'}</td>
                 <td>{bicicleta.modelo}</td>
                 <td>{bicicleta.marco}</td>
-                <td>{bicicleta.amortiguador}</td>
+                <td>{bicicleta.amor}</td>
                 <td>{bicicleta.horquilla}</td>
                 <td>
                   <div className="acciones" id={'originalAcc'+bicicleta.id}>

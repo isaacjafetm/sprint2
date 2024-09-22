@@ -279,10 +279,13 @@ const addComentario = async (ordenId, comentario) => {
                 <td>{orden.servicios.join(', ')}</td>
                 <td>
                   <div className="acciones" id={'originalAcc'+orden.id}>
-                    <button className='terminadoAction' onClick={() => terminar(orden.id)}>
-                      <FontAwesomeIcon icon={faCheck} />
-                    </button>
-                    
+                   <button
+                    className='terminadoAction'
+                    onClick={() => terminar(orden.id)}
+                    disabled={orden.Estado === 'Finalizado'} // Botón deshabilitado si ya está finalizado
+                   >
+                    <FontAwesomeIcon icon={faCheck} />
+                  </button> 
                   </div>
                 </td>
               </tr>
