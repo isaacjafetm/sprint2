@@ -75,8 +75,7 @@ const GestionCitas = ({ appointments, setAppointments, successMessage, setSucces
                             hora: timeSlot,
                             reservada: false,
                             cliente_id: null,
-                            motivo: null
-                        });
+                         });
                     }
                 });
             }

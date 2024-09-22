@@ -11,13 +11,13 @@ function Footer() {
         <img src="/images/yourBike.png" alt="YourBike logo" className='logoFoo'/>
       </div>
       <div className="socialsFooter">
-        <a href="https://www.facebook.com/yourbikehn/">
+        <a href="https://www.facebook.com/yourbikehn/" target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon icon={faFacebook} />
         </a>
-        <a href="https://www.instagram.com/yourbiketrek/">
+        <a href="https://www.instagram.com/yourbiketrek/" target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon icon={faInstagram} />
         </a>
-        <a href="https://www.tiktok.com/@yourbiketrek?_t=8nBPHtkfHx0&_r=1">
+        <a href="https://www.tiktok.com/@yourbiketrek?_t=8nBPHtkfHx0&_r=1" target="_blank" rel="noopener noreferrer">
           <FontAwesomeIcon icon={faTiktok} />
         </a>
       </div>
