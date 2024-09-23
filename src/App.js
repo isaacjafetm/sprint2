@@ -21,6 +21,36 @@ import Footer from './components/Footer';
 
 
 function Home() {
+  
+  const [productos, setProductos] = useState([]);
+
+    // Cargar productos desde Supabase
+    useEffect(() => {
+      const fetchProductos = async () => {
+        const { data, error } = await supabase
+          .from('productos') // Nombre de tu tabla de productos
+          .select('nombreproducto, url_imagen'); // Selecciona solo los campos que necesitas
+  
+        if (error) {
+          console.error('Error al obtener productos:', error);
+        } else {
+          setProductos(data);
+        }
+      };
+  
+      fetchProductos();
+    }, []);
+  
+    // Función para seleccionar aleatoriamente productos
+    const selectRandomProducts = (arr, count) => {
+      const shuffled = [...arr].sort(() => 0.5 - Math.random());
+      return shuffled.slice(0, count);
+    };
+  
+    // Seleccionar 5 productos para el slider y 3 para "Mejores Productos"
+    const sliderProducts = selectRandomProducts(productos, 5);
+    const bestProducts = selectRandomProducts(productos, 3);
+  
   const settings = {
     dots: true,
     infinite: true,
@@ -33,42 +63,34 @@ function Home() {
     <div className="home">
       <div className="slider-container">
         <Slider {...settings}>
-          <div className="slider-item">
-            <img src="/images/product1.png" alt="Product 1" className="slider-image" />
-          </div>
-          <div className="slider-item">
-            <img src="/images/product2.png" alt="Product 2" className="slider-image" />
-          </div>
-          <div className="slider-item">
-            <img src="/images/product3.jpg" alt="Product 3" className="slider-image" />
-          </div>
-          <div className="slider-item">
-            <img src="/images/product4.jpg" alt="Product 4" className="slider-image" />
-          </div>
-          <div className="slider-item">
-            <img src="/images/product5.jpg" alt="Product 5" className="slider-image" />
-          </div>
+          {sliderProducts.map((producto, index) => (
+            <div className="slider-item" key={index}>
+              <img
+                src={producto.url_imagen}
+                alt={producto.nombreproducto}
+                className="slider-image"
+              />
+            </div>
+          ))}
         </Slider>
       </div>
+
       <hr className="separator" />
+
       <div className="best-products">
         <h2>Mejores Productos</h2>
         <div className="product-grid">
-          <Link to="" className="product-link">
-            <div className="product-box">
-              <img src="/images/product1.png" alt="Product 1" className="product-image" />
-            </div>
-          </Link>
-          <Link to="" className="product-link">
-            <div className="product-box">
-              <img src="/images/product2.png" alt="Product 2" className="product-image" />
-            </div>
-          </Link>
-          <Link to="" className="product-link">
-            <div className="product-box">
-              <img src="/images/product3.jpg" alt="Product 3" className="product-image" />
-            </div>
-          </Link>
+          {bestProducts.map((producto, index) => (
+            <Link to="" className="product-link" key={index}>
+              <div className="product-box">
+                <img
+                  src={producto.url_imagen}
+                  alt={producto.nombreproducto}
+                  className="product-image"
+                />
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </div>
@@ -185,26 +207,30 @@ function App() {
 
         </nav>
         <div className="App-header-right">
-        <FontAwesomeIcon icon={faBell} onClick={toggleNotifications} className="notification-icon" />
-          {showNotifications && (
-            <div className="notifications-dropdown">
-              {notificaciones.length === 0 ? (
-                <p>No hay notificaciones</p>
-              ) : (
-                notificaciones.map((noti) => (
-                  <div
-                    key={noti.id}
-                    className={`notification-item ${noti.visto ? 'read' : 'unread'}`}
-                    onClick={() => markAsRead(noti.id)}
-                  >
-                    {!noti.visto && <span className="unread-dot"></span>}
-                    <p>{noti.mensaje}</p>
-                    <small>{noti.fecha} - {noti.hora}</small>
-                  </div>
-                ))
+        {(isLoggedIn && (currentUser && currentUser.rol === 'cliente')) && (
+          <>  
+            <FontAwesomeIcon icon={faBell} onClick={toggleNotifications} className="notification-icon" />
+              {showNotifications && (
+                <div className="notifications-dropdown">
+                  {notificaciones.length === 0 ? (
+                    <p>No hay notificaciones</p>
+                  ) : (
+                    notificaciones.map((noti) => (
+                      <div
+                        key={noti.id}
+                        className={`notification-item ${noti.visto ? 'read' : 'unread'}`}
+                        onClick={() => markAsRead(noti.id)}
+                      >
+                        {!noti.visto && <span className="unread-dot"></span>}
+                        <p>{noti.mensaje}</p>
+                        <small>{noti.fecha} - {noti.hora}</small>
+                      </div>
+                    ))
+                  )}
+                </div>
               )}
-            </div>
-          )}
+          </>
+        )}
           {isLoggedIn ? (
             <button onClick={handleLogout} title="LogOut" className="logout-button">
               <i className="bi bi-box-arrow-right"></i> {/* Bootstrap logout icon */}

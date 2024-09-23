@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/productos.css';
-//import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {supabase}  from '../supabaseClient';
+import { supabase } from '../supabaseClient';
 
-function Productos () {
-
+function Productos() {
   const [productos, setProductos] = useState([]);
-
 
   useEffect(() => {
     const fetchProductos = async () => {
@@ -14,23 +11,23 @@ function Productos () {
         .from('productos')
         .select('*');
 
-        if (error) {
-          console.error('Error fetching data from productos:', error);
-        } else {
-          setProductos(data);
-          // const filteredUserOrders = data.filter(order => order.asignado === currentUser.id);
-          // setUserOrders(filteredUserOrders);
-        }
+      if (error) {
+        console.error('Error fetching data from productos:', error);
+      } else {
+        console.log('Datos de productos:', data); // Ver datos
+        setProductos(data);
+      }
     };
-      fetchProductos();
-    });
+    fetchProductos();
+  }, []);
 
   return (
     <div className="gridProd-container">
       <div className="actualGridProd">
         {productos.map((producto) => (
           <div className="actualProd" key={producto.idproducto}>
-            <img src="https://p.vitalmtb.com/photos/features/2050/title_image/s1600_Leatt2018_BikeDBX_8901_ChrisLaue_656882.jpg?VersionId=_lWWPlR_wJqBMAFX4I1H6qhqT04cjStP" alt="imagen de producto" />
+            <img src={producto.url_imagen || 'ruta/a/imagen/por/defecto.jpg'} alt="imagen de producto" title={producto.descripcion} // Aquí se agrega el title con la descripción del producto
+            />
             <div className="prodInfo">
               <h5 className="prodNam">{producto.nombreproducto}</h5>
               <p>

@@ -176,10 +176,12 @@ html, body {
 }
 
 .slider-image {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
+  width: 100%; /* Asegura que la imagen ocupe todo el ancho disponible */
+  height: 700px; /* Ajusta esta altura según sea necesario */
+  object-fit: contain; /* Mantiene el aspecto de la imagen recortando o expandiendo */
+  background: linear-gradient(to bottom, rgba(240, 240, 240, 1), rgba(240, 240, 240, 0)); /* Gradiente de gris a transparente */
 }
+
 
 .separator {
   border: none;
@@ -191,6 +193,8 @@ html, body {
 .best-products {
   text-align: center;
   margin-bottom: 60px; /* Añadir margen inferior para separación del footer */
+  color: rgb(250, 243, 243);
+
 }
 
 .product-grid {
