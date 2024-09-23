@@ -16,6 +16,8 @@ function About() {
               </a>
               <br />
               Teléfono: +504 9741-1751
+              <br />
+              Correo electronico: info@yourbikehonduras.com
           </p>
 
         </div>
