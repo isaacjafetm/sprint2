@@ -7,7 +7,8 @@ const AgregarProducto = () => {
     nombreProd: '',
     precioProd: '',
     descripProd: '',
-    cantInvProd: ''
+    cantInvProd: '',
+    urlImagen: '' // Campo para el enlace de la imagen
   });
 
   const handleChange = (e) => {
@@ -21,29 +22,34 @@ const AgregarProducto = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Insert product into Supabase
-    const { data, error } = await supabase
-      .from('productos')
-      .insert([
-        {
+    try {
+      // Insertar el producto en la tabla de productos con la URL de la imagen
+      const { data, error: insertError } = await supabase
+        .from('productos')
+        .insert([{
           nombreproducto: formDataAP.nombreProd,
           precio: parseFloat(formDataAP.precioProd),
           descripcion: formDataAP.descripProd,
-          cantinventario: parseInt(formDataAP.cantInvProd)
-        }
-      ]);
+          cantinventario: parseInt(formDataAP.cantInvProd),
+          url_imagen: formDataAP.urlImagen // Usa el enlace de la imagen
+        }]);
 
-    if (error) {
-      console.error('Error adding product:', error.message);
-    } else {
-      console.log('Product added successfully:', data);
-      // Optionally, reset the form or show a success message
+      if (insertError) {
+        throw insertError;
+      }
+
+      console.log('Producto agregado exitosamente:', data);
+
+      // Limpiar el formulario
       setFormDataAP({
         nombreProd: '',
         precioProd: '',
         descripProd: '',
-        cantInvProd: ''
+        cantInvProd: '',
+        urlImagen: '' // Reiniciar el campo de imagen
       });
+    } catch (error) {
+      console.error('Error al agregar el producto:', error.message);
     }
   };
 
@@ -61,6 +67,7 @@ const AgregarProducto = () => {
             onChange={handleChange} 
             required 
           />
+
           <label htmlFor="precioProd">Precio del Producto:</label>
           <input 
             type="text" 
@@ -70,7 +77,8 @@ const AgregarProducto = () => {
             onChange={handleChange} 
             required
           />
-          <label htmlFor="descripProd">Descripcion:</label>
+
+          <label htmlFor="descripProd">Descripción:</label>
           <textarea 
             id="descripProd" 
             name="descripProd" 
@@ -78,12 +86,23 @@ const AgregarProducto = () => {
             onChange={handleChange} 
             required
           ></textarea>
+
           <label htmlFor="cantInvProd">Cantidad en Inventario:</label>
           <input 
             type="number" 
             id="cantInvProd" 
             name="cantInvProd" 
             value={formDataAP.cantInvProd} 
+            onChange={handleChange} 
+            required
+          />
+
+          <label htmlFor="urlImagen">URL de la Imagen:</label>
+          <input 
+            type="text" 
+            id="urlImagen" 
+            name="urlImagen" 
+            value={formDataAP.urlImagen} 
             onChange={handleChange} 
             required
           />
