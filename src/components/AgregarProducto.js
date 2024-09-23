@@ -19,6 +19,19 @@ const AgregarProducto = () => {
     });
   };
 
+  const handlePriceChange = (e) => {
+    const { value } = e.target;
+    // Expresión regular para permitir solo números y un solo punto decimal
+    const regex = /^[0-9]*\.?[0-9]*$/;
+  
+    if (regex.test(value)) {
+      setFormDataAP({
+        ...formDataAP,
+        precioProd: value
+      });
+    }
+  };  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -74,7 +87,7 @@ const AgregarProducto = () => {
             id="precioProd" 
             name="precioProd" 
             value={formDataAP.precioProd} 
-            onChange={handleChange} 
+            onChange={handlePriceChange} 
             required
           />
 

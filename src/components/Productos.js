@@ -26,7 +26,8 @@ function Productos() {
       <div className="actualGridProd">
         {productos.map((producto) => (
           <div className="actualProd" key={producto.idproducto}>
-            <img src={producto.url_imagen || 'ruta/a/imagen/por/defecto.jpg'} alt="imagen de producto" />
+            <img src={producto.url_imagen || 'ruta/a/imagen/por/defecto.jpg'} alt="imagen de producto" title={producto.descripcion} // Aquí se agrega el title con la descripción del producto
+            />
             <div className="prodInfo">
               <h5 className="prodNam">{producto.nombreproducto}</h5>
               <p>
