@@ -185,26 +185,30 @@ function App() {
 
         </nav>
         <div className="App-header-right">
-        <FontAwesomeIcon icon={faBell} onClick={toggleNotifications} className="notification-icon" />
-          {showNotifications && (
-            <div className="notifications-dropdown">
-              {notificaciones.length === 0 ? (
-                <p>No hay notificaciones</p>
-              ) : (
-                notificaciones.map((noti) => (
-                  <div
-                    key={noti.id}
-                    className={`notification-item ${noti.visto ? 'read' : 'unread'}`}
-                    onClick={() => markAsRead(noti.id)}
-                  >
-                    {!noti.visto && <span className="unread-dot"></span>}
-                    <p>{noti.mensaje}</p>
-                    <small>{noti.fecha} - {noti.hora}</small>
-                  </div>
-                ))
+        {(isLoggedIn && (currentUser && currentUser.rol === 'cliente')) && (
+          <>  
+            <FontAwesomeIcon icon={faBell} onClick={toggleNotifications} className="notification-icon" />
+              {showNotifications && (
+                <div className="notifications-dropdown">
+                  {notificaciones.length === 0 ? (
+                    <p>No hay notificaciones</p>
+                  ) : (
+                    notificaciones.map((noti) => (
+                      <div
+                        key={noti.id}
+                        className={`notification-item ${noti.visto ? 'read' : 'unread'}`}
+                        onClick={() => markAsRead(noti.id)}
+                      >
+                        {!noti.visto && <span className="unread-dot"></span>}
+                        <p>{noti.mensaje}</p>
+                        <small>{noti.fecha} - {noti.hora}</small>
+                      </div>
+                    ))
+                  )}
+                </div>
               )}
-            </div>
-          )}
+          </>
+        )}
           {isLoggedIn ? (
             <button onClick={handleLogout} title="LogOut" className="logout-button">
               <i className="bi bi-box-arrow-right"></i> {/* Bootstrap logout icon */}
